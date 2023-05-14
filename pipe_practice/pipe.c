@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 18:22:23 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/14 19:12:11 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/05/14 21:21:17 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <sys/wait.h>
 #include <sys/fcntl.h>
+#include <stdlib.h>
 
 int ft_system(int argc, char **argv)
 {
@@ -54,13 +55,10 @@ int main(int argc, char **argv)
         // parent
         close(pipe_fd[1]);
         int child_return;
+        dup2(pipe_fd[0], STDIN_FILENO);
+        system("grep hello");
         wait(&child_return);
-        char c;
-        // dup2(STDIN_FILENO, pipe_fd[0]);
-        while(read(pipe_fd[0], &c, 1))
-            write(STDOUT_FILENO, &c, 1);
     }
+	close(out_fd);
     return 0;
-	close(out_fd);	
 }
-// */
