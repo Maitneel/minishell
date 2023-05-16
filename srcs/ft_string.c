@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:41:45 by dummy             #+#    #+#             */
-/*   Updated: 2023/05/16 21:56:32 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/17 03:58:20 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static t_string	*resize_string(t_string *string, size_t resize_length)
 	char	*resized_string;
 	size_t	i;
 
+	if (string == NULL)
+		return (NULL);
 	if (resize_length < string->length || resize_length == SIZE_MAX)
 	{
 		free(string->data);
@@ -42,12 +44,9 @@ static t_string	*resize_string(t_string *string, size_t resize_length)
 		free(string->data);
 		return (NULL);
 	}
-	i = 0;
-	while (i < string->length)
-	{
+	i = -1;
+	while (++i < string->length)
 		resized_string[i] = string->data[i];
-		i++;
-	}
 	free(string->data);
 	string->data = resized_string;
 	string->max_length = resize_length;
@@ -58,6 +57,8 @@ static size_t	get_resize_length(t_string *string, size_t src_length)
 {
 	size_t	resize_len;
 
+	if (string == NULL)
+		return (NULL);
 	resize_len = string->max_length;
 	if (string->length == SIZE_MAX || src_length == SIZE_MAX)
 		return (0);
@@ -77,6 +78,8 @@ t_string	*push_back_string(t_string *dest, char *src)
 	size_t	src_length;
 	size_t	i;
 
+	if (dest == (NULL) || src == NULL)
+		return (dest);
 	src_length = strlen(src);
 	if (SIZE_MAX - src_length < dest->length)
 	{
