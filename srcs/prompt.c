@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/05/17 05:25:40 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/17 05:29:04 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-bool	is_input_end(char *line, char *quote)
+static bool	is_input_end(char *line, char *quote)
 {
 	size_t	i;
 
