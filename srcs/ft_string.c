@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:41:45 by dummy             #+#    #+#             */
-/*   Updated: 2023/05/17 03:58:20 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/17 04:03:17 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static t_string	*resize_string(t_string *string, size_t resize_length)
 		return (NULL);
 	}
 	i = -1;
-	while (++i < string->length)
+	while (++i < string->length && string->data != NULL)
 		resized_string[i] = string->data[i];
 	free(string->data);
 	string->data = resized_string;
@@ -78,7 +78,7 @@ t_string	*push_back_string(t_string *dest, char *src)
 	size_t	src_length;
 	size_t	i;
 
-	if (dest == (NULL) || src == NULL)
+	if (dest == NULL || src == NULL)
 		return (dest);
 	src_length = strlen(src);
 	if (SIZE_MAX - src_length < dest->length)
