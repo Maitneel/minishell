@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:41:45 by dummy             #+#    #+#             */
-/*   Updated: 2023/05/16 21:53:44 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/16 21:56:32 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_string	*init_string(t_string *string, size_t length)
 	return (string);
 }
 
-t_string	*resize_string(t_string *string, size_t resize_length)
+static t_string	*resize_string(t_string *string, size_t resize_length)
 {
 	char	*resized_string;
 	size_t	i;
@@ -54,7 +54,7 @@ t_string	*resize_string(t_string *string, size_t resize_length)
 	return (string);
 }
 
-size_t	get_resize_length(t_string *string, size_t src_length)
+static size_t	get_resize_length(t_string *string, size_t src_length)
 {
 	size_t	resize_len;
 
