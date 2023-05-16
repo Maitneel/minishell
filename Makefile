@@ -11,6 +11,7 @@ INCLUDE_DIR := include
 SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/prompt.c \
 	${SRCS_DIR}/tokenize.c \
+	${SRCS_DIR}/ft_string.c \
 
 OBJS := ${SRCS:%.c=%.o}
 
