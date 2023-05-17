@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/18 05:29:16 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/18 05:47:59 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,25 @@ bool is_delimiter(char c)
 	return false;
 }
 
+const char *g_meta_char = "<>|&";
+const size_t g_meta_char_size = 4;
+
+bool is_meta_char(char c)
+{
+	size_t i;
+
+	i = 0;
+	while (i < g_meta_char_size)
+	{
+		if (c == g_meta_char[i])
+		{
+			return true;
+		}
+		i++;
+	}
+	return false;
+}
+
 #include <stdio.h>
 
 t_token_manager	*tokenize(t_string *line)
@@ -129,8 +148,14 @@ t_token_manager	*tokenize(t_string *line)
 				i++;
 			token_string[str_index] = line->data[i];
 			str_index++;
+			if (is_meta_char(line->data[i]) && line->data[i] == line->data[i + 1])
+			{
+				i++;
+				token_string[str_index] = line->data[i];
+				str_index++;
+			}
 		}
-		if (((str_index != 0 && is_delimiter(line->data[i + 1])) && quote == '\0' )|| i == line->length - 1) 
+		if (((str_index != 0 && (is_delimiter(line->data[i + 1]) || is_meta_char(line->data[i + 1]) || is_meta_char(line->data[i]))) && quote == '\0' ) || i == line->length - 1) 
 		{
 			token = new_token(token_string, 1);
 			if (token == NULL)
