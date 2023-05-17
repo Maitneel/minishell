@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/14 16:13:13 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/05/18 05:09:39 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenize.h"
+#include "ft_string.h"
 #include "stdlib.h"
+#include "tokenize.h"
+#include <stdbool.h>
 #include <string.h>
+#include <stdio.h>
 
-static t_token *new_token(const char *word, const int kind)
+static t_token	*new_token(const char *word, const int kind)
 {
-	t_token *token;
+	t_token	*token;
 
 	if (word == NULL)
 		return (NULL);
@@ -34,13 +37,117 @@ static t_token *new_token(const char *word, const int kind)
 	return (token);
 }
 
-t_tokenize	*tokenize(char *line)
+t_token_manager	*new_tokenize(void)
 {
-	t_tokenize *tokenzie;
-	tokenzie = calloc(sizeof(t_tokenize), 1);
-	tokenzie->tokens = new_token("cd", 1);
-	tokenzie->tokens->next = new_token("hoge", 1);
-	(void)line;
-	return (tokenzie);
+	t_token_manager	*new;
+
+	new = malloc(sizeof(t_token_manager));
+	if (new == NULL)
+	{
+		return (NULL);
+	}
+	new->front = NULL;
+	new->last = NULL;
+	new->size = 0;
+	return (new);
 }
 
+void *free_token_manager(t_token_manager *token_manager)
+{
+	if (token_manager == NULL)
+		return NULL;
+	t_token *next;
+	t_token *current;
+
+	current = token_manager->front;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->word);
+		free(current);
+		current = next;
+	}
+	free(token_manager);
+	return NULL;
+}
+
+// 区切り文字判定
+// この関数をいじればtokenizeの区切りを変えられる
+const char *g_delimiter = " \t\n\f\r";
+const size_t g_delimiter_size = 5;
+
+bool is_delimiter(char c)
+{
+	size_t i;
+
+	i = 0;
+	while (i < g_delimiter_size)
+	{
+		if (c == g_delimiter[i])
+		{
+			return true;
+		}
+		i++;
+	}
+	return false;
+}
+
+#include <stdio.h>
+
+t_token_manager	*tokenize(t_string *line)
+{
+	t_token_manager	*token_manager;
+	char *token_string;
+
+	token_manager = new_tokenize();
+	if (token_manager == NULL)
+		return NULL;
+	// TODO 適切な長さに変更する  
+	token_string = calloc(sizeof(char), line->length + 10);
+	if (token_string == NULL)
+		return free_token_manager(token_manager);
+
+	size_t i;
+	size_t str_index;
+	t_token *token;
+	str_index = 0;
+	i = 0;
+	while (i < line->length)
+	{
+		if (!is_delimiter(line->data[i]))
+		{
+			token_string[str_index] = line->data[i];
+			str_index++;
+		}
+		if ((str_index != 0 && is_delimiter(line->data[i + 1])) || i == line->length - 1) 
+		{
+			token = new_token(token_string, 1);
+			if (token == NULL)
+				return free_token_manager(token_manager);
+			if (token_manager->last == NULL)
+			{
+				token_manager->front = token;
+				token_manager->last = token;
+			} 
+			else
+			{
+				token_manager->last->next = token;
+				token_manager->last = token;
+			}
+			token_manager->size++;
+			bzero(token_string, str_index + 1);
+			str_index = 0;
+		}
+		i++;
+	}
+	if (token_manager->last == NULL)
+	{
+		token_manager->front = new_token("", 0);
+		token_manager->last = token_manager->front;
+	}
+	// token_manager->front = new_token("cd", 1);
+	// token_manager->front->next = new_token("hoge", 1);
+	// (void)line;
+	free(token_string);
+	return (token_manager);
+}

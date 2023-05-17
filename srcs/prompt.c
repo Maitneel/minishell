@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/05/17 05:29:04 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/18 05:06:09 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ static void	*free_with_return_null(void *ptr)
 	return (NULL);
 }
 
-t_tokenize	*prompt(void)
+t_token_manager	*prompt(void)
 {
 	char		*line;
 	char		quote;
-	t_tokenize	*tokenized;
+	t_token_manager	*tokenized;
 	t_string	buffer;
 
 	quote = '\0';
@@ -75,7 +75,8 @@ t_tokenize	*prompt(void)
 		free_with_return_null(line);
 	printf("%s\n", buffer.data);
 	add_history(buffer.data);
-	tokenized = tokenize(line);
+	tokenized = tokenize(&buffer);
+	free(line);
 	free(buffer.data);
 	return (tokenized);
 }

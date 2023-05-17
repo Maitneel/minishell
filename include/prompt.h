@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:30:49 by dummy             #+#    #+#             */
-/*   Updated: 2023/05/14 16:13:14 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/05/18 04:26:38 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PROMPT_H
 # define PROMPT_H
 
-char	*prompt(void);
+#include "tokenize.h"
+
+t_token_manager	*prompt(void);
 
 #endif
