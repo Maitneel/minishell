@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/18 05:21:30 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/18 05:29:16 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,18 +110,27 @@ t_token_manager	*tokenize(t_string *line)
 	size_t i;
 	size_t str_index;
 	t_token *token;
+	char quote;
+	quote = '\0';
 	str_index = 0;
 	i = 0;
 	while (i < line->length)
 	{
-		if (!is_delimiter(line->data[i]))
+		if ((line->data[i] == '\'' || line->data[i] == '"'))
+		{
+			if (quote == '\0')
+				quote = line->data[i];
+			else if (quote == line->data[i])
+				quote = '\0';
+		}
+		if (!is_delimiter(line->data[i]) || quote != '\0')
 		{
 			if (line->data[i] == '\\' && is_delimiter(line->data[i + 1]))
 				i++;
 			token_string[str_index] = line->data[i];
 			str_index++;
 		}
-		if ((str_index != 0 && is_delimiter(line->data[i + 1])) || i == line->length - 1) 
+		if (((str_index != 0 && is_delimiter(line->data[i + 1])) && quote == '\0' )|| i == line->length - 1) 
 		{
 			token = new_token(token_string, 1);
 			if (token == NULL)
