@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/18 05:09:39 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/18 05:21:30 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ t_token_manager	*tokenize(t_string *line)
 	{
 		if (!is_delimiter(line->data[i]))
 		{
+			if (line->data[i] == '\\' && is_delimiter(line->data[i + 1]))
+				i++;
 			token_string[str_index] = line->data[i];
 			str_index++;
 		}
