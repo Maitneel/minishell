@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/14 15:58:41 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/05/17 05:09:15 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	main(int argc, char **argv, char ** envs)
 	while (true)
 	{
 		line = prompt();
-		if(strcmp(line, "exit") == 0)
-			break;
+		// if(strcmp(line, "exit") == 0)
+		// 	break;
 		free(line);
 	}
 	free(line);

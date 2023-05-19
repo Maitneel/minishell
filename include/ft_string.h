@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:40:59 by dummy             #+#    #+#             */
-/*   Updated: 2023/05/16 21:56:38 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/17 04:14:01 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define FT_STRING_H
 
 # include <stddef.h>
+
+#define DEFAULT_INIT_SIZE 1024
 
 typedef struct s_string
 {
