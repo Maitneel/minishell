@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/18 05:00:21 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/19 20:110:01 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include <readline/history.h>
 
 #include "prompt.h"
-#include "tokenize.h"
 
 int	main(int argc, char **argv, char ** envs)
 {
@@ -39,7 +38,6 @@ int	main(int argc, char **argv, char ** envs)
 			break;
 		if(strcmp(token->word, "exit") == 0)
 			break;
-
 		while (token != NULL)
 		{
 			printf("%s\n", token->word);

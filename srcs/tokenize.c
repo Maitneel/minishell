@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/18 05:47:59 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/19 20:43:22 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <string.h>
 #include <stdio.h>
 
-static t_token	*new_token(const char *word, const int kind)
+t_token	*new_token(const char *word, const int kind)
 {
 	t_token	*token;
 
@@ -37,7 +37,7 @@ static t_token	*new_token(const char *word, const int kind)
 	return (token);
 }
 
-t_token_manager	*new_tokenize(void)
+t_token_manager	*new_token_manager(void)
 {
 	t_token_manager	*new;
 
@@ -118,7 +118,7 @@ t_token_manager	*tokenize(t_string *line)
 	t_token_manager	*token_manager;
 	char *token_string;
 
-	token_manager = new_tokenize();
+	token_manager = new_token_manager();
 	if (token_manager == NULL)
 		return NULL;
 	// TODO 適切な長さに変更する  

@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:49:12 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/18 04:26:03 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/19 20:56:07 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZE_H
 # define TOKENIZE_H
 
-#include "ft_string.h"
+# include "ft_string.h"
+# include "env.h"
 
 typedef struct s_token
 {
@@ -29,7 +30,11 @@ typedef struct s_token_maneger
 	size_t			size;
 }					t_token_manager;
 
+t_token	*new_token(const char *word, const int kind);
+t_token_manager	*new_token_manager(void);
 void *free_token_manager(t_token_manager *token_manager);
 t_token_manager			*tokenize(t_string *line);
+t_token_manager	*eval(t_token_manager *token_manager, t_env_manager *env_manager);
+void add_token(t_token_manager *token_maneger, t_token *toekn);
 
 #endif
