@@ -37,7 +37,7 @@ int ft_system(int argc, char **argv)
 
 int craete_and_run_pipe(int before_fd, const char *command)
 {
-	fprintf(stderr, "arg_fd : '%d'\n", before_fd);
+	// fprintf(stderr, "arg_fd : '%d'\n", before_fd);
 	fflush(stderr);
 	int pipe_fd[2];
 	pipe(pipe_fd);
@@ -48,7 +48,8 @@ int craete_and_run_pipe(int before_fd, const char *command)
 		// dup2(pipe_fd[READ_FD], before_fd);
 		// dup2(before_fd, pipe_fd[READ_FD]);
 		dup2(before_fd, STDIN_FILENO);
-		fprintf(stderr, "run : %s\n", command);
+		dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
+		// fprintf(stderr, "run : %s\n", command);
 		if (strcmp(command, "READ") == 0)
 		{
 			char c;
@@ -62,14 +63,14 @@ int craete_and_run_pipe(int before_fd, const char *command)
 		} else {
 			system(command);
 		}
-		fprintf(stderr, "end : %s\n", command);
+		// fprintf(stderr, "end : %s\n", command);
 		fflush(stderr);
 		exit(0);
 	} else {
 		//parent
 		// close(pipe_fd[READ_FD]);
 		close(pipe_fd[WRITE_FD]);
-		fprintf(stderr, "pipe_fd[WRITE_FD] : '%d'\n", pipe_fd[WRITE_FD]);
+		// fprintf(stderr, "pipe_fd[WRITE_FD] : '%d'\n", pipe_fd[WRITE_FD]);
 		fflush(stderr);
 		// return pipe_fd[WRITE_FD];
 		return pipe_fd[READ_FD];
@@ -87,7 +88,13 @@ int main(int argc, const char **argv)
 	{
 		returned_fd = craete_and_run_pipe(returned_fd, argv[i]);
 	}
-	dup2(returned_fd, STDOUT_FILENO);
+	dup2(returned_fd, STDIN_FILENO);
+	char c;
+	while (read(STDIN_FILENO, &c, 1))
+	{
+		write(STDOUT_FILENO, &c, 1);
+	}
+	
     for (size_t i = 1; i < argc; i++)
     	wait(NULL);
 } 
