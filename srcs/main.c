@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/17 05:09:15 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/19 20:110:01 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,30 @@
 
 int	main(int argc, char **argv, char ** envs)
 {
-	char *line;
+	t_token_manager *token_manager;
+	t_token *token;
 	while (true)
 	{
-		line = prompt();
-		// if(strcmp(line, "exit") == 0)
-		// 	break;
-		free(line);
+		token_manager = prompt();
+		if (token_manager == NULL)
+		{
+			// TODO なんかのしょり 
+			printf("tokenize error\n");
+			break;
+		}
+		token = token_manager->front;
+		if (token == NULL)
+			break;
+		if(strcmp(token->word, "exit") == 0)
+			break;
+		while (token != NULL)
+		{
+			printf("%s\n", token->word);
+			token = token->next;
+		}
+		free_token_manager(token_manager);
 	}
-	free(line);
+	free_token_manager(token_manager);
 	(void)argc;
 	(void)argv;
 	(void)envs;
@@ -38,5 +53,5 @@ int	main(int argc, char **argv, char ** envs)
 
 __attribute__((destructor))
 void destructor() {
-	system("leaks minishell");
+	system("leaks minishell -q");
 }
