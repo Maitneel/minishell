@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/19 20:43:22 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/05/21 11:54:34 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,4 +186,11 @@ t_token_manager	*tokenize(t_string *line)
 	// (void)line;
 	free(token_string);
 	return (token_manager);
+}
+
+void add_token(t_token_manager *token_maneger, t_token *token)
+{
+	(void)token_maneger;
+	(void)token;
+	return ;
 }

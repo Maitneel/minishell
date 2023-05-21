@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:49:12 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/19 20:56:07 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/05/21 11:54:34 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ t_token_manager	*new_token_manager(void);
 void *free_token_manager(t_token_manager *token_manager);
 t_token_manager			*tokenize(t_string *line);
 t_token_manager	*eval(t_token_manager *token_manager, t_env_manager *env_manager);
-void add_token(t_token_manager *token_maneger, t_token *toekn);
+void add_token(t_token_manager *token_maneger, t_token *token);
 
 #endif
