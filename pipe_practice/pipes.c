@@ -20,35 +20,43 @@
 #include <sys/fcntl.h>
 #include <stdlib.h>
 
-int ft_system(int argc, char **argv)
+char	**ft_split(char const *s, char c);
+
+int ft_system(char *command_str)
 {
-    char *path = argv[1];
-    char *args[argc - 1];
-    for (size_t i = 0; i < argc - 1; i++)
-    {
-        args[i] = argv[i + 1];
-    }
-    args[argc - 1] = NULL;
-    return execve(path, args, NULL);
+	char **argv;
+
+	argv = ft_split(command_str, ' ');
+	if (argv == NULL)
+		return 1;
+	execve(argv[0], argv, NULL);
+	return 0;
 }
 
 #define WRITE_FD 1
 #define READ_FD 0
 
-int craete_and_run_pipe(int before_fd, const char *command)
+int craete_and_run_pipe(int before_fd, const char *command, int is_last)
 {
 	// fprintf(stderr, "arg_fd : '%d'\n", before_fd);
 	fflush(stderr);
 	int pipe_fd[2];
-	pipe(pipe_fd);
+	if (!is_last)
+	{
+		pipe(pipe_fd);
+	}
 	pid_t pid = fork();
 	if (pid == 0) {
 		// child
-        close(pipe_fd[READ_FD]);
+		if (!is_last) {
+        	close(pipe_fd[READ_FD]);
+		}
 		// dup2(pipe_fd[READ_FD], before_fd);
 		// dup2(before_fd, pipe_fd[READ_FD]);
 		dup2(before_fd, STDIN_FILENO);
-		dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
+		if (!is_last) {
+			dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
+		}
 		// fprintf(stderr, "run : %s\n", command);
 		if (strcmp(command, "READ") == 0)
 		{
@@ -61,7 +69,7 @@ int craete_and_run_pipe(int before_fd, const char *command)
 			}
 			write(STDERR_FILENO, "\n", 1);
 		} else {
-			system(command);
+			ft_system(command);
 		}
 		// fprintf(stderr, "end : %s\n", command);
 		fflush(stderr);
@@ -69,7 +77,9 @@ int craete_and_run_pipe(int before_fd, const char *command)
 	} else {
 		//parent
 		// close(pipe_fd[READ_FD]);
-		close(pipe_fd[WRITE_FD]);
+		if (!is_last) {
+			close(pipe_fd[WRITE_FD]);
+		}
 		// fprintf(stderr, "pipe_fd[WRITE_FD] : '%d'\n", pipe_fd[WRITE_FD]);
 		fflush(stderr);
 		// return pipe_fd[WRITE_FD];
@@ -83,18 +93,21 @@ int main(int argc, const char **argv)
 	if (argc < 2)
 		return 0;
 	int returned_fd;
-	returned_fd = craete_and_run_pipe(STDIN_FILENO, argv[1]);
+	returned_fd = craete_and_run_pipe(STDIN_FILENO, argv[1], (argc == 2));
 	for (size_t i = 2; i < argc; i++)
 	{
-		returned_fd = craete_and_run_pipe(returned_fd, argv[i]);
+		if (i != argc - 1) {
+			returned_fd = craete_and_run_pipe(returned_fd, argv[i], 0);
+		} else {
+			returned_fd = craete_and_run_pipe(returned_fd, argv[i], 1);
+		}
 	}
-	dup2(returned_fd, STDIN_FILENO);
-	char c;
-	while (read(STDIN_FILENO, &c, 1))
-	{
-		write(STDOUT_FILENO, &c, 1);
-	}
-	
+	// dup2(returned_fd, STDOUT_FILENO);
+	// char c;
+	// while (read(STDIN_FILENO, &c, 1))
+	// {
+	// 	write(STDOUT_FILENO, &c, 1);
+	// }		
     for (size_t i = 1; i < argc; i++)
     	wait(NULL);
 } 
