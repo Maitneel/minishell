@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/25 15:40:22 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/25 15:53:57 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ bool is_meta_char(char c)
 
 #include <stdio.h>
 
-t_token_manager	*tokenize(t_string *line)
+t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager)
 {
 	t_token_manager	*token_manager;
 	char *token_string;
@@ -184,9 +184,11 @@ t_token_manager	*tokenize(t_string *line)
 	// token_manager->front = new_token("cd", 1);
 	// token_manager->front->next = new_token("hoge", 1);
 	// (void)line;
-    eval(token_manager, NULL);
+    t_token_manager *evaluated;
+    evaluated = eval(token_manager, env_manager);
 	free(token_string);
-	return (token_manager);
+    free_token_manager(token_manager);
+	return (evaluated);
 }
 
 void add_token(t_token_manager *token_maneger, t_token *token)

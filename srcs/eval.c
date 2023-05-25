@@ -17,6 +17,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <stdio.h>
+
 const char *g_eval_char = "'\"$\\";
 const	size_t	g_eval_char_size = 4;
 
@@ -47,7 +49,7 @@ bool	is_env_delimiter(char c)
 	return (!(isalnum(c) || c == '_'));
 }
 
-char *get_env_value_ptr(char *token_string, t_env_manager *env_manager)
+char *get_env_value_ptr(char *token_string, size_t *token_index, t_env_manager *env_manager)
 {
 	char *key;
 	if (token_string == NULL || env_manager == NULL)
@@ -66,6 +68,7 @@ char *get_env_value_ptr(char *token_string, t_env_manager *env_manager)
 			i++;
 	}
 	key[i] = '\0';
+    *token_index += i;
 	t_env *env;
 	env = find_env(env_manager, key);
 	free(key);
@@ -108,7 +111,7 @@ static t_token	*evaluated_token(t_token *token, t_env_manager *env)
 					|| quote_flag == '"'))
 		{
 			if (push_back_string(&evaluated_string,
-					get_env_value_ptr(&token->word[i], env)) == NULL)
+					get_env_value_ptr(&token->word[i + 1], &i, env)) == NULL)
 			{
 				// TODO error_handring
 			}
@@ -151,5 +154,6 @@ t_token_manager	*eval(t_token_manager *token_manager,
 		}
 		current = current->next;
 	}
+	current = evaluated->front;
 	return (evaluated);
 }

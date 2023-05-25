@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **envs)
 	env = env_manager->front;
 	while (true)
 	{
-		token_manager = prompt();
+		token_manager = prompt(env_manager);
 		if (token_manager == NULL)
 		{
 			// TODO なんかのしょり
