@@ -17,4 +17,15 @@ typedef struct s_env_manager
 	size_t			size;
 }					t_env_manager;
 
+/* ----------------- env.c ----------------- */
+void	free_env(t_env *env);
+void	*free_env_manager(t_env_manager *env_manager);
+t_env	*new_env(char *str);
+t_env_manager	*new_env_manager(char **arg_envs);
+/* ----------------- env2.c ----------------- */
+t_env	*find_before_env(t_env_manager *env_manager, const char *key);
+t_env	*find_env(t_env_manager *env_manager, const char *key);
+t_env	*add_env(t_env_manager *env_manager, char *token);
+void	env_delete(t_env_manager *env_manager, const char *key);
+
 #endif

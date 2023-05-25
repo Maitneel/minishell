@@ -10,34 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "env.h"
+#include "prompt.h"
+#include <readline/history.h>
+#include <readline/readline.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdlib.h>
 
-#include <readline/readline.h>
-#include <readline/history.h>
-
-#include "prompt.h"
-
-int	main(int argc, char **argv, char ** envs)
+int	main(int argc, char **argv, char **envs)
 {
-	t_token_manager *token_manager;
-	t_token *token;
+	t_token_manager	*token_manager;
+	t_env_manager	*env_manager;
+	t_token			*token;
+	t_env			*env;
+
+	env_manager = new_env_manager(envs);
+	if (env_manager == NULL)
+	{
+		return (1);
+	}
+	env = env_manager->front;
 	while (true)
 	{
 		token_manager = prompt();
 		if (token_manager == NULL)
 		{
-			// TODO なんかのしょり 
+			// TODO なんかのしょり
 			printf("tokenize error\n");
-			break;
+			break ;
 		}
 		token = token_manager->front;
 		if (token == NULL)
-			break;
-		if(strcmp(token->word, "exit") == 0)
-			break;
+			break ;
+		if (strcmp(token->word, "exit") == 0)
+			break ;
 		while (token != NULL)
 		{
 			printf("%s\n", token->word);
@@ -46,12 +53,13 @@ int	main(int argc, char **argv, char ** envs)
 		free_token_manager(token_manager);
 	}
 	free_token_manager(token_manager);
+	free_env_manager(env_manager);
 	(void)argc;
 	(void)argv;
 	(void)envs;
 }
 
-__attribute__((destructor))
-void destructor() {
+__attribute__((destructor)) void destructor()
+{
 	system("leaks minishell -q");
 }
