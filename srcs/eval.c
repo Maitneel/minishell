@@ -19,6 +19,7 @@
 
 #include <stdio.h>
 
+
 const char *g_eval_char = "'\"$\\";
 const	size_t	g_eval_char_size = 4;
 
@@ -97,6 +98,7 @@ static t_token	*evaluated_token(t_token *token, t_env_manager *env)
 			{
 				quote_flag ^= token->word[i];
 				i++;
+                continue;
 			}
 		}
 		if (token->word[i] == '$' && is_env_delimiter(token->word[i + 1]))
