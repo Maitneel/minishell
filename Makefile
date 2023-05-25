@@ -15,6 +15,7 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/tokenize.c \
 	${SRCS_DIR}/ft_string.c \
 	${SRCS_DIR}/eval.c \
+	${SRCS_DIR}/parser.c \
 	${SRCS_DIR}/env.c \
 	${SRCS_DIR}/env2.c \
 
