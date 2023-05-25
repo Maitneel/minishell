@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/05/18 05:06:09 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/25 15:46:48 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	*free_with_return_null(void *ptr)
 	return (NULL);
 }
 
-t_token_manager	*prompt(void)
+t_token_manager	*prompt(t_env_manager *env_manager)
 {
 	char		*line;
 	char		quote;
@@ -75,7 +75,7 @@ t_token_manager	*prompt(void)
 		free_with_return_null(line);
 	printf("%s\n", buffer.data);
 	add_history(buffer.data);
-	tokenized = tokenize(&buffer);
+	tokenized = tokenize(&buffer, env_manager);
 	free(line);
 	free(buffer.data);
 	return (tokenized);
