@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/21 11:54:34 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:40:22 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,13 +184,23 @@ t_token_manager	*tokenize(t_string *line)
 	// token_manager->front = new_token("cd", 1);
 	// token_manager->front->next = new_token("hoge", 1);
 	// (void)line;
+    eval(token_manager, NULL);
 	free(token_string);
 	return (token_manager);
 }
 
 void add_token(t_token_manager *token_maneger, t_token *token)
 {
-	(void)token_maneger;
-	(void)token;
+    if (token_maneger == NULL)
+    {
+        return;
+    }
+    if (token_maneger->last == NULL)
+    {
+        token_maneger->front = token;
+        token_maneger->last = token;
+    } else {
+        token_maneger->last->next = token;
+    }
 	return ;
 }
