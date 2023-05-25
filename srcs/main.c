@@ -10,13 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
-#include "prompt.h"
-#include <readline/history.h>
-#include <readline/readline.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <readline/history.h>
+#include <readline/readline.h>
+
+#include "env.h"
+#include "prompt.h"
 
 int	main(int argc, char **argv, char **envs)
 {
