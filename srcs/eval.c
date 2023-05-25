@@ -60,7 +60,6 @@ char *get_env_value_ptr(char *token_string, size_t *token_index, t_env_manager *
 	size_t i;
 	i = 0;
 	if (isdigit(key[0])) {
-		while (isdigit(key[i]))
 			i++;
 	}
 	else {
