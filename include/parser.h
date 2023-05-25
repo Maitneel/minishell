@@ -26,13 +26,20 @@
 //     struct s_command *next;
 // }   t_command;
 
+typedef struct s_redirect_info
+{
+    char *arg;
+    int kind;
+    struct s_redirect_info *next;
+}   t_redirect_info;
+
 typedef struct s_command
 {
     // int kind; // redirect, builtin, 
     char *command_name;
     char **args;
-    char *input_file;
-    char *output_file;
+    t_redirect_info *inputs;
+    t_redirect_info *outpus;
     bool next_pipe;
     struct s_command *next;
 }   t_command;
