@@ -49,8 +49,15 @@ int	main(int argc, char **argv, char **envs)
 			break ;
 		while (token != NULL)
 		{
-			printf("%s\n", token->word);
+			printf("%s %d", token->word, token->kind);
+            if (token->kind == SYNTAX_ERROR)
+            {
+                fprintf(stdout, "\x1b[35m");
+                printf("syntax error");
+                fprintf(stdout, "\x1b[39m");
+            }
 			token = token->next;
+            printf("\n");
 		}
 		free_token_manager(token_manager);
 	}

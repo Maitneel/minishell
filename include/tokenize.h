@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:49:12 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/21 13:40:13 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/05/28 17:25:25 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "ft_string.h"
 # include "env.h"
+
+# define SYNTAX_ERROR 65534
 
 typedef struct s_token
 {

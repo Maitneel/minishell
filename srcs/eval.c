@@ -129,6 +129,15 @@ static t_token	*evaluated_token(t_token *token, t_env_manager *env)
 	}
 	evaluated = new_token(evaluated_string.data, 1);
 	free(evaluated_string.data);
+    if (quote_flag != '\0')
+    {
+        // error だったらkindをいじるか？
+        evaluated->kind = SYNTAX_ERROR;
+        fprintf(stdout, "\x1b[35m");
+        printf("quote error\n");
+        fprintf(stdout, "\x1b[39m");
+    }
+    
 	return (evaluated);
 }
 
@@ -158,3 +167,5 @@ t_token_manager	*eval(t_token_manager *token_manager,
 	current = evaluated->front;
 	return (evaluated);
 }
+
+#include <errno.h>
