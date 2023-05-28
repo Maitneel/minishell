@@ -51,7 +51,7 @@ typedef struct s_command
     bool is_error;
     char *command_name;
     char **args;
-    t_args_list args_list;
+    t_args_list *args_list;
     t_redirect_info *inputs;
     t_redirect_info *outpus;
     bool next_pipe;
@@ -66,6 +66,8 @@ typedef struct s_command
 }]
 */
 
+void *free_command(t_command *command);
 t_command   *parse(t_token_manager *token_manager);
+void print_command(t_command *command);
 
 #endif
