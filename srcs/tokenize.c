@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/28 14:59:51 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/28 16:55:43 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,8 @@ t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager)
 		}
 		if (!is_delimiter(line->data[i]) || quote != '\0')
 		{
-			if (line->data[i] == '\\' && is_delimiter(line->data[i + 1]))
-				i++;
+			// if (line->data[i] == '\\' && is_delimiter(line->data[i + 1]))
+			// 	i++;
 			token_string[str_index] = line->data[i];
 			str_index++;
 			if (is_meta_char(line->data[i]) && line->data[i] == line->data[i + 1])
