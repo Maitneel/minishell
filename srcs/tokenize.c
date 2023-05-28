@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/25 15:53:57 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/28 14:59:51 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ void add_token(t_token_manager *token_maneger, t_token *token)
         token_maneger->last = token;
     } else {
         token_maneger->last->next = token;
+        token_maneger->last = token;
     }
 	return ;
 }
