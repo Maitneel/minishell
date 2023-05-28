@@ -133,9 +133,6 @@ static t_token	*evaluated_token(t_token *token, t_env_manager *env)
     {
         // error だったらkindをいじるか？
         evaluated->kind = SYNTAX_ERROR;
-        fprintf(stdout, "\x1b[35m");
-        printf("quote error\n");
-        fprintf(stdout, "\x1b[39m");
     }
     
 	return (evaluated);

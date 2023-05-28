@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **envs)
             if (token->kind == SYNTAX_ERROR)
             {
                 fprintf(stdout, "\x1b[35m");
-                printf("syntax error");
+                printf(" syntax error");
                 fprintf(stdout, "\x1b[39m");
             }
 			token = token->next;
