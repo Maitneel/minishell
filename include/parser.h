@@ -16,6 +16,11 @@
 # include "tokenize.h"
 # include <stdbool.h>
 
+# define REDIRECT_IN 1
+# define REDIRECT_HEAR_DOC 2
+# define REDIRECT_OUT_OVERWRITE 3
+# define REDIRECT_OUT_POST 4
+
 // typedef struct s_command
 // {
 //     char *name;
@@ -33,11 +38,20 @@ typedef struct s_redirect_info
     struct s_redirect_info *next;
 }   t_redirect_info;
 
+typedef struct s_args_list
+{
+    char *string;
+    struct s_args_list *next;
+} t_args_list;
+
 typedef struct s_command
 {
     // int kind; // redirect, builtin, 
+
+    bool is_error;
     char *command_name;
     char **args;
+    t_args_list args_list;
     t_redirect_info *inputs;
     t_redirect_info *outpus;
     bool next_pipe;
