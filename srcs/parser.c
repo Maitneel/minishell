@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/29 16:41:48 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/29 17:17:54 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,20 @@ void *free_redirect_info(t_redirect_info *front)
     return NULL;
 }
 
+void *free_args_list(t_args_list *front)
+{
+    t_args_list *next;
+
+    while (front != NULL)
+    {
+        next = front->next;
+        free(front->string);
+        free(front);
+        front = next;
+    }
+    return NULL;
+}
+
 void *free_command(t_command *command)
 {
     t_command *next;
@@ -59,6 +73,7 @@ void *free_command(t_command *command)
         }
         free_redirect_info(command->inputs);
         free_redirect_info(command->outpus);
+        free_args_list(command->args_list);
         free(command);
         command = next;
     }
@@ -181,6 +196,9 @@ t_command   *parse(t_token_manager *token_manager)
                 return free_command(front_command);
             }
             redirect_info->arg = strdup(front_token->next->word);
+            if (redirect_info->arg == NULL) {
+                // TODO error handring
+            }
             if (strcmp(front_token->word, "<") == 0)
             {
                 redirect_info->kind = REDIRECT_IN;
@@ -188,7 +206,6 @@ t_command   *parse(t_token_manager *token_manager)
             else if (strcmp(front_token->word, "<<") == 0)
             {
                 redirect_info->kind = REDIRECT_HEAR_DOC;
-                redirect_info->arg = "STDIN";
             }
             else if (strcmp(front_token->word, ">") == 0)
             {

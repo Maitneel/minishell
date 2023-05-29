@@ -79,7 +79,7 @@ int	main(int argc, char **argv, char **envs)
 }
 
 
-// __attribute__((destructor)) void destructor()
-// {
-// 	system("leaks minishell -q");
-// }
+__attribute__((destructor)) void destructor()
+{
+	system("leaks minishell -q");
+}
