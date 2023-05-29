@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/28 14:59:51 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/29 19:55:40 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,6 @@ t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager)
 		}
 		if (!is_delimiter(line->data[i]) || quote != '\0')
 		{
-			if (line->data[i] == '\\' && is_delimiter(line->data[i + 1]))
-				i++;
 			token_string[str_index] = line->data[i];
 			str_index++;
 			if (is_meta_char(line->data[i]) && line->data[i] == line->data[i + 1])
@@ -157,6 +155,13 @@ t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager)
 		}
 		if (((str_index != 0 && (is_delimiter(line->data[i + 1]) || is_meta_char(line->data[i + 1]) || is_meta_char(line->data[i]))) && quote == '\0' ) || i == line->length - 1) 
 		{
+			if (strlen(token_string) == 0)
+			{
+				// 要検討 ここbreakでもいい？ //
+				// 1つ上のifの条件に追加でもいいかも //
+				i++;
+				continue;
+			}
 			token = new_token(token_string, 1);
 			if (token == NULL)
 				return free_token_manager(token_manager);
@@ -181,9 +186,6 @@ t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager)
 		token_manager->front = new_token("", 0);
 		token_manager->last = token_manager->front;
 	}
-	// token_manager->front = new_token("cd", 1);
-	// token_manager->front->next = new_token("hoge", 1);
-	// (void)line;
     t_token_manager *evaluated;
     evaluated = eval(token_manager, env_manager);
 	free(token_string);
