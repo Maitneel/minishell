@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/28 21:28:27 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/29 16:41:48 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ t_command   *parse(t_token_manager *token_manager)
             {
                 return free_command(front_command);
             }
-            redirect_info->arg = front_token->next->word;
+            redirect_info->arg = strdup(front_token->next->word);
             if (strcmp(front_token->word, "<") == 0)
             {
                 redirect_info->kind = REDIRECT_IN;
@@ -257,6 +257,10 @@ t_command   *parse(t_token_manager *token_manager)
         front_token = front_token->next;
     }
     push_back_command(front_command, command);
+    if (command->is_error)
+    {
+        front_command->next->is_error = true;
+    }
     command = front_command->next;
     free(front_command);
     return command;
@@ -266,6 +270,7 @@ t_command   *parse(t_token_manager *token_manager)
 
 void print_command(t_command *command)
 {
+    fprintf(stdout, "\x1b[34m");
     t_redirect_info *redirect;
     t_args_list *args;
     while (command != NULL)
@@ -299,5 +304,5 @@ void print_command(t_command *command)
         printf("next_pipe : '%d'\n", command->next_pipe);
         command = command->next;
     }
-    
+    fprintf(stdout, "\x1b[39m");   
 }
