@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/29 16:48:32 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/29 17:04:39 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,13 @@ t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager)
 		}
 		if (((str_index != 0 && (is_delimiter(line->data[i + 1]) || is_meta_char(line->data[i + 1]) || is_meta_char(line->data[i]))) && quote == '\0' ) || i == line->length - 1) 
 		{
+			if (strlen(token_string) == 0)
+			{
+				// 要検討 ここbreakでもいい？ //
+				// 1つ上のifの条件に追加でもいいかも //
+				i++;
+				continue;
+			}
 			token = new_token(token_string, 1);
 			if (token == NULL)
 				return free_token_manager(token_manager);
