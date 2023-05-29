@@ -2,11 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */	
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/05/28 16:41:03 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/29 19:52:09 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,12 @@ static void	*free_with_return_null(void *ptr)
 t_token_manager	*prompt(t_env_manager *env_manager)
 {
 	char		*line;
-	// char		quote;
 	t_token_manager	*tokenized;
 	t_string	buffer;
 
-	// quote = '\0';
 	if (init_string(&buffer, DEFAULT_INIT_SIZE) == NULL)
 		return (NULL);
 	line = readline("minishell$ ");
-	// while (!is_input_end(line, &quote))
-	// {
-	// 	if (push_back_string(&buffer, line) == NULL)
-	// 		free_with_return_null(line);
-	// 	if (push_back_string(&buffer, "\n") == NULL)
-	// 		free_with_return_null(line);
-	// 	free(line);
-	// 	line = readline("> ");
-	// }
 	if (push_back_string(&buffer, line) == NULL)
 		free_with_return_null(line);
 	printf("'%s'\n", buffer.data);
