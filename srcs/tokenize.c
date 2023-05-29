@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/28 16:55:43 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/29 16:48:32 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager)
 	}
 	if (token_manager->last == NULL)
 	{
-		token_manager->front = new_token("", 0);
+		token_manager->front = new_token("exit", 0);
 		token_manager->last = token_manager->front;
 	}
 	// token_manager->front = new_token("cd", 1);
