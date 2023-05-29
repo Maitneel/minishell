@@ -19,6 +19,7 @@
 
 #include "env.h"
 #include "prompt.h"
+#include "parser.h"
 
 int	main(int argc, char **argv, char **envs)
 {
@@ -26,6 +27,7 @@ int	main(int argc, char **argv, char **envs)
 	t_env_manager	*env_manager;
 	t_token			*token;
 	t_env			*env;
+    t_command *command;
 
 	env_manager = new_env_manager(envs);
 	if (env_manager == NULL)
@@ -59,6 +61,13 @@ int	main(int argc, char **argv, char **envs)
 			token = token->next;
             printf("\n");
 		}
+        command = parse(token_manager);
+		if (command->is_error)
+		{
+			printf("minishell: syntax error\n");
+		}
+        print_command(command);
+        free_command(command);
 		free_token_manager(token_manager);
 	}
 	free_token_manager(token_manager);
@@ -66,7 +75,9 @@ int	main(int argc, char **argv, char **envs)
 	(void)argc;
 	(void)argv;
 	(void)envs;
+	(void)env;
 }
+
 
 __attribute__((destructor)) void destructor()
 {
