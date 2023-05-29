@@ -19,31 +19,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-// static bool	is_input_end(char *line, char *quote)
-// {
-// 	size_t	i;
 
-// 	if (line == NULL && *quote == '\0')
-// 		return (true);
-// 	if (line == NULL && *quote != '\0')
-// 		return (false);
-// 	i = 0;
-// 	while (line[i] != '\0')
-// 	{
-// 		if ((line[i] == '\'' || line[i] == '"'))
-// 		{
-// 			if (*quote == line[i])
-// 				*quote = '\0';
-// 			else if (*quote == '\0')
-// 				*quote = line[i];
-// 		}
-// 		i++;
-// 	}
-// 	if (*quote == '\'' || *quote == '"')
-// 		return (false);
-// 	else
-// 		return (true);
-// }
 
 static void	*free_with_return_null(void *ptr)
 {
