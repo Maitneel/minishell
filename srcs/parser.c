@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/30 19:39:13 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/30 19:40:45 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,11 +179,10 @@ t_command   *parse(t_token_manager *token_manager)
     t_redirect_info *redirect_info;
     t_args_list *args;
 
-    front_command = new_command();
+    front_command = NULL;
     command = new_command();
-    if (front_command == NULL || command == NULL)
+    if (command == NULL)
     {
-        free_command(front_command);
         return free_command(command);
     }
     
@@ -301,9 +300,7 @@ t_command   *parse(t_token_manager *token_manager)
     {
         front_command->next->is_error = true;
     }
-    command = front_command->next;
-    free(front_command);
-    return command;
+    return front_command;
 }
 
 
