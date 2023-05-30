@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/30 19:42:20 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/30 19:48:12 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,14 +269,7 @@ t_command   *parse(t_token_manager *token_manager)
                 {
                     return free_command(front_command);
                 }
-                if (command->args_list == NULL)
-                {
-                    command->args_list = args;
-                } else
-                {
-                    push_back_args_list(&command->args_list, args);
-                }
-                
+                push_back_args_list(&command->args_list, args);
             }
             
         }
