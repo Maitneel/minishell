@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/29 17:17:54 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/30 18:13:09 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,14 +287,14 @@ t_command   *parse(t_token_manager *token_manager)
 
 void print_command(t_command *command)
 {
-    fprintf(stdout, "\x1b[34m");
+    fprintf(stdout, "\x1b[36m");
     t_redirect_info *redirect;
     t_args_list *args;
     while (command != NULL)
     {
-        printf("----------------------\n");
-        printf("command_name : '%s'\n", command->command_name);
-        printf("input list : ");
+        printf("--------------------------------------\n");
+        printf("%-13s : '%s'\n", "command_name", command->command_name);
+        printf("%-13s : ", "input list");
         redirect = command->inputs;
         while (redirect != NULL)
         {
@@ -302,7 +302,7 @@ void print_command(t_command *command)
             redirect = redirect->next;
         }
         printf("\n");
-        printf("output list : ");
+        printf("%-13s : ", "output list");
         redirect = command->outpus;
         while (redirect != NULL)
         {
@@ -310,7 +310,7 @@ void print_command(t_command *command)
             redirect = redirect->next;
         }
         printf("\n");
-        printf("args : ");
+        printf("%-13s : ", "args");
         args = command->args_list;
         while (args != NULL)
         {
@@ -318,8 +318,9 @@ void print_command(t_command *command)
             args = args->next;
         }
         printf("\n");
-        printf("next_pipe : '%d'\n", command->next_pipe);
+        printf("%-13s : '%d'\n", "next_pipe", command->next_pipe);
         command = command->next;
     }
+    printf("--------------------------------------\n");
     fprintf(stdout, "\x1b[39m");   
 }
