@@ -16,10 +16,13 @@
 # include "tokenize.h"
 # include <stdbool.h>
 
-# define REDIRECT_IN 1
-# define REDIRECT_HEAR_DOC 2
-# define REDIRECT_OUT_OVERWRITE 3
-# define REDIRECT_OUT_POST 4
+typedef enum e_redirect_enum
+{
+    REDIRECT_IN = 0,
+    REDIRECT_HEAR_DOC,
+    REDIRECT_OUT_OVERWRITE,
+    REDIRECT_OUT_POST
+} t_redirect_enum;
 
 // typedef struct s_command
 // {
@@ -34,7 +37,7 @@
 typedef struct s_redirect_info
 {
     char *arg;
-    int kind;
+    t_redirect_enum kind;
     struct s_redirect_info *next;
 }   t_redirect_info;
 
