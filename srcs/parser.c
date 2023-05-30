@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/30 19:10:56 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/30 19:12:33 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void *free_args_list(t_args_list *front)
     return NULL;
 }
 
-t_args_list *new_args(char *string)
+t_args_list *new_args_list(char *string)
 {
     t_args_list *args;
     args = calloc(1, sizeof(t_args_list));
@@ -256,7 +256,7 @@ t_command   *parse(t_token_manager *token_manager)
             }
             else
             {
-                args = new_args(front_token->word);
+                args = new_args_list(front_token->word);
                 if (args == NULL)
                 {
                     return free_command(front_command);
