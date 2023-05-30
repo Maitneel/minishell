@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/30 19:40:45 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/30 19:42:20 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,24 +240,11 @@ t_command   *parse(t_token_manager *token_manager)
             printf("redirect_info : '%s'\n", redirect_info->arg);
             if (strcmp(front_token->word, "<") == 0 || strcmp(front_token->word, "<<") == 0)
             {
-                if (command->inputs == NULL) {
-                    command->inputs = redirect_info;
-                }
-                else 
-                {
-                    push_back_redirect_info(&command->inputs, redirect_info);
-                }
+                push_back_redirect_info(&command->inputs, redirect_info);
             } 
             else
             {
-                if (command->outpus == NULL) {
-                    command->outpus = redirect_info;
-                }
-                else 
-                {
-
-                    push_back_redirect_info(&command->outpus, redirect_info);
-                }
+                push_back_redirect_info(&command->outpus, redirect_info);
             }
             front_token = front_token->next;
             if (front_token == NULL)
