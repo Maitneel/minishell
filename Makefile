@@ -41,6 +41,11 @@ fclean : clean
 
 re : fclean all
 
+soft_clean : 
+	${RM} ${RM_FLAG} ${OBJS}
+
+sre : soft_clean all
+
 test : ${NAME}
 	./${NAME}
 
