@@ -13,6 +13,7 @@
 #include "ft_string.h"
 #include "tokenize.h"
 #include <errno.h>
+#include "ft_signal.h"
 #include <stdio.h>
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -35,7 +36,9 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 
 	if (init_string(&buffer, DEFAULT_INIT_SIZE) == NULL)
 		return (NULL);
+    signal_info.status = READING_PROMPT;
 	line = readline("minishell$ ");
+    signal_info.status = UNDEFINED;
 	if (push_back_string(&buffer, line) == NULL)
 		free_with_return_null(line);
 	printf("'%s'\n", buffer.data);

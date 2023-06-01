@@ -18,6 +18,7 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/parser.c \
 	${SRCS_DIR}/env.c \
 	${SRCS_DIR}/env2.c \
+	${SRCS_DIR}/ft_signal.c \
 
 OBJS := ${SRCS:%.c=%.o}
 

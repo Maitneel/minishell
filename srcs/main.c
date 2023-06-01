@@ -13,6 +13,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -20,6 +21,7 @@
 #include "env.h"
 #include "prompt.h"
 #include "parser.h"
+#include "ft_signal.h"
 
 int	main(int argc, char **argv, char **envs)
 {
@@ -29,6 +31,10 @@ int	main(int argc, char **argv, char **envs)
 	t_env			*env;
     t_command *command;
 
+
+	signal(SIGINT, resive_signal);
+	signal(SIGQUIT, resive_signal);
+	signal_info.status = UNDEFINED;
 	env_manager = new_env_manager(envs);
 	if (env_manager == NULL)
 	{
