@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/30 19:12:33 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/30 19:48:12 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,24 @@ t_redirect_info *new_redirect_info(void)
     return redirect_info;
 }
 
-void push_back_redirect_info(t_redirect_info *front, t_redirect_info *node)
+void push_back_redirect_info(t_redirect_info **front, t_redirect_info *node)
 {
+    t_redirect_info *current;
+
     if (front == NULL)
     {
         return ;
     }
-    while (front->next != NULL)
-    {
-        front = front->next;
+    if (*front == NULL) {
+        *front = node;
+        return ;
     }
-    front->next = node;
+    current = *front;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    current->next = node;
 }
 
 void *free_args_list(t_args_list *front)
@@ -87,17 +94,25 @@ t_args_list *new_args_list(char *string)
     return args;
 }
 
-void push_back_args_list(t_args_list *front, t_args_list *node)
+void push_back_args_list(t_args_list **front, t_args_list *node)
 {
+    t_args_list *current;
+
     if (front == NULL)
     {
         return ;
     }
-    while (front->next != NULL)
+    if (*front == NULL)
     {
-        front = front->next;
+        *front = node;
+        return ;
     }
-    front->next = node;
+    current = *front;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    current->next = node;
 }
 
 void *free_command(t_command *command)
@@ -135,19 +150,26 @@ t_command *new_command(void)
     return command;
 }
 
-void push_back_command(t_command *front, t_command *command)
-{
+void push_back_command(t_command **front, t_command *command)
+{   t_command *current;
+
     if (front == NULL)
     {
         return ;
     }
-    while (front->next != NULL)
+    if (*front == NULL) 
     {
-        front = front->next;
+        printf("flag\n");
+        *front = command;
+        return ;
     }
-    front->next = command;
+    current = *front;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    current->next = command;
 }
-
 
 t_command   *parse(t_token_manager *token_manager)
 {
@@ -157,11 +179,10 @@ t_command   *parse(t_token_manager *token_manager)
     t_redirect_info *redirect_info;
     t_args_list *args;
 
-    front_command = new_command();
+    front_command = NULL;
     command = new_command();
-    if (front_command == NULL || command == NULL)
+    if (command == NULL)
     {
-        free_command(front_command);
         return free_command(command);
     }
     
@@ -175,7 +196,7 @@ t_command   *parse(t_token_manager *token_manager)
         }
         if (strcmp(front_token->word, "|") == 0)
         {
-            push_back_command(front_command, command);
+            push_back_command(&front_command, command);
             command->next_pipe = true;
             command = new_command();
             if (command == NULL)
@@ -219,24 +240,11 @@ t_command   *parse(t_token_manager *token_manager)
             printf("redirect_info : '%s'\n", redirect_info->arg);
             if (strcmp(front_token->word, "<") == 0 || strcmp(front_token->word, "<<") == 0)
             {
-                if (command->inputs == NULL) {
-                    command->inputs = redirect_info;
-                }
-                else 
-                {
-                    push_back_redirect_info(command->inputs, redirect_info);
-                }
+                push_back_redirect_info(&command->inputs, redirect_info);
             } 
             else
             {
-                if (command->outpus == NULL) {
-                    command->outpus = redirect_info;
-                }
-                else 
-                {
-
-                    push_back_redirect_info(command->outpus, redirect_info);
-                }
+                push_back_redirect_info(&command->outpus, redirect_info);
             }
             front_token = front_token->next;
             if (front_token == NULL)
@@ -261,27 +269,18 @@ t_command   *parse(t_token_manager *token_manager)
                 {
                     return free_command(front_command);
                 }
-                if (command->args_list == NULL)
-                {
-                    command->args_list = args;
-                } else
-                {
-                    push_back_args_list(command->args_list, args);
-                }
-                
+                push_back_args_list(&command->args_list, args);
             }
             
         }
         front_token = front_token->next;
     }
-    push_back_command(front_command, command);
+    push_back_command(&front_command, command);
     if (command->is_error)
     {
         front_command->next->is_error = true;
     }
-    command = front_command->next;
-    free(front_command);
-    return command;
+    return front_command;
 }
 
 
