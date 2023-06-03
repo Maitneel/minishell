@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/30 18:13:09 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/30 18:24:47 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,7 +298,7 @@ void print_command(t_command *command)
         redirect = command->inputs;
         while (redirect != NULL)
         {
-            printf("%s ", redirect->arg);
+            printf("[%d, '%s'], ", redirect->kind, redirect->arg);
             redirect = redirect->next;
         }
         printf("\n");
@@ -306,7 +306,7 @@ void print_command(t_command *command)
         redirect = command->outpus;
         while (redirect != NULL)
         {
-            printf("%s ", redirect->arg);
+            printf("[%d, '%s'], ", redirect->kind, redirect->arg);
             redirect = redirect->next;
         }
         printf("\n");
