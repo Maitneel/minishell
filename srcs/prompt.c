@@ -36,6 +36,11 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 	if (init_string(&buffer, DEFAULT_INIT_SIZE) == NULL)
 		return (NULL);
 	line = readline("minishell$ ");
+	if (line == NULL)
+	{
+		free(buffer.data);
+		return NULL;
+	}
 	if (push_back_string(&buffer, line) == NULL)
 		free_with_return_null(line);
 	printf("'%s'\n", buffer.data);
