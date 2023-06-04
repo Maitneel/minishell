@@ -27,5 +27,6 @@ t_env	*find_before_env(t_env_manager *env_manager, const char *key);
 t_env	*find_env(t_env_manager *env_manager, const char *key);
 t_env	*add_env(t_env_manager *env_manager, char *token);
 void	env_delete(t_env_manager *env_manager, const char *key);
+char **make_env_ptr(t_env_manager *env_manager);
 
 #endif
