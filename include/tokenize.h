@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:49:12 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/28 17:25:25 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/30 18:36:29 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,17 @@
 # include "ft_string.h"
 # include "env.h"
 
-# define SYNTAX_ERROR 65534
+typedef enum e_token_kind
+{
+	SYNTAX_ERROR = 1000,
+	DEFAULT_KIND,
+	NULL_KIND
+} t_token_kind;
 
 typedef struct s_token
 {
 	char			*word;
-	int				kind;
+	t_token_kind	kind;
 	struct s_token	*next;
 }					t_token;
 

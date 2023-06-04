@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/30 18:13:09 by dummy            ###   ########.fr       */
+/*   Updated: 2023/05/30 19:48:12 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,6 @@
 #include <string.h>
 
 #include <stdio.h>
-
-t_command *new_command(void)
-{
-    t_command *command;
-
-    command = calloc(sizeof(t_command), 1);
-    if (command == NULL)
-    {
-        return NULL;
-    }
-    return command;
-}
 
 void *free_redirect_info(t_redirect_info *front)
 {
@@ -43,6 +31,37 @@ void *free_redirect_info(t_redirect_info *front)
     return NULL;
 }
 
+t_redirect_info *new_redirect_info(void)
+{
+    t_redirect_info *redirect_info;
+    redirect_info = calloc(1, sizeof(t_redirect_info));
+    if (redirect_info == NULL)
+    {
+        return NULL;
+    }
+    return redirect_info;
+}
+
+void push_back_redirect_info(t_redirect_info **front, t_redirect_info *node)
+{
+    t_redirect_info *current;
+
+    if (front == NULL)
+    {
+        return ;
+    }
+    if (*front == NULL) {
+        *front = node;
+        return ;
+    }
+    current = *front;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    current->next = node;
+}
+
 void *free_args_list(t_args_list *front)
 {
     t_args_list *next;
@@ -55,6 +74,45 @@ void *free_args_list(t_args_list *front)
         front = next;
     }
     return NULL;
+}
+
+t_args_list *new_args_list(char *string)
+{
+    t_args_list *args;
+    args = calloc(1, sizeof(t_args_list));
+    if (args == NULL)
+    {
+        return NULL;
+    }
+    args->string = strdup(string);
+    if (args->string == NULL)
+    {
+        free(args);
+        return NULL;
+    }
+    
+    return args;
+}
+
+void push_back_args_list(t_args_list **front, t_args_list *node)
+{
+    t_args_list *current;
+
+    if (front == NULL)
+    {
+        return ;
+    }
+    if (*front == NULL)
+    {
+        *front = node;
+        return ;
+    }
+    current = *front;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    current->next = node;
 }
 
 void *free_command(t_command *command)
@@ -80,72 +138,37 @@ void *free_command(t_command *command)
     return NULL;
 }
 
-void push_back_command(t_command *front, t_command *command)
+t_command *new_command(void)
 {
+    t_command *command;
+
+    command = calloc(sizeof(t_command), 1);
+    if (command == NULL)
+    {
+        return NULL;
+    }
+    return command;
+}
+
+void push_back_command(t_command **front, t_command *command)
+{   t_command *current;
+
     if (front == NULL)
     {
         return ;
     }
-    while (front->next != NULL)
+    if (*front == NULL) 
     {
-        front = front->next;
-    }
-    front->next = command;
-}
-
-t_redirect_info *new_redirect_info(void)
-{
-    t_redirect_info *redirect_info;
-    redirect_info = calloc(1, sizeof(t_redirect_info));
-    if (redirect_info == NULL)
-    {
-        return NULL;
-    }
-    return redirect_info;
-}
-
-void push_back_redirect_info(t_redirect_info *front, t_redirect_info *node)
-{
-    if (front == NULL)
-    {
+        printf("flag\n");
+        *front = command;
         return ;
     }
-    while (front->next != NULL)
+    current = *front;
+    while (current->next != NULL)
     {
-        front = front->next;
+        current = current->next;
     }
-    front->next = node;
-}
-
-t_args_list *new_args(char *string)
-{
-    t_args_list *args;
-    args = calloc(1, sizeof(t_args_list));
-    if (args == NULL)
-    {
-        return NULL;
-    }
-    args->string = strdup(string);
-    if (args->string == NULL)
-    {
-        free(args);
-        return NULL;
-    }
-    
-    return args;
-}
-
-void push_back_args_list(t_args_list *front, t_args_list *node)
-{
-    if (front == NULL)
-    {
-        return ;
-    }
-    while (front->next != NULL)
-    {
-        front = front->next;
-    }
-    front->next = node;
+    current->next = command;
 }
 
 t_command   *parse(t_token_manager *token_manager)
@@ -156,11 +179,10 @@ t_command   *parse(t_token_manager *token_manager)
     t_redirect_info *redirect_info;
     t_args_list *args;
 
-    front_command = new_command();
+    front_command = NULL;
     command = new_command();
-    if (front_command == NULL || command == NULL)
+    if (command == NULL)
     {
-        free_command(front_command);
         return free_command(command);
     }
     
@@ -174,7 +196,7 @@ t_command   *parse(t_token_manager *token_manager)
         }
         if (strcmp(front_token->word, "|") == 0)
         {
-            push_back_command(front_command, command);
+            push_back_command(&front_command, command);
             command->next_pipe = true;
             command = new_command();
             if (command == NULL)
@@ -218,24 +240,11 @@ t_command   *parse(t_token_manager *token_manager)
             printf("redirect_info : '%s'\n", redirect_info->arg);
             if (strcmp(front_token->word, "<") == 0 || strcmp(front_token->word, "<<") == 0)
             {
-                if (command->inputs == NULL) {
-                    command->inputs = redirect_info;
-                }
-                else 
-                {
-                    push_back_redirect_info(command->inputs, redirect_info);
-                }
+                push_back_redirect_info(&command->inputs, redirect_info);
             } 
             else
             {
-                if (command->outpus == NULL) {
-                    command->outpus = redirect_info;
-                }
-                else 
-                {
-
-                    push_back_redirect_info(command->outpus, redirect_info);
-                }
+                push_back_redirect_info(&command->outpus, redirect_info);
             }
             front_token = front_token->next;
             if (front_token == NULL)
@@ -255,32 +264,23 @@ t_command   *parse(t_token_manager *token_manager)
             }
             else
             {
-                args = new_args(front_token->word);
+                args = new_args_list(front_token->word);
                 if (args == NULL)
                 {
                     return free_command(front_command);
                 }
-                if (command->args_list == NULL)
-                {
-                    command->args_list = args;
-                } else
-                {
-                    push_back_args_list(command->args_list, args);
-                }
-                
+                push_back_args_list(&command->args_list, args);
             }
             
         }
         front_token = front_token->next;
     }
-    push_back_command(front_command, command);
+    push_back_command(&front_command, command);
     if (command->is_error)
     {
         front_command->next->is_error = true;
     }
-    command = front_command->next;
-    free(front_command);
-    return command;
+    return front_command;
 }
 
 
@@ -298,7 +298,7 @@ void print_command(t_command *command)
         redirect = command->inputs;
         while (redirect != NULL)
         {
-            printf("%s ", redirect->arg);
+            printf("[%d, '%s'], ", redirect->kind, redirect->arg);
             redirect = redirect->next;
         }
         printf("\n");
@@ -306,7 +306,7 @@ void print_command(t_command *command)
         redirect = command->outpus;
         while (redirect != NULL)
         {
-            printf("%s ", redirect->arg);
+            printf("[%d, '%s'], ", redirect->kind, redirect->arg);
             redirect = redirect->next;
         }
         printf("\n");

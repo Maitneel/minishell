@@ -39,6 +39,11 @@ t_token_manager	*prompt(t_env_manager *env_manager)
     signal_info.status = READING_PROMPT;
 	line = readline("minishell$ ");
     signal_info.status = UNDEFINED;
+	if (line == NULL)
+	{
+		free(buffer.data);
+		return NULL;
+	}
 	if (push_back_string(&buffer, line) == NULL)
 		free_with_return_null(line);
 	printf("'%s'\n", buffer.data);

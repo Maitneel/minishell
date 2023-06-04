@@ -47,7 +47,8 @@ int	main(int argc, char **argv, char **envs)
 		if (token_manager == NULL)
 		{
 			// TODO なんかのしょり
-			printf("tokenize error\n");
+			// printf("tokenize error\n");
+			printf("exit\n");
 			break ;
 		}
 		token = token_manager->front;
