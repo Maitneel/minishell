@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/06 20:43:55 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/06 21:09:52 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,29 +23,71 @@
 #define WRITE_FD 1
 #define READ_FD 0
 
-char **make_args(t_command *command)
-{
-	char **args = malloc(sizeof(char *) * 3);
-	args[0] = strdup("echo");
-	args[1] = strdup("hoge");
-	args[2] = NULL;
-	(void)command;
-	return args;
-}
 
-
-void *free_splited(char **splited)
+void *free_string_array(char **string_array)
 {
 	size_t i;
 
 	i = 0;
-	while (splited[i] != NULL)
+	while (string_array[i] != NULL)
 	{
-		free(splited[i]);
+		free(string_array[i]);
 	}
-	free(splited);
+	free(string_array);
 	return NULL;
 }
+
+
+size_t get_args_list_size(t_command *command)
+{
+	size_t size;
+	
+	t_args_list *args_list;
+	args_list = command->args_list;
+	size = 0;
+	while (args_list != NULL)
+	{
+		args_list = args_list->next;
+		size++;
+	}
+	return size;
+}
+
+char **make_args(t_command *command)
+{
+	size_t args_size;
+	char **args_array;
+	t_args_list *args_list;
+	
+	args_size = get_args_list_size(command) + 1;
+	args_array = calloc(args_size + 1, sizeof(char *));
+	if (args_array == NULL)
+		return NULL;
+	size_t i;
+	args_array[0] = strdup(command->command_name);
+	if (args_array[0] == NULL)
+		return free_string_array(args_array);
+	i = 1;
+	args_list = command->args_list;
+	while (args_list != NULL)
+	{
+		args_array[i] = strdup(args_list->string);
+		if (args_array[i] == NULL)
+			return free_string_array(args_array);
+		i++;
+		args_list = args_list->next;
+	}
+	return (args_array);
+	
+	// char **args = malloc(sizeof(char *) * 3);
+	// args[0] = strdup("echo");
+	// args[1] = strdup("hoge");
+	// args[2] = NULL;
+	// (void)command;
+	// return args;
+	
+}
+
 
 char *make_path(const char *path, const char *command)
 {
@@ -65,6 +107,8 @@ char *make_path(const char *path, const char *command)
 char *find_path(t_command *command, t_env_manager *env_manager)
 {
 	// 絶対パスかのチェック
+	if (access(command->command_name, F_OK) == 0)
+		return strdup(command->command_name);
 	t_env *path_env;
 
 	size_t i;
@@ -79,7 +123,7 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 	{
 		absolute_path = make_path(paths[i], command->command_name);
 		if (absolute_path == NULL)
-			return (free_splited(paths));
+			return (free_string_array(paths));
 		printf("path : %s\n", absolute_path);
 		if (access(absolute_path, F_OK) == 0)
 		{
@@ -101,6 +145,7 @@ int ft_exec(t_command *command, t_env_manager *env_manager)
 		return (-1);
 	}
 	// TODO: envの$?に入れる　
+	printf("--------------------\n");
 	execve(command_path, make_args(command), make_env_ptr(env_manager));
 	return 0;
 }
