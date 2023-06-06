@@ -6,11 +6,13 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:31:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/04 20:48:18 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/06 21:16:29 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "libft.h"
+#include "command_exec.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -112,8 +114,66 @@ void	env_delete(t_env_manager *env_manager, const char *key)
 	}
 }
 
-char **make_env_ptr(t_env_manager *env_manager)
+// size_t get_env_list_size(t_env *env)
+// {
+// 	size_t cnt;
+// 	t_env *current;
+
+// 	current = env;
+// 	cnt = 0;
+// 	while (current != NULL)
+// 	{
+// 		current = env->next;
+// 		cnt++;
+// 	}
+// 	return (cnt);
+// }
+
+char *get_raw_string(t_env *env)
 {
-	(void)env_manager;
-	return NULL;
+	char *appended_equal;
+	char *raw_string;
+	appended_equal = ft_strjoin(env->key, "=");
+	if (appended_equal == NULL)
+		return (NULL);
+	raw_string = ft_strjoin(appended_equal, env->value);
+	free(appended_equal);
+	return (raw_string);
+}
+
+// void *free_env_array(char **env_arra)
+// {
+// 	t_env *current;
+// 	t_env *next;
+
+// 	current = env;
+// 	while (current != NULL)
+// 	{
+// 		next = current->next;
+// 		free(current);
+// 		current = next;
+// 	}
+// 	return (NULL);
+// }
+
+char	**make_env_ptr(t_env_manager *env_manager)
+{
+	char **env_ptr;
+	t_env *current;
+	size_t i;
+
+	env_ptr = calloc(sizeof(char *), env_manager->size);
+	if (env_ptr == NULL)
+		return (NULL);
+	i = 0;
+	current = env_manager->front;
+	while (i < env_manager->size)
+	{
+		env_ptr[i] = get_raw_string(current);
+		if (env_ptr[i] == NULL)
+			return (free_string_array(env_ptr));
+		current = current->next;
+		i++;
+	}
+	return (env_ptr);
 }
