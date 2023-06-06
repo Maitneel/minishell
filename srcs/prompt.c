@@ -12,6 +12,7 @@
 
 #include "ft_string.h"
 #include "tokenize.h"
+#include "expand_env.h"
 #include <errno.h>
 #include "ft_signal.h"
 #include <stdio.h>
@@ -33,6 +34,7 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 	char		*line;
 	t_token_manager	*tokenized;
 	t_string	buffer;
+    t_string    expanded;
 
 	if (init_string(&buffer, DEFAULT_INIT_SIZE) == NULL)
 		return (NULL);
@@ -48,8 +50,12 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 		free_with_return_null(line);
 	printf("'%s'\n", buffer.data);
 	add_history(buffer.data);
-	tokenized = tokenize(&buffer, env_manager);
+    if (expand_env(&expanded, &buffer, env_manager) == NULL) {
+        // TODO: error handring
+    }
+	tokenized = tokenize(&expanded, env_manager);
 	free(line);
 	free(buffer.data);
+    free(expanded.data);
 	return (tokenized);
 }
