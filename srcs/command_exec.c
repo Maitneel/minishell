@@ -6,13 +6,15 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/04 20:48:18 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/06 20:43:55 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "env.h"
 #include "ft_signal.h"
+#include "tokenize.h"
+#include "libft.h"
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -32,12 +34,62 @@ char **make_args(t_command *command)
 }
 
 
+void *free_splited(char **splited)
+{
+	size_t i;
+
+	i = 0;
+	while (splited[i] != NULL)
+	{
+		free(splited[i]);
+	}
+	free(splited);
+	return NULL;
+}
+
+char *make_path(const char *path, const char *command)
+{
+	char *slashed;
+	char *joined;
+	
+	if (path == NULL || command == NULL)
+		return (NULL);
+	slashed = ft_strjoin(path, "/");
+	if (slashed == NULL)
+		return (NULL);
+	joined = ft_strjoin(slashed, command);
+	free(slashed);
+	return (joined);
+}
+
 char *find_path(t_command *command, t_env_manager *env_manager)
 {
-	// TODO: implement;
-	(void)command;
-	(void)env_manager;
-	return strdup("/bin/echo");
+	// 絶対パスかのチェック
+	t_env *path_env;
+
+	size_t i;
+	char *absolute_path;
+	char **paths;
+	path_env = find_env(env_manager, "PATH");
+	if (path_env == NULL)
+		return (NULL);
+	paths = ft_split(path_env->value, ':');
+	i = 0;
+	while (paths[i] != NULL)
+	{
+		absolute_path = make_path(paths[i], command->command_name);
+		if (absolute_path == NULL)
+			return (free_splited(paths));
+		printf("path : %s\n", absolute_path);
+		if (access(absolute_path, F_OK) == 0)
+		{
+			return (absolute_path);
+		}
+		free(absolute_path);
+		i++;
+	}
+	printf("command not found\n");
+	return NULL;
 }
 
 int ft_exec(t_command *command, t_env_manager *env_manager)
