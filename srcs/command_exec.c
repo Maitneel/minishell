@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/08 15:06:26 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/08 15:21:36 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,8 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		//child
 		dup2(before_fd, STDIN_FILENO);
 		dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
-		close(before_fd);
+		if (before_fd != STDIN_FILENO)
+			close(before_fd);
 		ft_exec(command, env_manager);
 		close(pipe_fd[WRITE_FD]);
 		exit(0); // ?
