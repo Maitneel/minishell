@@ -46,6 +46,7 @@ int	main(int argc, char **argv, char **envs)
 	while (true)
 	{
 		token_manager = prompt(env_manager);
+		fprintf(stderr, "token_manager : '%p'\n", token_manager);
 		if (token_manager == NULL)
 		{
 			// TODO なんかのしょり

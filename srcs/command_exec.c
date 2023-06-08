@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/08 14:23:47 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/08 14:53:37 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 		absolute_path = make_path(paths[i], command->command_name);
 		if (absolute_path == NULL)
 			return (free_string_array(paths));
-		printf("path : %s\n", absolute_path);
+		// fprintf(stderr, "path : %s\n", absolute_path);
 		if (access(absolute_path, F_OK) == 0)
 		{
 			return (absolute_path);
@@ -132,20 +132,35 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 		free(absolute_path);
 		i++;
 	}
-	printf("command not found\n");
+	write(STDERR_FILENO, "command not found\n", 18);
 	return NULL;
 }
 
 int ft_exec(t_command *command, t_env_manager *env_manager)
 {
 	char	*command_path;
+	if (strcmp(command->command_name, "READ") == 0) {
+		char temp;
+		int count = 0;
+		fprintf(stderr, "READING \n");
+		fflush(stderr);
+		while (read(STDIN_FILENO, &temp, 1))
+		{
+			count++;
+			fprintf(stderr, "temp : '%d', %c\n", temp, temp);
+		}
+		write(STDERR_FILENO, "\n", 1);
+		fprintf(stderr, "%d\n", count);
+		fflush(stderr);
+		return 0;
+	}
 	command_path = find_path(command, env_manager);
 	if (command_path == NULL)
 	{
 		return (-1);
 	}
 	// TODO: envの$?に入れる　
-	printf("--------------------\n");
+	// fprintf(stderr, "--------------------\n");
 	execve(command_path, make_args(command), make_env_ptr(env_manager));
 	return 0;
 }
@@ -173,7 +188,8 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	} else 
 	{
 		// parent
-		close(before_fd);
+		if (before_fd != STDIN_FILENO)
+			close(before_fd);
 		close(pipe_fd[WRITE_FD]);
 		// TODO: append process id
 	}
@@ -216,6 +232,8 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	before_fd = STDIN_FILENO;
 	while (current != NULL)
 	{
+		// char temp;
+		// fprintf(stderr, "stdin : '%zd'\n", read(STDIN_FILENO, &temp, 0));
 		if (current->next_pipe)
 		{
 			before_fd = pipe_exec(before_fd, current, env_manager);
@@ -228,7 +246,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	pid_current = signal_info.pid_list;
 	while (pid_current != NULL)
 	{
-		printf("waiting\n");
+		// fprintf(stderr, "waiting\n");
 		int tmp;
 		wait(&tmp);
 		pid_current = pid_current->next;
