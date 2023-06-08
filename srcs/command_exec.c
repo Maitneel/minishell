@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/08 15:21:36 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/08 15:28:23 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,8 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	t_command	*current;
 	t_pid_list	*pid_current;
 	int			before_fd;
-
+	
+	signal_info.status = EXECUTING_COMMAND;
 	current = commands;
 	before_fd = STDIN_FILENO;
 	while (current != NULL)
@@ -235,6 +236,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		wait(&tmp);
 		pid_current = pid_current->next;
 	}
+	signal_info.status = UNDEFINED;
 	free_pid_list(&signal_info.pid_list);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:13:58 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/08 14:22:47 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/08 15:44:56 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 
 void	resive_signal(int sig_id)
 {
+	// t_pid_list *pid;
+
 	if (!(sig_id == SIGINT || sig_id == SIGQUIT))
 		return ;
 	if (signal_info.status == READING_PROMPT)
@@ -29,6 +31,15 @@ void	resive_signal(int sig_id)
 		write(STDIN_FILENO, "\n", 1);
 		rl_replace_line("", 0);
 		rl_redisplay();
+	}
+	else if (signal_info.status == EXECUTING_COMMAND)
+	{
+		// pid = signal_info.pid_list;
+		// while (pid != NULL)
+		// {
+		// 	kill(pid->pid, sig_id);
+		// 	pid = pid->next;
+		// }
 	}
 }
 

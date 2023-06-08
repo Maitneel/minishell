@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:12:38 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/08 14:18:31 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/08 15:26:18 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ typedef enum e_runnning_status
 {
     UNDEFINED = 2000,
     READING_PROMPT,
+    EXECUTING_COMMAND,
 }   t_running_status;
 
 typedef struct s_pid_list
