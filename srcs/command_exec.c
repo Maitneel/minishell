@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/08 15:03:50 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/08 15:06:26 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 		absolute_path = make_path(paths[i], command->command_name);
 		if (absolute_path == NULL)
 			return (free_string_array(paths));
-		// fprintf(stderr, "path : %s\n", absolute_path);
+		fprintf(stderr, "path : %s\n", absolute_path);
 		if (access(absolute_path, F_OK) == 0)
 		{
 			return (absolute_path);
@@ -145,7 +145,7 @@ int ft_exec(t_command *command, t_env_manager *env_manager)
 		return (-1);
 	}
 	// TODO: envの$?に入れる　
-	// fprintf(stderr, "--------------------\n");
+	fprintf(stderr, "--------------------\n");
 	execve(command_path, make_args(command), make_env_ptr(env_manager));
 	return 0;
 }
@@ -217,8 +217,6 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	before_fd = STDIN_FILENO;
 	while (current != NULL)
 	{
-		// char temp;
-		// fprintf(stderr, "stdin : '%zd'\n", read(STDIN_FILENO, &temp, 0));
 		if (current->next_pipe)
 		{
 			before_fd = pipe_exec(before_fd, current, env_manager);
@@ -231,7 +229,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	pid_current = signal_info.pid_list;
 	while (pid_current != NULL)
 	{
-		// fprintf(stderr, "waiting\n");
+		fprintf(stderr, "waiting\n");
 		int tmp;
 		wait(&tmp);
 		pid_current = pid_current->next;
