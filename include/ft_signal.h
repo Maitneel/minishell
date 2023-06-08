@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signal.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:12:38 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/04 20:32:52 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:18:31 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_signal_struct
 
 void			resive_signal(int sig_id);
 t_pid_list		*pid_push_back(t_pid_list **list, pid_t pid);
+void            *free_pid_list(t_pid_list **pid_list);
 
 t_sginal_struct	signal_info;
 

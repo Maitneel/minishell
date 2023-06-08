@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/06 21:09:52 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:23:47 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,5 +233,6 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		wait(&tmp);
 		pid_current = pid_current->next;
 	}
+	free_pid_list(&signal_info.pid_list);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signal.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:13:58 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/04 20:36:42 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/08 14:22:47 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ void *free_pid_list(t_pid_list **pid_list)
 	t_pid_list *next;
 
 	current = *pid_list;
+	(*pid_list) = NULL;
 	while (current != NULL)
 	{
 		next = current->next;
+		current->next = NULL;
 		free(current);
 		current = next;
 	}
