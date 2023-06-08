@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/06 21:09:52 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/09 01:10:45 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 #define WRITE_FD 1
 #define READ_FD 0
-
 
 void *free_string_array(char **string_array)
 {
@@ -124,7 +123,7 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 		absolute_path = make_path(paths[i], command->command_name);
 		if (absolute_path == NULL)
 			return (free_string_array(paths));
-		printf("path : %s\n", absolute_path);
+		fprintf(stdout, "path : %s\n", absolute_path);
 		if (access(absolute_path, F_OK) == 0)
 		{
 			return (absolute_path);
@@ -132,7 +131,7 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 		free(absolute_path);
 		i++;
 	}
-	printf("command not found\n");
+	fprintf(stdout, "command not found\n");
 	return NULL;
 }
 
@@ -145,7 +144,7 @@ int ft_exec(t_command *command, t_env_manager *env_manager)
 		return (-1);
 	}
 	// TODO: envの$?に入れる　
-	printf("--------------------\n");
+	fprintf(stdout, "--------------------\n");
 	execve(command_path, make_args(command), make_env_ptr(env_manager));
 	return 0;
 }
@@ -228,7 +227,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	pid_current = signal_info.pid_list;
 	while (pid_current != NULL)
 	{
-		printf("waiting\n");
+		fprintf(stdout, "waiting\n");
 		int tmp;
 		wait(&tmp);
 		pid_current = pid_current->next;
