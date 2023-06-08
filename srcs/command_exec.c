@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/08 14:53:37 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/08 15:03:50 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,21 +139,6 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 int ft_exec(t_command *command, t_env_manager *env_manager)
 {
 	char	*command_path;
-	if (strcmp(command->command_name, "READ") == 0) {
-		char temp;
-		int count = 0;
-		fprintf(stderr, "READING \n");
-		fflush(stderr);
-		while (read(STDIN_FILENO, &temp, 1))
-		{
-			count++;
-			fprintf(stderr, "temp : '%d', %c\n", temp, temp);
-		}
-		write(STDERR_FILENO, "\n", 1);
-		fprintf(stderr, "%d\n", count);
-		fflush(stderr);
-		return 0;
-	}
 	command_path = find_path(command, env_manager);
 	if (command_path == NULL)
 	{
