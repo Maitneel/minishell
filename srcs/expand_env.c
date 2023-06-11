@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:02:11 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/06 18:33:58 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/11 16:36:59 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 t_string	*expand_env(t_string *expanded, t_string *line, t_env_manager *env_manager)
 {
 	char temp[2];
+    char quote_flag;
 
+    quote_flag = '\0';
 	temp[1] = '\0';
 	if (line == NULL || env_manager == NULL)
 		return (NULL);
@@ -29,7 +31,9 @@ t_string	*expand_env(t_string *expanded, t_string *line, t_env_manager *env_mana
 	i = 0;
 	while (line->data[i] != '\0')
 	{
-		if (line->data[i] == '$')
+        if ((line->data[i] == '"' || line->data[i] == '\'') && (quote_flag == '\0' || quote_flag == line->data[i]))
+            quote_flag ^= line->data[i];
+		if (line->data[i] == '$' && quote_flag != '\'')
 		{
 			if (push_back_string(expanded, get_env_value_ptr(&line->data[i + 1], &i, env_manager)) == NULL)
 				return (NULL);
