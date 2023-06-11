@@ -6,11 +6,12 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:41:45 by dummy             #+#    #+#             */
-/*   Updated: 2023/05/17 04:59:41 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/11 15:03:16 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
+#include "libft.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -99,6 +100,20 @@ t_string	*push_back_string(t_string *dest, char *src)
 	}
 	dest->length += src_length;
 	return (dest);
+}
+
+t_string *set_string(t_string *struct_string, char *string_ptr)
+{
+	if (struct_string == NULL)
+		return NULL;
+	struct_string->data = string_ptr;
+	struct_string->length = 0;
+	struct_string->max_length = 0;
+	if (string_ptr == NULL)
+		return NULL;
+	struct_string->length = ft_strlen(string_ptr);
+	struct_string->max_length = struct_string->length;
+	return struct_string;
 }
 
 // #include <stdio.h>

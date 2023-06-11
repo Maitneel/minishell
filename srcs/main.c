@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **envs)
 		{
 			// TODO なんかのしょり
 			// printf("tokenize error\n");
-			printf("exit\n");
+			// printf("exit\n");
 			break ;
 		}
 		token = token_manager->front;
