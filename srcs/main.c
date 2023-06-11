@@ -22,6 +22,7 @@
 #include "prompt.h"
 #include "parser.h"
 #include "ft_signal.h"
+#include "command_exec.h"
 
 int	main(int argc, char **argv, char **envs)
 {
@@ -29,12 +30,13 @@ int	main(int argc, char **argv, char **envs)
 	t_env_manager	*env_manager;
 	t_token			*token;
 	t_env			*env;
-    t_command *command;
+	t_command *command;
 
 
 	signal(SIGINT, resive_signal);
 	signal(SIGQUIT, resive_signal);
 	signal_info.status = UNDEFINED;
+	signal_info.pid_list = NULL;
 	env_manager = new_env_manager(envs);
 	if (env_manager == NULL)
 	{
@@ -59,22 +61,23 @@ int	main(int argc, char **argv, char **envs)
 		while (token != NULL)
 		{
 			printf("%s %d", token->word, token->kind);
-            if (token->kind == SYNTAX_ERROR)
-            {
-                fprintf(stdout, "\x1b[35m");
-                printf(" syntax error");
-                fprintf(stdout, "\x1b[39m");
-            }
+			if (token->kind == SYNTAX_ERROR)
+			{
+				fprintf(stdout, "\x1b[35m");
+				printf(" syntax error");
+				fprintf(stdout, "\x1b[39m");
+			}
 			token = token->next;
-            printf("\n");
+			printf("\n");
 		}
-        command = parse(token_manager);
+		command = parse(token_manager);
 		if (command->is_error)
 		{
 			printf("minishell: syntax error\n");
 		}
-        print_command(command);
-        free_command(command);
+		print_command(command);
+		command_exec(command, env_manager);
+		free_command(command);
 		free_token_manager(token_manager);
 	}
 	free_token_manager(token_manager);
@@ -88,5 +91,5 @@ int	main(int argc, char **argv, char **envs)
 
 __attribute__((destructor)) void destructor()
 {
-	system("leaks minishell -q");
+	// system("leaks minishell -q");
 }
