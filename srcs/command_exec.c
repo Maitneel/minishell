@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/09 01:10:45 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/11 12:41:55 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		close(before_fd);
 		ft_exec(command, env_manager);
 		close(pipe_fd[WRITE_FD]);
+		// TODO: pipe_fd[READ_FD] の close
 		exit(0); // ?
 	} else 
 	{
@@ -221,6 +222,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		} else {
 			before_fd = non_pipe_exec(before_fd, current, env_manager);
 		}
+		// TODO: before_fd == -1の時の処理
 		current = current->next;
 	}
 
