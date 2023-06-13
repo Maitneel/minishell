@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/11 12:41:55 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:47:15 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 		absolute_path = make_path(paths[i], command->command_name);
 		if (absolute_path == NULL)
 			return (free_string_array(paths));
-		fprintf(stdout, "path : %s\n", absolute_path);
+		fprintf(stderr, "path : %s\n", absolute_path);
 		if (access(absolute_path, F_OK) == 0)
 		{
 			return (absolute_path);
@@ -131,7 +131,7 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 		free(absolute_path);
 		i++;
 	}
-	fprintf(stdout, "command not found\n");
+	write(STDERR_FILENO, "command not found\n", 18);
 	return NULL;
 }
 
@@ -144,7 +144,7 @@ int ft_exec(t_command *command, t_env_manager *env_manager)
 		return (-1);
 	}
 	// TODO: envの$?に入れる　
-	fprintf(stdout, "--------------------\n");
+	fprintf(stderr, "--------------------\n");
 	execve(command_path, make_args(command), make_env_ptr(env_manager));
 	return 0;
 }
@@ -165,15 +165,16 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		//child
 		dup2(before_fd, STDIN_FILENO);
 		dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
-		close(before_fd);
+		if (before_fd != STDIN_FILENO)
+			close(before_fd);
 		ft_exec(command, env_manager);
 		close(pipe_fd[WRITE_FD]);
-		// TODO: pipe_fd[READ_FD] の close
 		exit(0); // ?
 	} else 
 	{
 		// parent
-		close(before_fd);
+		if (before_fd != STDIN_FILENO)
+			close(before_fd);
 		close(pipe_fd[WRITE_FD]);
 		// TODO: append process id
 	}
@@ -211,7 +212,8 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	t_command	*current;
 	t_pid_list	*pid_current;
 	int			before_fd;
-
+	
+	signal_info.status = EXECUTING_COMMAND;
 	current = commands;
 	before_fd = STDIN_FILENO;
 	while (current != NULL)
@@ -229,10 +231,12 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	pid_current = signal_info.pid_list;
 	while (pid_current != NULL)
 	{
-		fprintf(stdout, "waiting\n");
+		fprintf(stderr, "waiting\n");
 		int tmp;
 		wait(&tmp);
 		pid_current = pid_current->next;
 	}
+	signal_info.status = UNDEFINED;
+	free_pid_list(&signal_info.pid_list);
 	return (0);
 }

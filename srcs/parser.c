@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/09 00:37:25 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/13 20:47:28 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,40 +287,40 @@ t_command   *parse(t_token_manager *token_manager)
 
 void print_command(t_command *command)
 {
-    fprintf(stdout, "\x1b[36m");
+    fprintf(stderr, "\x1b[36m");
     t_redirect_info *redirect;
     t_args_list *args;
     while (command != NULL)
     {
-        printf("--------------------------------------\n");
-        printf("%-13s : '%s'\n", "command_name", command->command_name);
-        printf("%-13s : ", "input list");
+        fprintf(stderr, "--------------------------------------\n");
+        fprintf(stderr, "%-13s : '%s'\n", "command_name", command->command_name);
+        fprintf(stderr, "%-13s : ", "input list");
         redirect = command->inputs;
         while (redirect != NULL)
         {
-            printf("[%d, '%s'], ", redirect->kind, redirect->arg);
+            fprintf(stderr, "[%d, '%s'], ", redirect->kind, redirect->arg);
             redirect = redirect->next;
         }
-        printf("\n");
-        printf("%-13s : ", "output list");
+        fprintf(stderr, "\n");
+        fprintf(stderr, "%-13s : ", "output list");
         redirect = command->outpus;
         while (redirect != NULL)
         {
-            printf("[%d, '%s'], ", redirect->kind, redirect->arg);
+            fprintf(stderr, "[%d, '%s'], ", redirect->kind, redirect->arg);
             redirect = redirect->next;
         }
-        printf("\n");
-        printf("%-13s : ", "args");
+        fprintf(stderr, "\n");
+        fprintf(stderr, "%-13s : ", "args");
         args = command->args_list;
         while (args != NULL)
         {
-            printf("%s ", args->string);
+            fprintf(stderr, "%s ", args->string);
             args = args->next;
         }
-        printf("\n");
-        printf("%-13s : '%d'\n", "next_pipe", command->next_pipe);
+        fprintf(stderr, "\n");
+        fprintf(stderr, "%-13s : '%d'\n", "next_pipe", command->next_pipe);
         command = command->next;
     }
-    printf("--------------------------------------\n");
-    fprintf(stdout, "\x1b[39m");   
+    fprintf(stderr, "--------------------------------------\n");
+    fprintf(stderr, "\x1b[39m");   
 }
