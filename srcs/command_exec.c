@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/08 15:28:23 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/13 20:47:15 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 #define WRITE_FD 1
 #define READ_FD 0
-
 
 void *free_string_array(char **string_array)
 {
@@ -225,6 +224,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		} else {
 			before_fd = non_pipe_exec(before_fd, current, env_manager);
 		}
+		// TODO: before_fd == -1の時の処理
 		current = current->next;
 	}
 

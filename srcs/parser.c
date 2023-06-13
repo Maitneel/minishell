@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/08 14:58:15 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/13 20:47:28 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,7 +278,7 @@ t_command   *parse(t_token_manager *token_manager)
     push_back_command(&front_command, command);
     if (command->is_error)
     {
-        front_command->next->is_error = true;
+        front_command->is_error = true;
     }
     return front_command;
 }
