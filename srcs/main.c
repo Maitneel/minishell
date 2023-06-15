@@ -90,7 +90,7 @@ int	main(int argc, char **argv, char **envs)
 
 
 void check_fd(void) {
-    for (size_t i = 3; i < 100; i++) {
+    for (size_t i = 3; i < 10000; i++) {
         if(close(i) == 0) {
             fprintf(stderr, "\x1b[35m");
             fprintf(stderr, "close %5zu\n", i);
