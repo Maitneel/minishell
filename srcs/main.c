@@ -89,7 +89,18 @@ int	main(int argc, char **argv, char **envs)
 }
 
 
+void check_fd(void) {
+    fprintf(stderr, "\x1b[35m");
+    for (size_t i = 3; i < 100; i++) {
+        if(close(i) == 0) {
+            fprintf(stderr, "close %5zu\n", i);
+        }
+    }
+    fprintf(stderr, "\x1b[39m");
+}
+
 __attribute__((destructor)) void destructor()
 {
+    check_fd();
 	// system("leaks minishell -q");
 }
