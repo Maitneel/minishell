@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/17 19:34:32 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 16:34:53 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <fcntl.h>
 
 #define WRITE_FD 1
 #define READ_FD 0
@@ -155,6 +156,28 @@ int ft_exec(t_command *command, t_env_manager *env_manager)
 	exit(execve(command_path, args, env_ptr));
 	return 0;
 }
+// TODO: 名前をいい感じに
+int files_create(t_redirect_info *outputs)
+{
+	t_redirect_info *current;
+	int last_fd;
+
+	last_fd = -1;
+	if (outputs == NULL)
+		return STDOUT_FILENO;
+	current = outputs;
+	while (current != NULL)
+	{
+		close(last_fd);
+		last_fd = open(current->arg, (O_WRONLY | O_CREAT) , 0644);
+		// last_fd = open(current->arg, O_WRONLY);
+		// fprintf(stderr, "last_fd %d\n", last_fd);
+		if (last_fd == -1)
+			return (-1);
+		current = current->next;
+	}
+	return last_fd;
+}
 
 int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 {
@@ -191,6 +214,7 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 
 int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 {
+	int output_fd;
 	pid_t pid;
 	pid = fork();
 	if (pid == -1)
@@ -200,10 +224,18 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	if (pid == 0)
 	{
 		//child
+		output_fd = files_create(command->outpus);
+		if (output_fd == -1)
+			return (-1);
 		dup2(before_fd, STDIN_FILENO);
+		fprintf(stderr, "============output_fd=========\n");
+		fprintf(stderr, "%d\n", output_fd);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
+		dup2(output_fd, STDOUT_FILENO);
+		// close(STDERR_FILENO);
 		ft_exec(command, env_manager);
+		close(output_fd);
 		exit(127);
 	} else
 	{
