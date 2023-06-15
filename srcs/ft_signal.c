@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signal.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:13:58 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/13 20:47:33 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/15 15:31:28 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,56 +65,6 @@ void *free_pid_list(t_pid_list **pid_list)
 	{
 		next = current->next;
 		current->next = NULL;
-		free(current);
-		current = next;
-	}
-	return NULL;
-}
-
-t_pid_list    *pid_push_back(t_pid_list **list, pid_t pid)
-{
-	t_pid_list *current;
-	
-	if (list == NULL)
-		return NULL;
-
-	if (*list == NULL)
-	{
-		*list = new_pid_list(pid);
-		return *list;
-	}
-	current = *list;
-	while (current->next != NULL)
-	{
-		current = current->next;
-	}
-	current->next = new_pid_list(pid);
-	if (current->next == NULL) {
-		return free_pid_list(list);
-	}
-	return *list;
-}
-
-
-t_pid_list *new_pid_list(pid_t pid)
-{
-	t_pid_list *pid_list;
-	pid_list = calloc(1, sizeof(t_pid_list));
-	if (pid_list == NULL)
-		return NULL;
-	pid_list->pid = pid;
-	return pid_list;
-}
-
-void *free_pid_list(t_pid_list **pid_list)
-{
-	t_pid_list *current;
-	t_pid_list *next;
-
-	current = *pid_list;
-	while (current != NULL)
-	{
-		next = current->next;
 		free(current);
 		current = next;
 	}
