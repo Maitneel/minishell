@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:13:58 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/15 15:31:28 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/15 17:01:35 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 void	resive_signal(int sig_id)
 {
 	// t_pid_list *pid;
-
 	if (!(sig_id == SIGINT || sig_id == SIGQUIT))
 		return ;
 	if (signal_info.status == READING_PROMPT)
@@ -43,21 +42,21 @@ void	resive_signal(int sig_id)
 	}
 }
 
-
-t_pid_list *new_pid_list(pid_t pid)
+t_pid_list	*new_pid_list(pid_t pid)
 {
-	t_pid_list *pid_list;
+	t_pid_list	*pid_list;
+
 	pid_list = calloc(1, sizeof(t_pid_list));
 	if (pid_list == NULL)
-		return NULL;
+		return (NULL);
 	pid_list->pid = pid;
-	return pid_list;
+	return (pid_list);
 }
 
-void *free_pid_list(t_pid_list **pid_list)
+void	*free_pid_list(t_pid_list **pid_list)
 {
-	t_pid_list *current;
-	t_pid_list *next;
+	t_pid_list	*current;
+	t_pid_list	*next;
 
 	current = *pid_list;
 	(*pid_list) = NULL;
@@ -68,20 +67,19 @@ void *free_pid_list(t_pid_list **pid_list)
 		free(current);
 		current = next;
 	}
-	return NULL;
+	return (NULL);
 }
 
-t_pid_list    *pid_push_back(t_pid_list **list, pid_t pid)
+t_pid_list	*pid_push_back(t_pid_list **list, pid_t pid)
 {
-	t_pid_list *current;
-	
-	if (list == NULL)
-		return NULL;
+	t_pid_list	*current;
 
+	if (list == NULL)
+		return (NULL);
 	if (*list == NULL)
 	{
 		*list = new_pid_list(pid);
-		return *list;
+		return (*list);
 	}
 	current = *list;
 	while (current->next != NULL)
@@ -89,8 +87,9 @@ t_pid_list    *pid_push_back(t_pid_list **list, pid_t pid)
 		current = current->next;
 	}
 	current->next = new_pid_list(pid);
-	if (current->next == NULL) {
-		return free_pid_list(list);
+	if (current->next == NULL)
+	{
+		return (free_pid_list(list));
 	}
-	return *list;
+	return (*list);
 }
