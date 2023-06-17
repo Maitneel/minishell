@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:02:11 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/11 16:36:59 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/17 15:22:53 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ t_string	*expand_env(t_string *expanded, t_string *line, t_env_manager *env_mana
 		}
 		i++;
 	}
-	printf("expanded->data : '%s'\n", expanded->data);
+	// printf("expanded->data : '%s'\n", expanded->data);
 	return (expanded);
 }
