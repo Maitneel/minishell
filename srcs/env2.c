@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:31:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/06 21:16:29 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:07:28 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,10 @@ char *get_raw_string(t_env *env)
 // 	return (NULL);
 // }
 
+#include <stdio.h>
 char	**make_env_ptr(t_env_manager *env_manager)
 {
+    fprintf(stderr, "call make_env_ptr \n");
 	char **env_ptr;
 	t_env *current;
 	size_t i;
@@ -170,6 +172,7 @@ char	**make_env_ptr(t_env_manager *env_manager)
 	while (i < env_manager->size)
 	{
 		env_ptr[i] = get_raw_string(current);
+        fprintf(stderr, "env: i : %zu, str : %s\n", i, env_ptr[i]);
 		if (env_ptr[i] == NULL)
 			return (free_string_array(env_ptr));
 		current = current->next;

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/17 15:22:35 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/17 15:29:51 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,15 @@ int ft_exec(t_command *command, t_env_manager *env_manager)
 		return (-1);
 	}
 	// TODO: envの$?に入れる　
-	// fprintf(stderr, "--------------------\n");
-	execve(command_path, make_args(command), make_env_ptr(env_manager));
+	fprintf(stderr, "--------------------\n");
+    char **args;
+    char **env_ptr;
+
+    args = make_args(command);
+    env_ptr = make_env_ptr(env_manager);
+	// execve(command_path, make_args(command), make_env_ptr(env_manager));
+    int exec_ret = execve(command_path, args, env_ptr);
+    fprintf(stderr, "%d\n", exec_ret);
 	return 0;
 }
 
