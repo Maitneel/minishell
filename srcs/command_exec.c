@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 16:34:53 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:35:25 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 {
 	int pipe_fd[2];
 	pid_t pid;
+	int output_fd;
 
 	pipe(pipe_fd);
 	pid = fork();
@@ -193,13 +194,19 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	if (pid == 0)
 	{
 		//child
+		output_fd = files_create(command->outpus);
+		if (output_fd == -1)
+			return (-1);
+		// fprintf(stderr, "============output_fd=========\n");
+		// fprintf(stderr, "%d\n", output_fd);
 		dup2(before_fd, STDIN_FILENO);
-		dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
+		dup2(pipe_fd[WRITE_FD], output_fd);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
 		ft_exec(command, env_manager);
 		close(pipe_fd[WRITE_FD]);
 		close(pipe_fd[READ_FD]);
+		close(output_fd);
 		exit(127); // ?
 	} else 
 	{
@@ -228,8 +235,8 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		if (output_fd == -1)
 			return (-1);
 		dup2(before_fd, STDIN_FILENO);
-		fprintf(stderr, "============output_fd=========\n");
-		fprintf(stderr, "%d\n", output_fd);
+		// fprintf(stderr, "============output_fd=========\n");
+		// fprintf(stderr, "%d\n", output_fd);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
 		dup2(output_fd, STDOUT_FILENO);
