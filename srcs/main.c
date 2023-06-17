@@ -60,22 +60,22 @@ int	main(int argc, char **argv, char **envs)
 			break ;
 		while (token != NULL)
 		{
-			printf("%s %d", token->word, token->kind);
-			if (token->kind == SYNTAX_ERROR)
-			{
-				fprintf(stdout, "\x1b[35m");
-				printf(" syntax error");
-				fprintf(stdout, "\x1b[39m");
-			}
+			// printf("%s %d", token->word, token->kind);
+			// if (token->kind == SYNTAX_ERROR)
+			// {
+			// 	fprintf(stderr, "\x1b[35m");
+			// 	fprintf(stderr, "syntax error");
+			// 	fprintf(stderr, "\x1b[39m");
+			// }
 			token = token->next;
-			printf("\n");
+			// printf("\n");
 		}
 		command = parse(token_manager);
 		if (command->is_error)
 		{
 			printf("minishell: syntax error\n");
 		}
-		print_command(command);
+		// print_command(command);
 		command_exec(command, env_manager);
 		free_command(command);
 		free_token_manager(token_manager);
@@ -101,6 +101,6 @@ void check_fd(void) {
 
 __attribute__((destructor)) void destructor()
 {
-    check_fd();
+    // check_fd();
 	// system("leaks minishell -q");
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/13 20:47:28 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:24:33 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void push_back_command(t_command **front, t_command *command)
     }
     if (*front == NULL) 
     {
-        printf("flag\n");
+        // printf("flag\n");
         *front = command;
         return ;
     }
@@ -237,7 +237,7 @@ t_command   *parse(t_token_manager *token_manager)
             {
                 redirect_info->kind = REDIRECT_OUT_POST;
             }
-            printf("redirect_info : '%s'\n", redirect_info->arg);
+            // printf("redirect_info : '%s'\n", redirect_info->arg);
             if (strcmp(front_token->word, "<") == 0 || strcmp(front_token->word, "<<") == 0)
             {
                 push_back_redirect_info(&command->inputs, redirect_info);
