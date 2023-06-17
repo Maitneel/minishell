@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 16:35:25 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:35:45 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,12 @@ int files_create(t_redirect_info *outputs)
 	while (current != NULL)
 	{
 		close(last_fd);
-		last_fd = open(current->arg, (O_WRONLY | O_CREAT) , 0644);
+		if (current->kind == REDIRECT_OUT_OVERWRITE)
+			last_fd = open(current->arg, (O_WRONLY | O_CREAT) , 0644);
+		else if (current->kind == REDIRECT_OUT_POST)
+			last_fd = open(current->arg, (O_APPEND | O_CREAT | O_WRONLY) , 0644);
+		else
+			exit(1);
 		// last_fd = open(current->arg, O_WRONLY);
 		// fprintf(stderr, "last_fd %d\n", last_fd);
 		if (last_fd == -1)
@@ -197,8 +202,6 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		output_fd = files_create(command->outpus);
 		if (output_fd == -1)
 			return (-1);
-		// fprintf(stderr, "============output_fd=========\n");
-		// fprintf(stderr, "%d\n", output_fd);
 		dup2(before_fd, STDIN_FILENO);
 		dup2(pipe_fd[WRITE_FD], output_fd);
 		if (before_fd != STDIN_FILENO)
