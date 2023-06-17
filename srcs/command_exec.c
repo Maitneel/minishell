@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 16:35:45 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:36:28 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,11 +184,33 @@ int files_create(t_redirect_info *outputs)
 	return last_fd;
 }
 
+int files_dup2_stdin(t_redirect_info *inputs)
+{
+	t_redirect_info *current;
+	int fd;
+
+	current = inputs;
+	fd = -1;
+	if (inputs == NULL)
+		return (STDIN_FILENO);
+	while (current != NULL)
+	{
+		close(fd);
+		fd = open(inputs->arg, O_RDONLY);
+		if (fd == -1)
+			return (-1);
+		current = current->next;
+	}
+	dup2(fd, STDIN_FILENO);
+	return fd;
+}
+
 int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 {
 	int pipe_fd[2];
 	pid_t pid;
 	int output_fd;
+	int input_fd;
 
 	pipe(pipe_fd);
 	pid = fork();
@@ -199,10 +221,13 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	if (pid == 0)
 	{
 		//child
+		input_fd = files_dup2_stdin(command->inputs);
+		if (input_fd == -1)
+			return (-1);
 		output_fd = files_create(command->outpus);
 		if (output_fd == -1)
 			return (-1);
-		dup2(before_fd, STDIN_FILENO);
+		dup2(before_fd, input_fd);
 		dup2(pipe_fd[WRITE_FD], output_fd);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
@@ -210,6 +235,7 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		close(pipe_fd[WRITE_FD]);
 		close(pipe_fd[READ_FD]);
 		close(output_fd);
+		close(input_fd);
 		exit(127); // ?
 	} else 
 	{
@@ -224,6 +250,7 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 
 int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 {
+	int input_fd;
 	int output_fd;
 	pid_t pid;
 	pid = fork();
@@ -234,6 +261,9 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	if (pid == 0)
 	{
 		//child
+		input_fd = files_dup2_stdin(command->inputs);
+		if (input_fd == -1)
+			return (-1);
 		output_fd = files_create(command->outpus);
 		if (output_fd == -1)
 			return (-1);
@@ -246,6 +276,7 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		// close(STDERR_FILENO);
 		ft_exec(command, env_manager);
 		close(output_fd);
+		close(input_fd);
 		exit(127);
 	} else
 	{
