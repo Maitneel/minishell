@@ -6,11 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/06/17 20:40:47 by dummy            ###   ########.fr       */
-=======
-/*   Updated: 2023/06/17 19:57:08 by dummy            ###   ########.fr       */
->>>>>>> firnat
+/*   Updated: 2023/06/18 16:34:17 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,7 +263,8 @@ t_command	*parse(t_token_manager *token_manager)
 			redirect_info->arg = strdup(front_token->next->word);
 			if (redirect_info->arg == NULL)
 			{
-				// TODO error handring
+				free(redirect_info);
+				return free_command(command);
 			}
 			set_redirect_kind(front_token->word, redirect_info);
 			if (strcmp(front_token->word, "<") == 0 || strcmp(front_token->word,
@@ -316,45 +313,6 @@ t_command	*parse(t_token_manager *token_manager)
 /*
 void	print_command(t_command *command)
 {
-<<<<<<< HEAD
-    fprintf(stderr, "\x1b[36m");
-    t_redirect_info *redirect;
-    t_args_list *args;
-    while (command != NULL)
-    {
-        fprintf(stderr, "--------------------------------------\n");
-        fprintf(stderr, "%-13s : '%s'\n", "command_name", command->command_name);
-        fprintf(stderr, "%-13s : ", "input list");
-        redirect = command->inputs;
-        while (redirect != NULL)
-        {
-            fprintf(stderr, "[%d, '%s'], ", redirect->kind, redirect->arg);
-            redirect = redirect->next;
-        }
-        fprintf(stderr, "\n");
-        fprintf(stderr, "%-13s : ", "output list");
-        redirect = command->outpus;
-        while (redirect != NULL)
-        {
-            fprintf(stderr, "[%d, '%s'], ", redirect->kind, redirect->arg);
-            redirect = redirect->next;
-        }
-        fprintf(stderr, "\n");
-        fprintf(stderr, "%-13s : ", "args");
-        args = command->args_list;
-        while (args != NULL)
-        {
-            fprintf(stderr, "'%s' ", args->string);
-            args = args->next;
-        }
-        fprintf(stderr, "\n");
-        fprintf(stderr, "%-13s : '%d'\n", "next_pipe", command->next_pipe);
-        command = command->next;
-    }
-    fprintf(stderr, "--------------------------------------\n");
-    fprintf(stderr, "\x1b[39m");   
-}
-=======
 	t_redirect_info	*redirect;
 	t_args_list		*args;
 
@@ -395,4 +353,3 @@ void	print_command(t_command *command)
 	fprintf(stderr, "\x1b[39m");
 }
 // */
->>>>>>> firnat
