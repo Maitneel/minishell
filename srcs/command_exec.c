@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/17 15:47:26 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/17 19:34:32 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void *free_string_array(char **string_array)
 	while (string_array[i] != NULL)
 	{
 		free(string_array[i]);
+		i++;
 	}
 	free(string_array);
 	return NULL;
@@ -123,14 +124,15 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 		absolute_path = make_path(paths[i], command->command_name);
 		if (absolute_path == NULL)
 			return (free_string_array(paths));
-		// fprintf(stderr, "path : %s\n", absolute_path);
 		if (access(absolute_path, F_OK) == 0)
 		{
+			free_string_array(paths);
 			return (absolute_path);
 		}
 		free(absolute_path);
 		i++;
 	}
+	free_string_array(paths);
 	return NULL;
 }
 
@@ -140,19 +142,17 @@ int ft_exec(t_command *command, t_env_manager *env_manager)
 	command_path = find_path(command, env_manager);
 	if (command_path == NULL)
 	{
-        write(STDERR_FILENO, "command not found\n", 18);
+		write(STDERR_FILENO, "command not found\n", 18);;
 		return (-1);
 	}
 	// TODO: envの$?に入れる　
-	fprintf(stderr, "--------------------\n");
-    char **args;
-    char **env_ptr;
+	// fprintf(stderr, "--------------------\n");
+	char **args;
+	char **env_ptr;
 
-    args = make_args(command);
-    env_ptr = make_env_ptr(env_manager);
-	// execve(command_path, make_args(command), make_env_ptr(env_manager));
-    int exec_ret = execve(command_path, args, env_ptr);
-    fprintf(stderr, "%d\n", exec_ret);
+	args = make_args(command);
+	env_ptr = make_env_ptr(env_manager);
+	exit(execve(command_path, args, env_ptr));
 	return 0;
 }
 
@@ -176,8 +176,8 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 			close(before_fd);
 		ft_exec(command, env_manager);
 		close(pipe_fd[WRITE_FD]);
-        close(pipe_fd[READ_FD]);
-		exit(0); // ?
+		close(pipe_fd[READ_FD]);
+		exit(127); // ?
 	} else 
 	{
 		// parent
@@ -204,7 +204,7 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
 		ft_exec(command, env_manager);
-		exit(0);
+		exit(127);
 	} else
 	{
 		// parent
@@ -242,6 +242,8 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		// fprintf(stderr, "waiting\n");
 		int tmp;
 		wait(&tmp);
+		fprintf(stderr, "process ret : %d\n", tmp);
+		fprintf(stderr, "process ret / 256: %d\n", tmp / 256);
 		pid_current = pid_current->next;
 	}
 	signal_info.status = UNDEFINED;
