@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/17 15:29:51 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/17 15:47:26 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 		free(absolute_path);
 		i++;
 	}
-	write(STDERR_FILENO, "command not found\n", 18);
 	return NULL;
 }
 
@@ -141,6 +140,7 @@ int ft_exec(t_command *command, t_env_manager *env_manager)
 	command_path = find_path(command, env_manager);
 	if (command_path == NULL)
 	{
+        write(STDERR_FILENO, "command not found\n", 18);
 		return (-1);
 	}
 	// TODO: envの$?に入れる　
