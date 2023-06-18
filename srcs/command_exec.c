@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/19 00:06:20 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/19 00:30:11 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,8 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		output_fd = files_create(command->outpus);
 		if (output_fd == -1)
 			return (-1);
+		if (command->command_name == NULL)
+			exit(0);			
 		dup2(before_fd, input_fd);
 		dup2(pipe_fd[WRITE_FD], output_fd);
 		if (before_fd != STDIN_FILENO)
@@ -310,6 +312,8 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		output_fd = files_create(command->outpus);
 		if (output_fd == -1)
 			return (-1);
+		if (command->command_name == NULL)
+			exit(0);
 		dup2(before_fd, STDIN_FILENO);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
