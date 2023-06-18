@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 21:25:59 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/19 00:06:20 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,18 @@ int expand_and_write(int fd, t_redirect_info *info)
 {
 	char *line;
 	char *expanded;
-	(void)info;
+	char *end_text;
+
+	end_text = ft_strjoin(info->arg, "\n");
+	if (end_text == NULL)
+		return (-1);
 	while (true)
 	{
+		write(STDOUT_FILENO, "> ", 2);
 		line = get_next_line(STDIN_FILENO);
 		if (line == NULL)
 			break;
-		if (strcmp(line, "EOS\n") == 0)
+		if (strcmp(line, end_text) == 0)
 			break;
 		expanded = expand_line(line);
 		if (expanded == NULL)
@@ -77,6 +82,7 @@ int expand_and_write(int fd, t_redirect_info *info)
 		if (write(fd, expanded, strlen(expanded)) == -1)
 			return (-1);
 	}
+	free(end_text);
 	return fd;
 }
 
