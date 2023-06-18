@@ -21,6 +21,11 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/ft_signal.c \
 	${SRCS_DIR}/expand_env.c \
 	${SRCS_DIR}/command_exec.c \
+	${SRCS_DIR}/command_cd.c \
+	${SRCS_DIR}/command_echo.c \
+	${SRCS_DIR}/command_export.c \
+	${SRCS_DIR}/command_pwd.c \
+	${SRCS_DIR}/command_unset.c \
 
 OBJS := ${SRCS:%.c=%.o}
 
