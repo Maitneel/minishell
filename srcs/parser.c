@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 17:25:04 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 17:30:02 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ bool	add_redirect_to_command(t_command *command, t_token *front_token)
 {
 	t_redirect_info	*redirect_info;
 
-	if (front_token->next == NULL)
+	if (front_token->next == NULL || is_redirect_word(front_token->next->word))
 	{
 		command->is_error = true;
 		return (true);
