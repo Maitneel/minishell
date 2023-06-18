@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 16:34:41 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 17:25:04 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,6 @@ void	push_back_command(t_command **front, t_command *command)
 	}
 	if (*front == NULL)
 	{
-		// printf("flag\n");
 		*front = command;
 		return ;
 	}
@@ -174,7 +173,7 @@ void	push_back_command(t_command **front, t_command *command)
 	current->next = command;
 }
 
-bool	is_redirect_word(char *string)
+bool	is_in_redirect_word(char *string)
 {
 	if (strcmp(string, "<") == 0)
 	{
@@ -184,11 +183,25 @@ bool	is_redirect_word(char *string)
 	{
 		return (true);
 	}
+	return (false);
+}
+
+bool	is_out_redirect_word(char *string)
+{
 	if (strcmp(string, ">") == 0)
 	{
 		return (true);
 	}
 	if (strcmp(string, ">>") == 0)
+	{
+		return (true);
+	}
+	return (false);
+}
+
+bool	is_redirect_word(char *string)
+{
+	if (is_in_redirect_word(string) || is_out_redirect_word(string))
 	{
 		return (true);
 	}
@@ -215,48 +228,43 @@ void	set_redirect_kind(char *token_word, t_redirect_info *redirect_info)
 	}
 }
 
-bool add_redirect_to_command(t_command *command, t_token *front_token)
+bool	add_redirect_to_command(t_command *command, t_token *front_token)
 {
-	t_redirect_info *redirect_info;
+	t_redirect_info	*redirect_info;
+
 	if (front_token->next == NULL)
 	{
 		command->is_error = true;
-		return true;
-		// return (free_command(front_command));
+		return (true);
 	}
 	redirect_info = new_redirect_info();
 	if (redirect_info == NULL)
-	{
 		return (false);
-	}
 	redirect_info->arg = strdup(front_token->next->word);
 	if (redirect_info->arg == NULL)
 	{
 		free(redirect_info);
-		return free_command(command);
+		return (free_command(command));
 	}
 	set_redirect_kind(front_token->word, redirect_info);
-	if (strcmp(front_token->word, "<") == 0 || strcmp(front_token->word,
-			"<<") == 0)
+	if (is_redirect_word(front_token->word))
 		push_back_redirect_info(&command->inputs, redirect_info);
 	else
-	{
 		push_back_redirect_info(&command->outpus, redirect_info);
-	}
-	return true;
+	return (true);
 }
 
-
-bool add_command_name_or_args_to_command(t_command *command, t_token *front_token)
+bool	add_command_name_or_args(t_command *command,
+								t_token *front_token)
 {
-	t_args_list *args;
+	t_args_list	*args;
 
 	if (command->command_name == NULL)
 	{
 		command->command_name = strdup(front_token->word);
 		if (command->command_name == NULL)
 		{
-			return false;
+			return (false);
 		}
 	}
 	else
@@ -264,89 +272,71 @@ bool add_command_name_or_args_to_command(t_command *command, t_token *front_toke
 		args = new_args_list(front_token->word);
 		if (args == NULL)
 		{
-			return false;
+			return (false);
 		}
 		push_back_args_list(&command->args_list, args);
 	}
-	return true;
+	return (true);
 }
 
+typedef enum e_return_status
+{
+	SUCCESS = 3000,
+	TO_RETURN,
+	TO_BREAK
+}				t_return_status;
+
+t_return_status	parser_helper(t_token **front_token, t_command *front_command,
+		t_command *command)
+{
+	if (strcmp((*front_token)->word, "|") == 0)
+	{
+		push_back_command(&front_command, command);
+		command->next_pipe = true;
+		command = new_command();
+		if (command == NULL)
+			return (TO_RETURN);
+	}
+	else if (is_redirect_word((*front_token)->word))
+	{
+		if (add_redirect_to_command(command, (*front_token)) == false)
+			return (TO_RETURN);
+		(*front_token) = (*front_token)->next;
+		if ((*front_token) == NULL || command->is_error == true)
+			return (TO_BREAK);
+	}
+	else
+	{
+		if (add_command_name_or_args(command, (*front_token)) == false)
+			return (TO_RETURN);
+	}
+	(*front_token) = (*front_token)->next;
+	return (SUCCESS);
+}
 
 t_command	*parse(t_token_manager *token_manager)
 {
 	t_command		*command;
 	t_command		*front_command;
 	t_token			*front_token;
-	// t_redirect_info	*redirect_info;
-	// t_args_list		*args;
+	t_return_status	return_status;
 
 	front_command = NULL;
 	command = new_command();
 	if (command == NULL)
-	{
 		return (free_command(command));
-	}
 	front_token = token_manager->front;
-	while (front_token != NULL)
+	while (front_token != NULL && front_token->kind != SYNTAX_ERROR)
 	{
-		if (front_token->kind == SYNTAX_ERROR)
-		{
-			command->is_error = true;
+		return_status = parser_helper(&front_token, front_command, command);
+		if (return_status == TO_RETURN)
+			return (free_command(front_command));
+		if (return_status == TO_BREAK)
 			break ;
-		}
-		if (strcmp(front_token->word, "|") == 0)
-		{
-			push_back_command(&front_command, command);
-			command->next_pipe = true;
-			command = new_command();
-			if (command == NULL)
-			{
-				return (free_command(front_command));
-			}
-		}
-		else if (is_redirect_word(front_token->word))
-		{
-			if (add_redirect_to_command(command, front_token) == false)
-			{
-				return free_command(front_command);
-			}
-			front_token = front_token->next;
-			if (front_token == NULL || command->is_error == true)
-			{
-				break ;
-			}
-		}
-		else
-		{
-			// if (command->command_name == NULL)
-			// {
-			// 	command->command_name = strdup(front_token->word);
-			// 	if (command->command_name == NULL)
-			// 	{
-			// 		return (free_command(front_command));
-			// 	}
-			// }
-			// else
-			// {
-			// 	args = new_args_list(front_token->word);
-			// 	if (args == NULL)
-			// 	{
-			// 		return (free_command(front_command));
-			// 	}
-			// 	push_back_args_list(&command->args_list, args);
-			// }
-			if (add_command_name_or_args_to_command(command, front_token) == false)
-			{
-				return free_command(front_command);
-			}
-		}
-		front_token = front_token->next;
 	}
 	push_back_command(&front_command, command);
-	if (command->is_error)
-	{
+	if (front_token != NULL || command->is_error == true)
 		front_command->is_error = true;
-	}
 	return (front_command);
 }
 
