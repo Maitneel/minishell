@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 16:22:41 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/18 16:41:36 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/18 17:43:42 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 char	*get_next_line(int fd)
 {
 	static t_buffer	buf[FD_MAX];
-	t_string		result;
+	t_gnl_string	result;
 	char			temp[1];
 
 	result.str = NULL;
@@ -42,7 +42,7 @@ char	*get_next_line(int fd)
 	return (result.str);
 }
 
-void	add_back_string(t_string *data, t_buffer *buf)
+void	add_back_string(t_gnl_string *data, t_buffer *buf)
 {
 	char	*new_str;
 	size_t	i;

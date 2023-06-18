@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 16:36:43 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/18 21:25:59 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "ft_signal.h"
 #include "tokenize.h"
 #include "libft.h"
+#include "get_next_line.h"
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -53,6 +54,51 @@ size_t get_args_list_size(t_command *command)
 	return size;
 }
 
+char *expand_line(char *line)
+{
+	return line;
+}
+
+int expand_and_write(int fd, t_redirect_info *info)
+{
+	char *line;
+	char *expanded;
+	(void)info;
+	while (true)
+	{
+		line = get_next_line(STDIN_FILENO);
+		if (line == NULL)
+			break;
+		if (strcmp(line, "EOS\n") == 0)
+			break;
+		expanded = expand_line(line);
+		if (expanded == NULL)
+			return (-1);
+		if (write(fd, expanded, strlen(expanded)) == -1)
+			return (-1);
+	}
+	return fd;
+}
+
+int here_doc(t_redirect_info *info)
+{
+	int output_fd;
+	int input_fd;
+
+	output_fd = open("/tmp/here_doc_tmp", (O_WRONLY | O_CREAT));
+	if (output_fd == -1)
+		return (-1);
+	input_fd = open("/tmp/here_doc_tmp", (O_RDONLY));
+	unlink("/tmp/here_doc_tmp");
+	if (input_fd == -1){
+		close(output_fd);
+		return -1;
+	}
+	if (expand_and_write(output_fd, info) == -1)
+		return (-1);
+	return input_fd;
+}
+
 char **make_args(t_command *command)
 {
 	size_t args_size;
@@ -78,14 +124,6 @@ char **make_args(t_command *command)
 		args_list = args_list->next;
 	}
 	return (args_array);
-	
-	// char **args = malloc(sizeof(char *) * 3);
-	// args[0] = strdup("echo");
-	// args[1] = strdup("hoge");
-	// args[2] = NULL;
-	// (void)command;
-	// return args;
-	
 }
 
 char *make_path(const char *path, const char *command)
@@ -173,8 +211,6 @@ int files_create(t_redirect_info *outputs)
 			last_fd = open(current->arg, (O_APPEND | O_CREAT | O_WRONLY) , 0644);
 		else
 			exit(1);
-		// last_fd = open(current->arg, O_WRONLY);
-		// fprintf(stderr, "last_fd %d\n", last_fd);
 		if (last_fd == -1)
 			return (-1);
 		current = current->next;
@@ -194,30 +230,10 @@ int files_dup2_stdin(t_redirect_info *inputs)
 	while (current != NULL)
 	{
 		close(fd);
-		fd = open(inputs->arg, O_RDONLY);
-		if (fd == -1)
-			return (-1);
-		current = current->next;
-	}
-	dup2(fd, STDIN_FILENO);
-	return fd;
-}
-
-int here_doc(t_redirect_info *inputs)
-{
-	t_redirect_info *current;
-	int fd;
-
-	current = inputs;
-	fd = -1;
-	if (inputs == NULL)
-		return (STDIN_FILENO);
-	while (current != NULL)
-	{
-		if (current->kind != REDIRECT_HEAR_DOC)
-			continue;
-		close(fd);
-		fd = open("/tmp/here_doc_tmp", (O_WRONLY | O_CREAT));
+		if (current->kind == REDIRECT_IN)
+			fd = open(current->arg, O_RDONLY);
+		else if (current->kind == REDIRECT_HEAR_DOC)
+			fd = here_doc(current);
 		if (fd == -1)
 			return (-1);
 		current = current->next;
@@ -242,7 +258,6 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	if (pid == 0)
 	{
 		//child
-		// input_fd = here_doc(command->inputs);
 		input_fd = files_dup2_stdin(command->inputs);
 		if (input_fd == -1)
 			return (-1);
@@ -290,12 +305,9 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		if (output_fd == -1)
 			return (-1);
 		dup2(before_fd, STDIN_FILENO);
-		// fprintf(stderr, "============output_fd=========\n");
-		// fprintf(stderr, "%d\n", output_fd);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
 		dup2(output_fd, STDOUT_FILENO);
-		// close(STDERR_FILENO);
 		ft_exec(command, env_manager);
 		close(output_fd);
 		close(input_fd);

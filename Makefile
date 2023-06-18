@@ -36,7 +36,7 @@ ${LIBFT} : ${LIBFT_DIR}/*.c
 	make -C ${LIBFT_DIR}
 
 %.o : %.c
-	${CC} ${CFLAG}  $^ -c -o $@
+	${CC} ${CFLAG} ${GNL_FLAG} $^ -c -o $@
 
 clean :
 	make -C ${LIBFT_DIR} fclean
