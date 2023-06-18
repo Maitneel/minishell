@@ -6,6 +6,8 @@ READLINE_FLAG  = -I$(shell brew --prefix readline)/include -L$(shell brew --pref
 RM := rm
 RM_FLAG := -rf
 SRCS_DIR := srcs
+GNL_DIR := get_next_line
+GNL_FLAG := -I$(GNL_DIR)
 INCLUDE_DIR := include
 LIBFT_DIR := libft
 LIBFT := ${LIBFT_DIR}/libft.a
@@ -21,13 +23,14 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/ft_signal.c \
 	${SRCS_DIR}/expand_env.c \
 	${SRCS_DIR}/command_exec.c \
+	${GNL_DIR}/get_next_line.c \
 
 OBJS := ${SRCS:%.c=%.o}
 
 all : ${NAME}
 
 ${NAME} : ${LIBFT} ${OBJS}
-	${CC} ${CFLAG} ${READLINE_FLAG} ${OBJS} ${LIBFT} -o ${NAME}
+	${CC} ${CFLAG} ${READLINE_FLAG} ${GNL_FLAG} ${OBJS} ${LIBFT} -o ${NAME}
 
 ${LIBFT} : ${LIBFT_DIR}/*.c
 	make -C ${LIBFT_DIR}
