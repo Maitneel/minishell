@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:40:59 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/11 15:01:31 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 20:31:47 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_string
 
 t_string	*init_string(t_string *string, size_t length);
 t_string	*push_back_string(t_string *dest, char *src);
+t_string	*push_back_string_char(t_string *string, char c);
 t_string	*set_string(t_string *struct_string, char *string_ptr);
 
 #endif

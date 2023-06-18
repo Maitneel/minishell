@@ -6,15 +6,15 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:31:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/17 16:16:16 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 20:06:10 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "command_exec.h"
 #include "env.h"
 #include "libft.h"
-#include "command_exec.h"
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 t_env	*find_before_env(t_env_manager *env_manager, const char *key)
 {
@@ -96,8 +96,7 @@ void	env_delete(t_env_manager *env_manager, const char *key)
 	{
 		return ;
 	}
-	if (before_env == env_manager->front && strcmp(before_env->key, key
-		) == 0)
+	if (before_env == env_manager->front && strcmp(before_env->key, key) == 0)
 	{
 		env_manager->front = before_env->next;
 		free_env(before_env);
@@ -129,10 +128,11 @@ void	env_delete(t_env_manager *env_manager, const char *key)
 // 	return (cnt);
 // }
 
-char *get_raw_string(t_env *env)
+char	*get_raw_string(t_env *env)
 {
-	char *appended_equal;
-	char *raw_string;
+	char	*appended_equal;
+	char	*raw_string;
+
 	appended_equal = ft_strjoin(env->key, "=");
 	if (appended_equal == NULL)
 		return (NULL);
@@ -156,14 +156,13 @@ char *get_raw_string(t_env *env)
 // 	return (NULL);
 // }
 
-#include <stdio.h>
 char	**make_env_ptr(t_env_manager *env_manager)
 {
-    // fprintf(stderr, "call make_env_ptr \n");
-	char **env_ptr;
-	t_env *current;
-	size_t i;
+	char	**env_ptr;
+	t_env	*current;
+	size_t	i;
 
+	// fprintf(stderr, "call make_env_ptr \n");
 	env_ptr = calloc(sizeof(char *), env_manager->size + 1);
 	if (env_ptr == NULL)
 		return (NULL);
@@ -172,7 +171,7 @@ char	**make_env_ptr(t_env_manager *env_manager)
 	while (i < env_manager->size)
 	{
 		env_ptr[i] = get_raw_string(current);
-        // fprintf(stderr, "env: i : %zu, str : %s\n", i, env_ptr[i]);
+		// fprintf(stderr, "env: i : %zu, str : %s\n", i, env_ptr[i]);
 		if (env_ptr[i] == NULL)
 			return (free_string_array(env_ptr));
 		current = current->next;
