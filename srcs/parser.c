@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 16:34:17 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 16:34:41 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,13 +215,70 @@ void	set_redirect_kind(char *token_word, t_redirect_info *redirect_info)
 	}
 }
 
+bool add_redirect_to_command(t_command *command, t_token *front_token)
+{
+	t_redirect_info *redirect_info;
+	if (front_token->next == NULL)
+	{
+		command->is_error = true;
+		return true;
+		// return (free_command(front_command));
+	}
+	redirect_info = new_redirect_info();
+	if (redirect_info == NULL)
+	{
+		return (false);
+	}
+	redirect_info->arg = strdup(front_token->next->word);
+	if (redirect_info->arg == NULL)
+	{
+		free(redirect_info);
+		return free_command(command);
+	}
+	set_redirect_kind(front_token->word, redirect_info);
+	if (strcmp(front_token->word, "<") == 0 || strcmp(front_token->word,
+			"<<") == 0)
+		push_back_redirect_info(&command->inputs, redirect_info);
+	else
+	{
+		push_back_redirect_info(&command->outpus, redirect_info);
+	}
+	return true;
+}
+
+
+bool add_command_name_or_args_to_command(t_command *command, t_token *front_token)
+{
+	t_args_list *args;
+
+	if (command->command_name == NULL)
+	{
+		command->command_name = strdup(front_token->word);
+		if (command->command_name == NULL)
+		{
+			return false;
+		}
+	}
+	else
+	{
+		args = new_args_list(front_token->word);
+		if (args == NULL)
+		{
+			return false;
+		}
+		push_back_args_list(&command->args_list, args);
+	}
+	return true;
+}
+
+
 t_command	*parse(t_token_manager *token_manager)
 {
 	t_command		*command;
 	t_command		*front_command;
 	t_token			*front_token;
-	t_redirect_info	*redirect_info;
-	t_args_list		*args;
+	// t_redirect_info	*redirect_info;
+	// t_args_list		*args;
 
 	front_command = NULL;
 	command = new_command();
@@ -249,55 +306,38 @@ t_command	*parse(t_token_manager *token_manager)
 		}
 		else if (is_redirect_word(front_token->word))
 		{
-			if (front_token->next == NULL)
+			if (add_redirect_to_command(command, front_token) == false)
 			{
-				command->is_error = true;
-				break ;
-				// return (free_command(front_command));
-			}
-			redirect_info = new_redirect_info();
-			if (redirect_info == NULL)
-			{
-				return (free_command(front_command));
-			}
-			redirect_info->arg = strdup(front_token->next->word);
-			if (redirect_info->arg == NULL)
-			{
-				free(redirect_info);
-				return free_command(command);
-			}
-			set_redirect_kind(front_token->word, redirect_info);
-			if (strcmp(front_token->word, "<") == 0 || strcmp(front_token->word,
-					"<<") == 0)
-				push_back_redirect_info(&command->inputs, redirect_info);
-			else
-			{
-				push_back_redirect_info(&command->outpus, redirect_info);
+				return free_command(front_command);
 			}
 			front_token = front_token->next;
-			if (front_token == NULL)
+			if (front_token == NULL || command->is_error == true)
 			{
 				break ;
 			}
 		}
 		else
 		{
-			if (command->command_name == NULL)
+			// if (command->command_name == NULL)
+			// {
+			// 	command->command_name = strdup(front_token->word);
+			// 	if (command->command_name == NULL)
+			// 	{
+			// 		return (free_command(front_command));
+			// 	}
+			// }
+			// else
+			// {
+			// 	args = new_args_list(front_token->word);
+			// 	if (args == NULL)
+			// 	{
+			// 		return (free_command(front_command));
+			// 	}
+			// 	push_back_args_list(&command->args_list, args);
+			// }
+			if (add_command_name_or_args_to_command(command, front_token) == false)
 			{
-				command->command_name = strdup(front_token->word);
-				if (command->command_name == NULL)
-				{
-					return (free_command(front_command));
-				}
-			}
-			else
-			{
-				args = new_args_list(front_token->word);
-				if (args == NULL)
-				{
-					return (free_command(front_command));
-				}
-				push_back_args_list(&command->args_list, args);
+				return free_command(front_command);
 			}
 		}
 		front_token = front_token->next;
@@ -310,7 +350,7 @@ t_command	*parse(t_token_manager *token_manager)
 	return (front_command);
 }
 
-/*
+// /*
 void	print_command(t_command *command)
 {
 	t_redirect_info	*redirect;
