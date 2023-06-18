@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:41:45 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/11 15:03:16 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 20:36:08 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static size_t	get_resize_length(t_string *string, size_t src_length)
 		return (0);
 	if (SIZE_MAX - src_length < string->length + 1)
 		return (0);
-	while (resize_len < src_length + string->length && resize_len < SIZE_MAX / 2)
+	while (resize_len < src_length + string->length && resize_len < SIZE_MAX
+		/ 2)
 	{
 		resize_len *= 2;
 	}
@@ -102,18 +103,18 @@ t_string	*push_back_string(t_string *dest, char *src)
 	return (dest);
 }
 
-t_string *set_string(t_string *struct_string, char *string_ptr)
+t_string	*set_string(t_string *struct_string, char *string_ptr)
 {
 	if (struct_string == NULL)
-		return NULL;
+		return (NULL);
 	struct_string->data = string_ptr;
 	struct_string->length = 0;
 	struct_string->max_length = 0;
 	if (string_ptr == NULL)
-		return NULL;
+		return (NULL);
 	struct_string->length = ft_strlen(string_ptr);
 	struct_string->max_length = struct_string->length;
-	return struct_string;
+	return (struct_string);
 }
 
 // #include <stdio.h>
@@ -124,14 +125,15 @@ t_string *set_string(t_string *struct_string, char *string_ptr)
 // 	if (init_string(&string, 4) == NULL)
 // 	{
 // 		printf("init error\n");
-// 		return 1;
+// 		return (1);
 // 	}
 // 	before_push_back_maxlength = string.max_length;
 // 	push_back_string(&string, "aaa");
 // 	if (before_push_back_maxlength != string.max_length) {
 // 		printf("resize\n");
 // 	}
-// 	printf("len : %5zu, max_len : %5zu, str : %s\n", string.length, string.max_length, string.data);
+// 	printf("len : %5zu, max_len : %5zu, str : %s\n", string.length,
+//			string.max_length, string.data);
 // 	for (size_t i = 0; i < 100; i++)
 // 	{
 // 		before_push_back_maxlength = string.max_length;
@@ -139,7 +141,8 @@ t_string *set_string(t_string *struct_string, char *string_ptr)
 // 		if (before_push_back_maxlength != string.max_length) {
 // 			printf("resize\n");
 // 		}
-// 		printf("len : %5zu, max_len : %5zu, str : %s\n", string.length, string.max_length, string.data);
+// 		printf("len : %5zu, max_len : %5zu, str : %s\n", string.length,
+//				string.max_length, string.data);
 // 	}
-// 	return 0;
+// 	return (0);
 // }
