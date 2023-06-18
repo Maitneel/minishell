@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:49:12 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/06 18:21:53 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 20:10:41 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager);
 t_token_manager	*eval(t_token_manager *token_manager, t_env_manager *env_manager);
 char *get_env_value_ptr(char *token_string, size_t *token_index, t_env_manager *env_manager);
 void add_token(t_token_manager *token_maneger, t_token *token);
+void	quote_check(char *line, char *quote, size_t *i);
 
 #endif
