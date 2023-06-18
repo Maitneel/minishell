@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/17 15:24:33 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/17 20:40:47 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,7 +314,7 @@ void print_command(t_command *command)
         args = command->args_list;
         while (args != NULL)
         {
-            fprintf(stderr, "%s ", args->string);
+            fprintf(stderr, "'%s' ", args->string);
             args = args->next;
         }
         fprintf(stderr, "\n");
