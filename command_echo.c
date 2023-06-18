@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   command_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:34:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/11 21:37:57 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/18 19:15:42 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_lib.h"
+#include "buildin.h"
 
 int	command_echo(char **tokens)
 {
 	size_t	i;
+    bool is_print_nl;
 
-	i = 1;
+    is_print_nl = true;
+    i = 1;
+    if (ft_strcmp(tokens[1], "-n") == 0) 
+    {
+        i++;
+        is_print_nl = false;
+    }
 	while (tokens[i] != NULL)
 	{
 		write(STDOUT_FILENO, tokens[i], ft_strlen(tokens[i]));
@@ -26,6 +33,12 @@ int	command_echo(char **tokens)
 			write(STDOUT_FILENO, " ", 1);
 		}
 	}
-	write(STDOUT_FILENO, "\n", 1);
+    if (is_print_nl)
+	    write(STDOUT_FILENO, "\n", 1);
 	return (0);
+}
+
+
+int main(int argc, char **argv) {
+    command_echo(argv);
 }

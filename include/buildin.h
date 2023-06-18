@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 18:20:18 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/18 18:21:00 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 19:10:14 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 # include <stddef.h>
 # include "libft.h"
+# include "env.h"
 
 # define CMD_NOT_FOUND INT_MAX
 # define EXIT_NUMBER 65535
