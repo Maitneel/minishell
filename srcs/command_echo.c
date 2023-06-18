@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:34:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 19:15:42 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 19:48:51 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,4 @@ int	command_echo(char **tokens)
     if (is_print_nl)
 	    write(STDOUT_FILENO, "\n", 1);
 	return (0);
-}
-
-
-int main(int argc, char **argv) {
-    command_echo(argv);
 }

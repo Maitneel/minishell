@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   command_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:34:55 by taksaito          #+#    #+#             */
-/*   Updated: 2023/05/11 21:45:31 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/18 19:19:03 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ms_lib.h"
+#include "buildin.h"
 
 bool	valid_token(const char *str)
 {
