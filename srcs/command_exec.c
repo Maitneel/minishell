@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 16:36:28 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:36:43 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void *free_string_array(char **string_array)
 	free(string_array);
 	return NULL;
 }
-
 
 size_t get_args_list_size(t_command *command)
 {
@@ -88,7 +87,6 @@ char **make_args(t_command *command)
 	// return args;
 	
 }
-
 
 char *make_path(const char *path, const char *command)
 {
@@ -205,6 +203,29 @@ int files_dup2_stdin(t_redirect_info *inputs)
 	return fd;
 }
 
+int here_doc(t_redirect_info *inputs)
+{
+	t_redirect_info *current;
+	int fd;
+
+	current = inputs;
+	fd = -1;
+	if (inputs == NULL)
+		return (STDIN_FILENO);
+	while (current != NULL)
+	{
+		if (current->kind != REDIRECT_HEAR_DOC)
+			continue;
+		close(fd);
+		fd = open("/tmp/here_doc_tmp", (O_WRONLY | O_CREAT));
+		if (fd == -1)
+			return (-1);
+		current = current->next;
+	}
+	dup2(fd, STDIN_FILENO);
+	return fd;
+}
+
 int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 {
 	int pipe_fd[2];
@@ -221,6 +242,7 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	if (pid == 0)
 	{
 		//child
+		// input_fd = here_doc(command->inputs);
 		input_fd = files_dup2_stdin(command->inputs);
 		if (input_fd == -1)
 			return (-1);
