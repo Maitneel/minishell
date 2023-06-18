@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:02:11 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/17 15:22:53 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 20:30:29 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,46 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-t_string	*expand_env(t_string *expanded, t_string *line, t_env_manager *env_manager)
+void	expand_env_setup(char *quote_flag, size_t *i)
 {
-	char temp[2];
-    char quote_flag;
+	(*i) = -1;
+	*quote_flag = '\0';
+}
 
-    quote_flag = '\0';
+t_string	*push_back_string_char(t_string *string, char c)
+{
+	char	temp[2];
+
+	temp[0] = c;
 	temp[1] = '\0';
+	return (push_back_string(string, temp));
+}
+
+t_string	*expand_env(t_string *expanded, t_string *line,
+		t_env_manager *env_manager)
+{
+	char	quote_flag;
+	size_t	i;
+
+	expand_env_setup(&quote_flag, &i);
 	if (line == NULL || env_manager == NULL)
 		return (NULL);
 	if (init_string(expanded, DEFAULT_INIT_SIZE) == NULL)
 		return (NULL);
-	size_t i;
-	i = 0;
-	while (line->data[i] != '\0')
+	while (line->data[++i] != '\0')
 	{
-        if ((line->data[i] == '"' || line->data[i] == '\'') && (quote_flag == '\0' || quote_flag == line->data[i]))
-            quote_flag ^= line->data[i];
+		quote_check(line->data, &quote_flag, &i);
 		if (line->data[i] == '$' && quote_flag != '\'')
 		{
-			if (push_back_string(expanded, get_env_value_ptr(&line->data[i + 1], &i, env_manager)) == NULL)
+			if (push_back_string(expanded, get_env_value_ptr(&line->data[i + 1],
+						&i, env_manager)) == NULL)
 				return (NULL);
 		}
 		else
 		{
-			temp[0] = line->data[i];
-			if (push_back_string(expanded, temp) == NULL)
+			if (push_back_string_char(expanded, line->data[i]) == NULL)
 				return (NULL);
 		}
-		i++;
 	}
-	// printf("expanded->data : '%s'\n", expanded->data);
 	return (expanded);
 }
