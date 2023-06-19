@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/19 21:15:54 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/19 21:27:21 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,10 +272,10 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		//child
 		input_fd = files_dup2_stdin(command->inputs);
 		if (input_fd == -1)
-			return (-1);
+			exit(1);
 		output_fd = files_create(command->outpus);
 		if (output_fd == -1)
-			return (-1);
+			exit(1);
 		if (command->command_name == NULL)
 			exit(0);			
 		dup2(before_fd, input_fd);
@@ -317,10 +317,10 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 			close(before_fd);
 		input_fd = files_dup2_stdin(command->inputs);
 		if (input_fd == -1)
-			return (-1);
+			exit(1);
 		output_fd = files_create(command->outpus);
 		if (output_fd == -1)
-			return (-1);
+			exit(1);
 		if (command->command_name == NULL)
 			exit(0);
 		dup2(output_fd, STDOUT_FILENO);
