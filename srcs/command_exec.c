@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/19 00:30:11 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:30:25 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ size_t get_args_list_size(t_command *command)
 
 char *expand_line(char *line)
 {
-	return line;
+	return strdup(line);
 }
 
 int expand_and_write(int fd, t_redirect_info *info)
@@ -77,11 +77,17 @@ int expand_and_write(int fd, t_redirect_info *info)
 		if (strcmp(line, end_text) == 0)
 			break;
 		expanded = expand_line(line);
+		free(line);
 		if (expanded == NULL)
 			return (-1);
 		if (write(fd, expanded, strlen(expanded)) == -1)
+		{
+			free(expanded);
 			return (-1);
+		}
+		free(expanded);
 	}
+	free(line);
 	free(end_text);
 	return fd;
 }
@@ -102,6 +108,7 @@ int here_doc(t_redirect_info *info)
 	}
 	if (expand_and_write(output_fd, info) == -1)
 		return (-1);
+	system("leaks minishell");
 	return input_fd;
 }
 
