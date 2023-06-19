@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 17:30:02 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/19 21:00:02 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,28 +286,28 @@ typedef enum e_return_status
 	TO_BREAK
 }				t_return_status;
 
-t_return_status	parser_helper(t_token **front_token, t_command *front_command,
-		t_command *command)
+t_return_status	parser_helper(t_token **front_token, t_command **front_command,
+		t_command **command)
 {
 	if (strcmp((*front_token)->word, "|") == 0)
 	{
-		push_back_command(&front_command, command);
-		command->next_pipe = true;
-		command = new_command();
-		if (command == NULL)
+		push_back_command(front_command, (*command));
+		(*command)->next_pipe = true;
+		(*command) = new_command();
+		if ((*command) == NULL)
 			return (TO_RETURN);
 	}
 	else if (is_redirect_word((*front_token)->word))
 	{
-		if (add_redirect_to_command(command, (*front_token)) == false)
+		if (add_redirect_to_command((*command), (*front_token)) == false)
 			return (TO_RETURN);
 		(*front_token) = (*front_token)->next;
-		if ((*front_token) == NULL || command->is_error == true)
+		if ((*front_token) == NULL || (*command)->is_error == true)
 			return (TO_BREAK);
 	}
 	else
 	{
-		if (add_command_name_or_args(command, (*front_token)) == false)
+		if (add_command_name_or_args((*command), (*front_token)) == false)
 			return (TO_RETURN);
 	}
 	(*front_token) = (*front_token)->next;
@@ -328,7 +328,7 @@ t_command	*parse(t_token_manager *token_manager)
 	front_token = token_manager->front;
 	while (front_token != NULL && front_token->kind != SYNTAX_ERROR)
 	{
-		return_status = parser_helper(&front_token, front_command, command);
+		return_status = parser_helper(&front_token, &front_command, &command);
 		if (return_status == TO_RETURN)
 			return (free_command(front_command));
 		if (return_status == TO_BREAK)
