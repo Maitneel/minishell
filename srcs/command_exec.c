@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/19 20:30:25 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/19 20:37:37 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int here_doc(t_redirect_info *info)
 	}
 	if (expand_and_write(output_fd, info) == -1)
 		return (-1);
-	system("leaks minishell");
 	return input_fd;
 }
 
