@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/19 20:37:37 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/19 21:15:54 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,6 +312,9 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	if (pid == 0)
 	{
 		//child
+		dup2(before_fd, STDIN_FILENO);
+		if (before_fd != STDIN_FILENO)
+			close(before_fd);
 		input_fd = files_dup2_stdin(command->inputs);
 		if (input_fd == -1)
 			return (-1);
@@ -320,9 +323,6 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 			return (-1);
 		if (command->command_name == NULL)
 			exit(0);
-		dup2(before_fd, STDIN_FILENO);
-		if (before_fd != STDIN_FILENO)
-			close(before_fd);
 		dup2(output_fd, STDOUT_FILENO);
 		ft_exec(command, env_manager);
 		close(output_fd);
