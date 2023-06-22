@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:13:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/22 20:14:59 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/22 20:18:39 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*generate_no_exist_file_name(char *front_string)
 	while (++num < 100000000)
 	{
 		i = 8;
-		while (i == 8 || i && carry)
+		while (i == 8 || (i && carry))
 		{
 			file_name[front_len + i] = '0' + ((num / ft_pow(10, 8 - i)) % 10);
 			carry = (file_name[front_len + i] == '0');
