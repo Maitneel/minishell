@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:13:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/22 20:08:23 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/22 20:14:59 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*generate_no_exist_file_name(char *front_string)
 		if (access(file_name, F_OK) == -1)
 			return (file_name);
 	}
-	free(file_name);
+	file_name[front_len] = '\0';
 	return (NULL);
 }
 
