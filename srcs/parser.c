@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 17:30:02 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/24 06:55:42 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,7 @@ bool	add_redirect_to_command(t_command *command, t_token *front_token)
 		return (free_command(command));
 	}
 	set_redirect_kind(front_token->word, redirect_info);
-	if (is_redirect_word(front_token->word))
+	if (is_in_redirect_word(front_token->word))
 		push_back_redirect_info(&command->inputs, redirect_info);
 	else
 		push_back_redirect_info(&command->outpus, redirect_info);
