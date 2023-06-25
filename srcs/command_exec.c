@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/17 19:34:32 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/19 21:27:21 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 #include "ft_signal.h"
 #include "tokenize.h"
 #include "libft.h"
+#include "get_next_line.h"
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <fcntl.h>
 
 #define WRITE_FD 1
 #define READ_FD 0
@@ -37,7 +39,6 @@ void *free_string_array(char **string_array)
 	return NULL;
 }
 
-
 size_t get_args_list_size(t_command *command)
 {
 	size_t size;
@@ -51,6 +52,63 @@ size_t get_args_list_size(t_command *command)
 		size++;
 	}
 	return size;
+}
+
+char *expand_line(char *line)
+{
+	return strdup(line);
+}
+
+int expand_and_write(int fd, t_redirect_info *info)
+{
+	char *line;
+	char *expanded;
+	char *end_text;
+
+	end_text = ft_strjoin(info->arg, "\n");
+	if (end_text == NULL)
+		return (-1);
+	while (true)
+	{
+		write(STDOUT_FILENO, "> ", 2);
+		line = get_next_line(STDIN_FILENO);
+		if (line == NULL)
+			break;
+		if (strcmp(line, end_text) == 0)
+			break;
+		expanded = expand_line(line);
+		free(line);
+		if (expanded == NULL)
+			return (-1);
+		if (write(fd, expanded, strlen(expanded)) == -1)
+		{
+			free(expanded);
+			return (-1);
+		}
+		free(expanded);
+	}
+	free(line);
+	free(end_text);
+	return fd;
+}
+
+int here_doc(t_redirect_info *info)
+{
+	int output_fd;
+	int input_fd;
+
+	output_fd = open("/tmp/here_doc_tmp", (O_WRONLY | O_CREAT));
+	if (output_fd == -1)
+		return (-1);
+	input_fd = open("/tmp/here_doc_tmp", (O_RDONLY));
+	unlink("/tmp/here_doc_tmp");
+	if (input_fd == -1){
+		close(output_fd);
+		return -1;
+	}
+	if (expand_and_write(output_fd, info) == -1)
+		return (-1);
+	return input_fd;
 }
 
 char **make_args(t_command *command)
@@ -78,16 +136,7 @@ char **make_args(t_command *command)
 		args_list = args_list->next;
 	}
 	return (args_array);
-	
-	// char **args = malloc(sizeof(char *) * 3);
-	// args[0] = strdup("echo");
-	// args[1] = strdup("hoge");
-	// args[2] = NULL;
-	// (void)command;
-	// return args;
-	
 }
-
 
 char *make_path(const char *path, const char *command)
 {
@@ -155,11 +204,62 @@ int ft_exec(t_command *command, t_env_manager *env_manager)
 	exit(execve(command_path, args, env_ptr));
 	return 0;
 }
+// TODO: 名前をいい感じに
+int files_create(t_redirect_info *outputs)
+{
+	t_redirect_info *current;
+	int last_fd;
+
+	last_fd = -1;
+	if (outputs == NULL)
+		return STDOUT_FILENO;
+	current = outputs;
+	while (current != NULL)
+	{
+		close(last_fd);
+		if (current->kind == REDIRECT_OUT_OVERWRITE)
+			last_fd = open(current->arg, (O_WRONLY | O_CREAT) , 0644);
+		else if (current->kind == REDIRECT_OUT_POST)
+			last_fd = open(current->arg, (O_APPEND | O_CREAT | O_WRONLY) , 0644);
+		else
+			exit(1);
+		if (last_fd == -1)
+			return (-1);
+		current = current->next;
+	}
+	return last_fd;
+}
+
+int files_dup2_stdin(t_redirect_info *inputs)
+{
+	t_redirect_info *current;
+	int fd;
+
+	current = inputs;
+	fd = -1;
+	if (inputs == NULL)
+		return (STDIN_FILENO);
+	while (current != NULL)
+	{
+		close(fd);
+		if (current->kind == REDIRECT_IN)
+			fd = open(current->arg, O_RDONLY);
+		else if (current->kind == REDIRECT_HEAR_DOC)
+			fd = here_doc(current);
+		if (fd == -1)
+			return (-1);
+		current = current->next;
+	}
+	dup2(fd, STDIN_FILENO);
+	return fd;
+}
 
 int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 {
 	int pipe_fd[2];
 	pid_t pid;
+	int output_fd;
+	int input_fd;
 
 	pipe(pipe_fd);
 	pid = fork();
@@ -170,13 +270,23 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	if (pid == 0)
 	{
 		//child
-		dup2(before_fd, STDIN_FILENO);
-		dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
+		input_fd = files_dup2_stdin(command->inputs);
+		if (input_fd == -1)
+			exit(1);
+		output_fd = files_create(command->outpus);
+		if (output_fd == -1)
+			exit(1);
+		if (command->command_name == NULL)
+			exit(0);			
+		dup2(before_fd, input_fd);
+		dup2(pipe_fd[WRITE_FD], output_fd);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
 		ft_exec(command, env_manager);
 		close(pipe_fd[WRITE_FD]);
 		close(pipe_fd[READ_FD]);
+		close(output_fd);
+		close(input_fd);
 		exit(127); // ?
 	} else 
 	{
@@ -191,6 +301,8 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 
 int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 {
+	int input_fd;
+	int output_fd;
 	pid_t pid;
 	pid = fork();
 	if (pid == -1)
@@ -203,7 +315,18 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		dup2(before_fd, STDIN_FILENO);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
+		input_fd = files_dup2_stdin(command->inputs);
+		if (input_fd == -1)
+			exit(1);
+		output_fd = files_create(command->outpus);
+		if (output_fd == -1)
+			exit(1);
+		if (command->command_name == NULL)
+			exit(0);
+		dup2(output_fd, STDOUT_FILENO);
 		ft_exec(command, env_manager);
+		close(output_fd);
+		close(input_fd);
 		exit(127);
 	} else
 	{
