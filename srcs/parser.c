@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/24 06:55:42 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 19:49:22 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ bool	add_redirect_to_command(t_command *command, t_token *front_token)
 {
 	t_redirect_info	*redirect_info;
 
-	if (front_token->next == NULL || is_redirect_word(front_token->next->word))
+	if (front_token->next == NULL || front_token->next->kind == REDIRECT_KIND)
 	{
 		command->is_error = true;
 		return (true);
@@ -297,7 +297,7 @@ t_return_status	parser_helper(t_token **front_token, t_command **front_command,
 		if ((*command) == NULL)
 			return (TO_RETURN);
 	}
-	else if (is_redirect_word((*front_token)->word))
+	else if ((*front_token)->kind == REDIRECT_KIND)
 	{
 		if (add_redirect_to_command((*command), (*front_token)) == false)
 			return (TO_RETURN);

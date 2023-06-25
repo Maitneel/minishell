@@ -83,9 +83,12 @@ int	main(int argc, char **argv, char **envs)
 		if (command->is_error)
 		{
 			printf("minishell: syntax error\n");
-		}
-		print_command(command);
-		command_exec(command, env_manager);
+		} 
+        else 
+        {
+            print_command(command);
+            command_exec(command, env_manager);
+        }
 		free_command(command);
 		free_token_manager(token_manager);
 	}

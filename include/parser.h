@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:58:09 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 16:28:38 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 19:38:13 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ typedef struct s_command
 void						*free_command(t_command *command);
 t_command					*parse(t_token_manager *token_manager);
 void						print_command(t_command *command);
+bool						is_redirect_word(char *string);
 
 #endif

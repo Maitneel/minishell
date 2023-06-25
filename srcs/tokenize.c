@@ -6,13 +6,14 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 15:23:24 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 19:41:46 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "stdlib.h"
 #include "tokenize.h"
+#include "parser.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
@@ -204,6 +205,15 @@ bool	tokenize_setup(t_token_manager **token_manager, char **token_string,
 	return (false);
 }
 
+t_token_kind get_token_kind(char *token_string)
+{
+	if (token_string == NULL)
+		return (NULL_KIND);
+	if (is_redirect_word(token_string))
+		return (REDIRECT_KIND);
+	return (DEFAULT_KIND);
+}
+
 t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager)
 {
 	t_token_manager	*token_manager;
@@ -219,7 +229,7 @@ t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager)
 		i += set_next_token_string(token_string, &line->data[i]);
 		if (token_string[0] == '\0')
 			continue ;
-		token = new_token(token_string, DEFAULT_KIND);
+		token = new_token(token_string, get_token_kind(token_string));
 		if (token == NULL)
 			return (free_token_manager(token_manager));
 		add_token(token_manager, token);
