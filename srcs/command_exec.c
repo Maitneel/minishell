@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/01 16:54:28 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:39:23 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,80 +82,6 @@ size_t	get_args_list_size(t_command *command)
 		size++;
 	}
 	return (size);
-}
-
-char	*expand_line(char *line, t_env_manager *env_manager)
-{
-	t_string	struct_line;
-	t_string	expanded;
-
-	struct_line.data = line;
-	struct_line.length = strlen(line);
-	struct_line.max_length = struct_line.length;
-	if (expand_env(&expanded, &struct_line, env_manager) == NULL)
-		return (NULL);
-	return (expanded.data);
-}
-
-int	expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
-{
-	char	*line;
-	char	*expanded;
-	char	*end_text;
-
-	end_text = ft_strjoin(info->arg, "\n");
-	if (end_text == NULL)
-		return (-1);
-	while (true)
-	{
-		write(STDOUT_FILENO, "> ", 2);
-		line = get_next_line(STDIN_FILENO);
-		if (line == NULL)
-			break ;
-		if (strcmp(line, end_text) == 0)
-			break ;
-		expanded = expand_line(line, env_manager);
-		free(line);
-		if (expanded == NULL)
-			return (-1);
-		if (write(fd, expanded, strlen(expanded)) == -1)
-		{
-			free(expanded);
-			return (-1);
-		}
-		free(expanded);
-	}
-	free(line);
-	free(end_text);
-	return (fd);
-}
-
-int	here_doc(t_redirect_info *info, t_env_manager *env_manager)
-{
-	int		output_fd;
-	int		input_fd;
-	char	*file_name;
-
-	file_name = generate_no_exist_file_name("/tmp/here_doc_tmp");
-	if (file_name == NULL)
-		return (-1);
-	output_fd = open(file_name, (O_WRONLY | O_CREAT));
-	if (output_fd == -1)
-	{
-		free(file_name);
-		return (-1);
-	}
-	input_fd = open(file_name, (O_RDONLY));
-	unlink(file_name);
-	free(file_name);
-	if (input_fd == -1)
-	{
-		close(output_fd);
-		return (-1);
-	}
-	if (expand_and_write(output_fd, info, env_manager) == -1)
-		return (-1);
-	return (input_fd);
 }
 
 char	**make_args(t_command *command)
@@ -236,33 +162,12 @@ char	*find_path(t_command *command, t_env_manager *env_manager)
 	return (NULL);
 }
 
-int	exec_builtin(t_command *command, char **args, t_env_manager *env_manager)
-{
-	if (ft_strcmp(command->command_name, "echo") == 0)
-		return (command_echo(args));
-	if (ft_strcmp(command->command_name, "cd") == 0)
-		return (command_cd(args));
-	if (ft_strcmp(command->command_name, "pwd") == 0)
-		return (command_pwd());
-	if (ft_strcmp(command->command_name, "env") == 0)
-		return (command_env(env_manager, args));
-	if (ft_strcmp(command->command_name, "export") == 0)
-		return (command_export(env_manager, args));
-	if (ft_strcmp(command->command_name, "unset") == 0)
-		return (command_unset(env_manager, args));
-	if (ft_strcmp(command->command_name, "exit") == 0)
-		return (command_exit(env_manager, args));
-	return (0);
-}
-
 int	ft_exec(t_command *command, t_env_manager *env_manager)
 {
 	char	*command_path;
 	char	**args;
 	char	**env_ptr;
 
-	// TODO: envの$?に入れる　
-	// fprintf(stderr, "--------------------\n");
 	args = make_args(command);
 	env_ptr = make_env_ptr(env_manager);
 	if (is_builtin(command->command_name))
@@ -381,7 +286,6 @@ int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
 		close(pipe_fd[WRITE_FD]);
-		// TODO: append process id
 	}
 	return (pipe_fd[READ_FD]);
 }
@@ -462,11 +366,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	pid_current = g_signal_info.pid_list;
 	while (pid_current != NULL)
 	{
-		// fprintf(stderr, "waiting\n");
 		wait(&env_manager->exit_status);
-		// fprintf(stderr, "process ret : %d\n", env_manager->exit_status);
-		// fprintf(stderr, "process ret / 256: %d\n", env_manager->exit_status
-		// 		/ 256);
 		env_manager->exit_status = get_exit_code(env_manager->exit_status);
 		pid_current = pid_current->next;
 	}
