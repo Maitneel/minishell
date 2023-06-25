@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 16:28:45 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:23:24 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,9 +218,7 @@ t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager)
 	{
 		i += set_next_token_string(token_string, &line->data[i]);
 		if (token_string[0] == '\0')
-		{
-			continue;
-		}
+			continue ;
 		token = new_token(token_string, DEFAULT_KIND);
 		if (token == NULL)
 			return (free_token_manager(token_manager));

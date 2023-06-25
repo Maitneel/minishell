@@ -26,6 +26,8 @@ typedef struct s_env_manager
 {
 	struct s_env	*front;
 	struct s_env	*last;
+	int				exit_status;
+	char			*string_exit_status;
 	size_t			size;
 }					t_env_manager;
 

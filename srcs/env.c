@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/18 17:32:29 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:19:45 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	*free_env_manager(t_env_manager *env_manager)
 		free_env(to_free_env);
 	}
 	free(env_manager);
+	free(env_manager->string_exit_status);
 	return (NULL);
 }
 
@@ -70,7 +71,7 @@ t_env_manager	*new_env_manager(char **arg_envs)
 	t_env_manager	*env_manager;
 	size_t			i;
 
-	env_manager = malloc(sizeof(t_env_manager));
+	env_manager = calloc(1, sizeof(t_env_manager));
 	if (env_manager == NULL)
 		return (NULL);
 	env_manager->front = new_env(arg_envs[0]);
