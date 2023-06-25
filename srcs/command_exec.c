@@ -3,33 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 18:45:13 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/25 19:02:09 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "env.h"
-#include "ft_signal.h"
-#include "tokenize.h"
-#include "expand_env.h"
-#include "libft.h"
-#include "get_next_line.h"
-#include "command_exec.h"
 #include "builtin.h"
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "command_exec.h"
+#include "env.h"
+#include "expand_env.h"
+#include "ft_signal.h"
+#include "get_next_line.h"
+#include "libft.h"
+#include "parser.h"
+#include "tokenize.h"
 #include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 #define WRITE_FD 1
 #define READ_FD 0
 
 bool	is_builtin(char *command)
 {
+	size_t		i;
 	const char	*commands[] = {
 		"echo",
 		"export",
@@ -39,9 +40,7 @@ bool	is_builtin(char *command)
 		"pwd",
 		"unset",
 		"exit",
-		NULL
-	};
-	size_t		i;
+		NULL};
 
 	i = 0;
 	while (commands[i])
@@ -53,9 +52,9 @@ bool	is_builtin(char *command)
 	return (false);
 }
 
-void *free_string_array(char **string_array)
+void	*free_string_array(char **string_array)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (string_array[i] != NULL)
@@ -64,14 +63,14 @@ void *free_string_array(char **string_array)
 		i++;
 	}
 	free(string_array);
-	return NULL;
+	return (NULL);
 }
 
-size_t get_args_list_size(t_command *command)
+size_t	get_args_list_size(t_command *command)
 {
-	size_t size;
-	
-	t_args_list *args_list;
+	size_t		size;
+	t_args_list	*args_list;
+
 	args_list = command->args_list;
 	size = 0;
 	while (args_list != NULL)
@@ -79,27 +78,27 @@ size_t get_args_list_size(t_command *command)
 		args_list = args_list->next;
 		size++;
 	}
-	return size;
+	return (size);
 }
 
-char *expand_line(char *line, t_env_manager *env_manager)
+char	*expand_line(char *line, t_env_manager *env_manager)
 {
-	t_string struct_line;
-	t_string expanded;
-	
+	t_string	struct_line;
+	t_string	expanded;
+
 	struct_line.data = line;
 	struct_line.length = strlen(line);
 	struct_line.max_length = struct_line.length;
 	if (expand_env(&expanded, &struct_line, env_manager) == NULL)
-		return NULL;
-	return expanded.data;
+		return (NULL);
+	return (expanded.data);
 }
 
-int expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
+int	expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
 {
-	char *line;
-	char *expanded;
-	char *end_text;
+	char	*line;
+	char	*expanded;
+	char	*end_text;
 
 	end_text = ft_strjoin(info->arg, "\n");
 	if (end_text == NULL)
@@ -109,9 +108,9 @@ int expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
 		write(STDOUT_FILENO, "> ", 2);
 		line = get_next_line(STDIN_FILENO);
 		if (line == NULL)
-			break;
+			break ;
 		if (strcmp(line, end_text) == 0)
-			break;
+			break ;
 		expanded = expand_line(line, env_manager);
 		free(line);
 		if (expanded == NULL)
@@ -125,18 +124,18 @@ int expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
 	}
 	free(line);
 	free(end_text);
-	return fd;
+	return (fd);
 }
 
-int here_doc(t_redirect_info *info, t_env_manager *env_manager)
+int	here_doc(t_redirect_info *info, t_env_manager *env_manager)
 {
-	int output_fd;
-	int input_fd;
-	char *file_name;
+	int		output_fd;
+	int		input_fd;
+	char	*file_name;
 
 	file_name = generate_no_exist_file_name("/tmp/here_doc_tmp");
 	if (file_name == NULL)
-		return -1;
+		return (-1);
 	output_fd = open(file_name, (O_WRONLY | O_CREAT));
 	if (output_fd == -1)
 	{
@@ -146,47 +145,48 @@ int here_doc(t_redirect_info *info, t_env_manager *env_manager)
 	input_fd = open(file_name, (O_RDONLY));
 	unlink(file_name);
 	free(file_name);
-	if (input_fd == -1){
+	if (input_fd == -1)
+	{
 		close(output_fd);
-		return -1;
+		return (-1);
 	}
 	if (expand_and_write(output_fd, info, env_manager) == -1)
 		return (-1);
-	return input_fd;
+	return (input_fd);
 }
 
-char **make_args(t_command *command)
+char	**make_args(t_command *command)
 {
-	size_t args_size;
-	char **args_array;
-	t_args_list *args_list;
-	
+	size_t		args_size;
+	char		**args_array;
+	t_args_list	*args_list;
+	size_t		i;
+
 	args_size = get_args_list_size(command) + 1;
 	args_array = calloc(args_size + 1, sizeof(char *));
 	if (args_array == NULL)
-		return NULL;
-	size_t i;
+		return (NULL);
 	args_array[0] = strdup(command->command_name);
 	if (args_array[0] == NULL)
-		return free_string_array(args_array);
+		return (free_string_array(args_array));
 	i = 1;
 	args_list = command->args_list;
 	while (args_list != NULL)
 	{
 		args_array[i] = strdup(args_list->string);
 		if (args_array[i] == NULL)
-			return free_string_array(args_array);
+			return (free_string_array(args_array));
 		i++;
 		args_list = args_list->next;
 	}
 	return (args_array);
 }
 
-char *make_path(const char *path, const char *command)
+char	*make_path(const char *path, const char *command)
 {
-	char *slashed;
-	char *joined;
-	
+	char	*slashed;
+	char	*joined;
+
 	if (path == NULL || command == NULL)
 		return (NULL);
 	slashed = ft_strjoin(path, "/");
@@ -197,16 +197,16 @@ char *make_path(const char *path, const char *command)
 	return (joined);
 }
 
-char *find_path(t_command *command, t_env_manager *env_manager)
+char	*find_path(t_command *command, t_env_manager *env_manager)
 {
+	t_env	*path_env;
+	size_t	i;
+	char	*absolute_path;
+	char	**paths;
+
 	// 絶対パスかのチェック
 	if (access(command->command_name, F_OK) == 0)
-		return strdup(command->command_name);
-	t_env *path_env;
-
-	size_t i;
-	char *absolute_path;
-	char **paths;
+		return (strdup(command->command_name));
 	path_env = find_env(env_manager, "PATH");
 	if (path_env == NULL)
 		return (NULL);
@@ -226,7 +226,7 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 		i++;
 	}
 	free_string_array(paths);
-	return NULL;
+	return (NULL);
 }
 
 int	exec_builtin(t_command *command, char **args, t_env_manager *env_manager)
@@ -248,14 +248,14 @@ int	exec_builtin(t_command *command, char **args, t_env_manager *env_manager)
 	return (0);
 }
 
-int ft_exec(t_command *command, t_env_manager *env_manager)
+int	ft_exec(t_command *command, t_env_manager *env_manager)
 {
 	char	*command_path;
+	char	**args;
+	char	**env_ptr;
+
 	// TODO: envの$?に入れる　
 	// fprintf(stderr, "--------------------\n");
-	char **args;
-	char **env_ptr;
-
 	args = make_args(command);
 	env_ptr = make_env_ptr(env_manager);
 	if (is_builtin(command->command_name))
@@ -263,42 +263,43 @@ int ft_exec(t_command *command, t_env_manager *env_manager)
 	command_path = find_path(command, env_manager);
 	if (command_path == NULL)
 	{
-		write(STDERR_FILENO, "command not found\n", 18);;
+		write(STDERR_FILENO, "command not found\n", 18);
 		return (-1);
 	}
 	exit(execve(command_path, args, env_ptr));
-	return 0;
+	return (0);
 }
 // TODO: 名前をいい感じに
-int files_create(t_redirect_info *outputs)
+
+int	files_create(t_redirect_info *outputs)
 {
-	t_redirect_info *current;
-	int last_fd;
+	t_redirect_info	*current;
+	int				last_fd;
 
 	last_fd = -1;
 	if (outputs == NULL)
-		return STDOUT_FILENO;
+		return (STDOUT_FILENO);
 	current = outputs;
 	while (current != NULL)
 	{
 		close(last_fd);
 		if (current->kind == REDIRECT_OUT_OVERWRITE)
-			last_fd = open(current->arg, (O_WRONLY | O_CREAT) , 0644);
+			last_fd = open(current->arg, (O_WRONLY | O_CREAT), 0644);
 		else if (current->kind == REDIRECT_OUT_POST)
-			last_fd = open(current->arg, (O_APPEND | O_CREAT | O_WRONLY) , 0644);
+			last_fd = open(current->arg, (O_APPEND | O_CREAT | O_WRONLY), 0644);
 		else
 			exit(1);
 		if (last_fd == -1)
 			return (-1);
 		current = current->next;
 	}
-	return last_fd;
+	return (last_fd);
 }
 
-int files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager)
+int	files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager)
 {
-	t_redirect_info *current;
-	int fd;
+	t_redirect_info	*current;
+	int				fd;
 
 	current = inputs;
 	fd = -1;
@@ -316,15 +317,15 @@ int files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager)
 		current = current->next;
 	}
 	dup2(fd, STDIN_FILENO);
-	return fd;
+	return (fd);
 }
 
-int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
+int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 {
-	int pipe_fd[2];
-	pid_t pid;
-	int output_fd;
-	int input_fd;
+	int		pipe_fd[2];
+	pid_t	pid;
+	int		output_fd;
+	int		input_fd;
 
 	pipe(pipe_fd);
 	pid = fork();
@@ -342,7 +343,7 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		if (output_fd == -1)
 			exit(1);
 		if (command->command_name == NULL)
-			exit(0);			
+			exit(0);
 		dup2(before_fd, input_fd);
 		dup2(pipe_fd[WRITE_FD], output_fd);
 		if (before_fd != STDIN_FILENO)
@@ -353,7 +354,8 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		close(output_fd);
 		close(input_fd);
 		exit(127); // ?
-	} else 
+	}
+	else
 	{
 		// parent
 		if (before_fd != STDIN_FILENO)
@@ -364,11 +366,12 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	return (pipe_fd[READ_FD]);
 }
 
-int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
+int	non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 {
-	int input_fd;
-	int output_fd;
-	pid_t pid;
+	int		input_fd;
+	int		output_fd;
+	pid_t	pid;
+
 	pid = fork();
 	if (pid == -1)
 		return (-1);
@@ -393,7 +396,8 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		close(output_fd);
 		close(input_fd);
 		exit(127);
-	} else
+	}
+	else
 	{
 		// parent
 		if (before_fd != STDIN_FILENO)
@@ -408,7 +412,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	t_command	*current;
 	t_pid_list	*pid_current;
 	int			before_fd;
-	
+
 	g_signal_info.status = EXECUTING_COMMAND;
 	current = commands;
 	before_fd = STDIN_FILENO;
@@ -417,20 +421,22 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		if (current->next_pipe)
 		{
 			before_fd = pipe_exec(before_fd, current, env_manager);
-		} else {
+		}
+		else
+		{
 			before_fd = non_pipe_exec(before_fd, current, env_manager);
 		}
 		// TODO: before_fd == -1の時の処理
 		current = current->next;
 	}
-
 	pid_current = g_signal_info.pid_list;
 	while (pid_current != NULL)
 	{
 		// fprintf(stderr, "waiting\n");
 		wait(&env_manager->exit_status);
-		fprintf(stderr, "process ret : %d\n", env_manager->exit_status);
-		fprintf(stderr, "process ret / 256: %d\n", env_manager->exit_status / 256);
+		// fprintf(stderr, "process ret : %d\n", env_manager->exit_status);
+		// fprintf(stderr, "process ret / 256: %d\n", env_manager->exit_status
+		// 		/ 256);
 		env_manager->exit_status /= 256;
 		pid_current = pid_current->next;
 	}
