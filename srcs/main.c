@@ -23,6 +23,7 @@
 #include "parser.h"
 #include "ft_signal.h"
 #include "command_exec.h"
+#include "builtin.h"
 
 int	main(int argc, char **argv, char **envs)
 {
@@ -56,8 +57,8 @@ int	main(int argc, char **argv, char **envs)
 		token = token_manager->front;
 		if (token == NULL)
 			break ;
-		if (strcmp(token->word, "exit") == 0)
-			break ;
+		// if (strcmp(token->word, "exit") == 0)
+		// 	break ;
 		while (token != NULL)
 		{
 			// printf("%s %d", token->word, token->kind);
@@ -71,6 +72,14 @@ int	main(int argc, char **argv, char **envs)
 			// printf("\n");
 		}
 		command = parse(token_manager);
+		if (strcmp(command->command_name, "exit") == 0 && command->next_pipe == 0)
+		{
+			char **args;
+			args = make_args(command);
+			command_exit(args);
+			free_string_array(args);
+			continue;
+		}
 		if (command->is_error)
 		{
 			printf("minishell: syntax error\n");

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/25 15:19:45 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 18:42:33 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "libft.h"
+#include "builtin.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -95,8 +96,8 @@ t_env_manager	*new_env_manager(char **arg_envs)
 	return (env_manager);
 }
 
-/*
-int	command_env(t_env_manager *env_manager, const char **tokens)
+
+int	command_env(t_env_manager *env_manager, char **tokens)
 {
 	size_t	i;
 	t_env	*next;
@@ -118,4 +119,3 @@ int	command_env(t_env_manager *env_manager, const char **tokens)
 	}
 	return (0);
 }
-// */

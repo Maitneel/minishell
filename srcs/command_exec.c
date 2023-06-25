@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 15:11:15 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 18:42:23 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "libft.h"
 #include "get_next_line.h"
 #include "command_exec.h"
+#include "builtin.h"
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -26,6 +27,31 @@
 
 #define WRITE_FD 1
 #define READ_FD 0
+
+bool	is_builtin(char *command)
+{
+	const char	*commands[] = {
+		"echo",
+		"export",
+		"pwd",
+		"cd",
+		"echo",
+		"pwd",
+		"unset",
+		"exit",
+		NULL
+	};
+	size_t		i;
+
+	i = 0;
+	while (commands[i])
+	{
+		if (ft_strcmp((char *)commands[i], command) == 0)
+			return (true);
+		i++;
+	}
+	return (false);
+}
 
 void *free_string_array(char **string_array)
 {
@@ -203,15 +229,28 @@ char *find_path(t_command *command, t_env_manager *env_manager)
 	return NULL;
 }
 
+int	exec_builtin(t_command *command, char **args, t_env_manager *env_manager)
+{
+	if (ft_strcmp(command->command_name, "echo") == 0)
+		return (command_echo(args));
+	if (ft_strcmp(command->command_name, "cd") == 0)
+		return (command_cd(args));
+	if (ft_strcmp(command->command_name, "pwd") == 0)
+		return (command_pwd());
+	if (ft_strcmp(command->command_name, "env") == 0)
+		return (command_env(env_manager, args));
+	if (ft_strcmp(command->command_name, "export") == 0)
+		return (command_export(env_manager, args));
+	if (ft_strcmp(command->command_name, "unset") == 0)
+		return (command_unset(env_manager, args));
+	if (ft_strcmp(command->command_name, "exit") == 0)
+		return (command_exit(args));
+	return (0);
+}
+
 int ft_exec(t_command *command, t_env_manager *env_manager)
 {
 	char	*command_path;
-	command_path = find_path(command, env_manager);
-	if (command_path == NULL)
-	{
-		write(STDERR_FILENO, "command not found\n", 18);;
-		return (-1);
-	}
 	// TODO: envの$?に入れる　
 	// fprintf(stderr, "--------------------\n");
 	char **args;
@@ -219,6 +258,14 @@ int ft_exec(t_command *command, t_env_manager *env_manager)
 
 	args = make_args(command);
 	env_ptr = make_env_ptr(env_manager);
+	if (is_builtin(command->command_name))
+		exit(exec_builtin(command, args, env_manager));
+	command_path = find_path(command, env_manager);
+	if (command_path == NULL)
+	{
+		write(STDERR_FILENO, "command not found\n", 18);;
+		return (-1);
+	}
 	exit(execve(command_path, args, env_ptr));
 	return 0;
 }

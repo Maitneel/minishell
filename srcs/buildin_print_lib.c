@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_print_lib.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 16:21:03 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/18 19:49:57 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 16:37:57 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "buildin.h"
+#include "builtin.h"
 #include <unistd.h>
 
 void	put_command_not_found(char *command)
