@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 18:20:18 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/25 18:41:54 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:44:30 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int				command_cd(char **tokens);
 int				command_env(t_env_manager *env_manager, char **tokens);
 int				command_export(t_env_manager *env_manager, char **tokens);
 int				command_unset(t_env_manager *env_manager, char **tokens);
-int				command_exit(char **tokens);
+int				command_exit(t_env_manager *env_manager, char **tokens);
 void			put_command_not_found(char *command);
 void			*free_env_manager(t_env_manager *env_manager);
 t_env			*add_env(t_env_manager *env_manager, char *token);

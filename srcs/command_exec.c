@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 18:42:23 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:45:13 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ int	exec_builtin(t_command *command, char **args, t_env_manager *env_manager)
 	if (ft_strcmp(command->command_name, "unset") == 0)
 		return (command_unset(env_manager, args));
 	if (ft_strcmp(command->command_name, "exit") == 0)
-		return (command_exit(args));
+		return (command_exit(env_manager, args));
 	return (0);
 }
 

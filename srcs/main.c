@@ -76,7 +76,7 @@ int	main(int argc, char **argv, char **envs)
 		{
 			char **args;
 			args = make_args(command);
-			command_exit(args);
+			env_manager->exit_status = command_exit(env_manager, args);
 			free_string_array(args);
 			continue;
 		}

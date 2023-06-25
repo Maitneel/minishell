@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 17:29:26 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 18:37:36 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/25 18:43:37 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ bool	is_long(char *str)
 	return (*str == '\0');
 }
 
-int command_exit(char **args)
+int command_exit(t_env_manager *env_manager, char **args)
 {
 	size_t args_size;
 
 	args_size = array_size(args);
 	if (args_size == 1)
-		exit(1); // TODO: $? をexit
+		exit(env_manager->exit_status);
 	if (!is_long(args[1]))
 	{
 		write(STDERR_FILENO, "minishell: exit: ", 18);
