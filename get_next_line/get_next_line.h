@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 16:21:10 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/18 16:23:17 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/18 18:08:12 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
 # include <unistd.h>
 
@@ -30,14 +29,14 @@ typedef struct s_buffer
 	ssize_t	loop_flag;
 }			t_buffer;
 
-typedef struct s_string
+typedef struct s_gnl_string
 {
 	char	*str;
 	size_t	size;
 	size_t	max_size;
-}			t_string;
+}			t_gnl_string;
 
 char		*get_next_line(int fd);
-void		add_back_string(t_string *data, t_buffer *buf);
+void		add_back_string(t_gnl_string *data, t_buffer *buf);
 
 #endif
