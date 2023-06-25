@@ -1,7 +1,7 @@
 NAME := minishell
 
 CC := cc
-CFLAG = -Wall -Wextra -Werror  -I$(shell brew --prefix readline)/include -I${INCLUDE_DIR} -I${LIBFT_DIR}
+CFLAG = -Wall -Wextra -Werror -g -fsanitize=address -I$(shell brew --prefix readline)/include -I${INCLUDE_DIR} -I${LIBFT_DIR}
 READLINE_FLAG  = -I$(shell brew --prefix readline)/include -L$(shell brew --prefix readline)/lib -lreadline
 RM := rm
 RM_FLAG := -rf
@@ -23,6 +23,7 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/ft_signal.c \
 	${SRCS_DIR}/expand_env.c \
 	${SRCS_DIR}/command_exec.c \
+	${SRCS_DIR}/command_exit.c \
 	${SRCS_DIR}/generate_no_exist_file_name.c \
 	${GNL_DIR}/get_next_line.c \
 	${SRCS_DIR}/command_cd.c \

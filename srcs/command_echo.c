@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:34:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/22 20:29:33 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 17:20:18 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "buildin.h"
+#include "builtin.h"
 
 int	command_echo(char **tokens)
 {

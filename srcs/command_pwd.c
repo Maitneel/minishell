@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:33:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 19:19:07 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 16:38:01 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "buildin.h"
+#include "builtin.h"
 
 int	command_pwd(void)
 {

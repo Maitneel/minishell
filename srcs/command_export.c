@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   command_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:34:55 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/18 19:19:03 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 17:02:05 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "buildin.h"
+#include "builtin.h"
 
 bool	valid_token(const char *str)
 {
 	return (ft_strchr(str, '='));
 }
 
-int	command_export(t_env_manager *env_manager, const char **tokens)
+int	command_export(t_env_manager *env_manager, char **tokens)
 {
 	size_t	i;
 
