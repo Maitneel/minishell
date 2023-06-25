@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/22 20:20:25 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 15:11:15 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,10 +381,10 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	while (pid_current != NULL)
 	{
 		// fprintf(stderr, "waiting\n");
-		int tmp;
-		wait(&tmp);
-		fprintf(stderr, "process ret : %d\n", tmp);
-		fprintf(stderr, "process ret / 256: %d\n", tmp / 256);
+		wait(&env_manager->exit_status);
+		fprintf(stderr, "process ret : %d\n", env_manager->exit_status);
+		fprintf(stderr, "process ret / 256: %d\n", env_manager->exit_status / 256);
+		env_manager->exit_status /= 256;
 		pid_current = pid_current->next;
 	}
 	signal_info.status = UNDEFINED;
