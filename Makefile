@@ -33,6 +33,10 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/command_unset.c \
 	${SRCS_DIR}/print_lib.c \
 	${SRCS_DIR}/buildin_utils.c \
+	${SRCS_DIR}/buildin_print_lib.c \
+	${SRCS_DIR}/utils.c \
+	${SRCS_DIR}/here_doc.c \
+	${SRCS_DIR}/exec_builtin.c \
 	${SRCS_DIR}/ft_strcmp.c \
 	${SRCS_DIR}/ft_xcalloc.c \
 
