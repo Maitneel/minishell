@@ -35,8 +35,8 @@ int	main(int argc, char **argv, char **envs)
 
 	signal(SIGINT, resive_signal);
 	signal(SIGQUIT, resive_signal);
-	signal_info.status = UNDEFINED;
-	signal_info.pid_list = NULL;
+	g_signal_info.status = UNDEFINED;
+	g_signal_info.pid_list = NULL;
 	env_manager = new_env_manager(envs);
 	if (env_manager == NULL)
 	{

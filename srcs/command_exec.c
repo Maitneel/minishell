@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/22 20:20:25 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 16:27:55 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,7 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	pid = fork();
 	if (pid == -1)
 		return (-1);
-	if (pid_push_back(&signal_info.pid_list, pid) == NULL)
+	if (pid_push_back(&g_signal_info.pid_list, pid) == NULL)
 		return (-1);
 	if (pid == 0)
 	{
@@ -325,7 +325,7 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	pid = fork();
 	if (pid == -1)
 		return (-1);
-	if (pid_push_back(&signal_info.pid_list, pid) == NULL)
+	if (pid_push_back(&g_signal_info.pid_list, pid) == NULL)
 		return (-1);
 	if (pid == 0)
 	{
@@ -362,7 +362,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	t_pid_list	*pid_current;
 	int			before_fd;
 	
-	signal_info.status = EXECUTING_COMMAND;
+	g_signal_info.status = EXECUTING_COMMAND;
 	current = commands;
 	before_fd = STDIN_FILENO;
 	while (current != NULL)
@@ -377,7 +377,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		current = current->next;
 	}
 
-	pid_current = signal_info.pid_list;
+	pid_current = g_signal_info.pid_list;
 	while (pid_current != NULL)
 	{
 		// fprintf(stderr, "waiting\n");
@@ -387,7 +387,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		fprintf(stderr, "process ret / 256: %d\n", tmp / 256);
 		pid_current = pid_current->next;
 	}
-	signal_info.status = UNDEFINED;
-	free_pid_list(&signal_info.pid_list);
+	g_signal_info.status = UNDEFINED;
+	free_pid_list(&g_signal_info.pid_list);
 	return (0);
 }
