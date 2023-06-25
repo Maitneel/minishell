@@ -59,20 +59,12 @@ int	main(int argc, char **argv, char **envs)
 			break ;
 		// if (strcmp(token->word, "exit") == 0)
 		// 	break ;
-		while (token != NULL)
-		{
-			// printf("%s %d", token->word, token->kind);
-			// if (token->kind == SYNTAX_ERROR)
-			// {
-			// 	fprintf(stderr, "\x1b[35m");
-			// 	fprintf(stderr, "syntax error");
-			// 	fprintf(stderr, "\x1b[39m");
-			// }
-			token = token->next;
-			// printf("\n");
-		}
 		command = parse(token_manager);
-		if (strcmp(command->command_name, "exit") == 0 && command->next_pipe == 0)
+		if (command->is_error)
+		{
+			printf("minishell: syntax error\n");
+		} 
+		else if (strcmp(command->command_name, "exit") == 0 && command->next_pipe == 0)
 		{
 			char **args;
 			args = make_args(command);
@@ -80,15 +72,11 @@ int	main(int argc, char **argv, char **envs)
 			free_string_array(args);
 			continue;
 		}
-		if (command->is_error)
+		else 
 		{
-			printf("minishell: syntax error\n");
-		} 
-        else 
-        {
-            print_command(command);
-            command_exec(command, env_manager);
-        }
+			print_command(command);
+			command_exec(command, env_manager);
+		}
 		free_command(command);
 		free_token_manager(token_manager);
 	}
@@ -102,17 +90,17 @@ int	main(int argc, char **argv, char **envs)
 
 
 void check_fd(void) {
-    for (size_t i = 3; i < 10000; i++) {
-        if(close(i) == 0) {
-            fprintf(stderr, "\x1b[35m");
-            fprintf(stderr, "close %5zu\n", i);
-            fprintf(stderr, "\x1b[39m");
-        }
-    }
+	for (size_t i = 3; i < 10000; i++) {
+		if(close(i) == 0) {
+			fprintf(stderr, "\x1b[35m");
+			fprintf(stderr, "close %5zu\n", i);
+			fprintf(stderr, "\x1b[39m");
+		}
+	}
 }
 
 __attribute__((destructor)) void destructor()
 {
-    // check_fd();
+	// check_fd();
 	// system("leaks minishell -q > /dev/stderr/");
 }
