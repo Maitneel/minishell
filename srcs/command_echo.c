@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:34:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 17:20:18 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/25 19:22:22 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "builtin.h"
 
 int	command_echo(char **tokens)
@@ -19,7 +20,7 @@ int	command_echo(char **tokens)
 
 	is_print_nl = true;
 	i = 1;
-	if (ft_strcmp(tokens[1], "-n") == 0)
+	if (tokens[i] != NULL && ft_strcmp(tokens[i], "-n") == 0)
 	{
 		i++;
 		is_print_nl = false;

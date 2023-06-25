@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/25 18:42:33 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/25 19:11:32 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	*free_env_manager(t_env_manager *env_manager)
 		next_env = to_free_env->next;
 		free_env(to_free_env);
 	}
-	free(env_manager);
 	free(env_manager->string_exit_status);
+	free(env_manager);
 	return (NULL);
 }
 
