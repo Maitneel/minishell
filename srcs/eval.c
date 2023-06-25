@@ -6,12 +6,13 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:08:40 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 13:59:12 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 14:52:23 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_string.h"
 #include "../include/tokenize.h"
+#include "libft.h"
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -48,6 +49,17 @@ bool	is_env_delimiter(char c)
 	return (!(isalnum(c) || c == '_'));
 }
 
+char *get_special_env(char key, t_env_manager *env_manager) 
+{
+	if(key == '?')
+	{
+		free(env_manager->string_exit_string);
+		env_manager->string_exit_string = ft_itoa(env_manager->exit_status);
+		return (env_manager->string_exit_string);
+	}
+	return NULL;
+}
+
 char	*get_env_value_ptr(char *token_string, size_t *token_index,
 		t_env_manager *env_manager)
 {
@@ -57,14 +69,17 @@ char	*get_env_value_ptr(char *token_string, size_t *token_index,
 
 	if (token_string == NULL || env_manager == NULL)
 		return (NULL);
-	key = strdup(token_string);
-	if (key == NULL)
-		return (NULL);
 	i = 0;
-	if (isdigit(key[0]))
-		i++;
+	if ((isdigit(token_string[0]) || (token_string[0] == '?')))
+	{
+		(*token_index)++;
+		return get_special_env(token_string[0], env_manager);
+	}
 	else
 	{
+		key = strdup(token_string);
+		if (key == NULL)
+			return (NULL);
 		while (!is_env_delimiter(key[i]))
 			i++;
 	}

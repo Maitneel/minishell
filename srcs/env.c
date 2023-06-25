@@ -6,7 +6,11 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/06/18 17:32:29 by taksaito         ###   ########.fr       */
+=======
+/*   Updated: 2023/06/25 14:49:28 by dummy            ###   ########.fr       */
+>>>>>>> update: $?を展開できるように変更
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +45,7 @@ void	*free_env_manager(t_env_manager *env_manager)
 		free_env(to_free_env);
 	}
 	free(env_manager);
+	free(env_manager->string_exit_string);
 	return (NULL);
 }
 
@@ -73,6 +78,8 @@ t_env_manager	*new_env_manager(char **arg_envs)
 	env_manager = malloc(sizeof(t_env_manager));
 	if (env_manager == NULL)
 		return (NULL);
+	env_manager->string_exit_string = NULL;
+	env_manager->exit_status = 0;
 	env_manager->front = new_env(arg_envs[0]);
 	env_manager->last = env_manager->front;
 	env_manager->size = 1;
