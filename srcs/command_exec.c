@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/20 22:03:06 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/22 20:20:25 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "expand_env.h"
 #include "libft.h"
 #include "get_next_line.h"
+#include "command_exec.h"
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -105,12 +106,20 @@ int here_doc(t_redirect_info *info, t_env_manager *env_manager)
 {
 	int output_fd;
 	int input_fd;
+	char *file_name;
 
-	output_fd = open("/tmp/here_doc_tmp", (O_WRONLY | O_CREAT));
+	file_name = generate_no_exist_file_name("/tmp/here_doc_tmp");
+	if (file_name == NULL)
+		return -1;
+	output_fd = open(file_name, (O_WRONLY | O_CREAT));
 	if (output_fd == -1)
+	{
+		free(file_name);
 		return (-1);
-	input_fd = open("/tmp/here_doc_tmp", (O_RDONLY));
-	unlink("/tmp/here_doc_tmp");
+	}
+	input_fd = open(file_name, (O_RDONLY));
+	unlink(file_name);
+	free(file_name);
 	if (input_fd == -1){
 		close(output_fd);
 		return -1;
