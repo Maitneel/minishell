@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:08:40 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/24 08:02:39 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 13:59:12 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,36 +85,6 @@ typedef struct s_eval_token_helper_args
 	size_t					i;
 	t_string				*evaluated_string;
 }							t_eval_token_helper_args;
-
-// static t_token	*evaluated_token_helper(t_token *token, t_env_manager *env,
-			// char *quote_flag, size_t *i, t_string *evaluated_string)
-// {
-// 	t_string *push_back_ret;
-
-// 		if ((token->word[*i] == '\'' || token->word[*i] == '"')
-// 		&& (token->word[*i] == *quote_flag || *quote_flag == '\0'))
-// 	{
-// 		*quote_flag ^= token->word[*i];
-// 		(*i)++;
-// 		return (NULL);
-// 	}
-// 	if (token->word[*i] == '$' && is_env_delimiter(token->word[*i + 1]))
-// 		push_back_ret = push_back_string(evaluated_string, "$");
-// 	else if (token->word[*i] == '$' && (*quote_flag == '\0'
-// 			|| *quote_flag == '"'))
-// 		push_back_ret = push_back_string(evaluated_string,
-// 				get_env_value_ptr(&token->word[*i + 1], i, env));
-// 	else
-// 		push_back_ret = push_back_string_char(evaluated_string,
-// 				token->word[*i]);
-// 	if (push_back_ret == NULL)
-// 	{
-// 		// TODO error handring
-// 	}
-// 	(void)push_back_ret;
-// 	(*i)++;
-// 	return (NULL);
-// }
 
 bool	is_change_quote_flag(char quote_flag, char current_char)
 {
