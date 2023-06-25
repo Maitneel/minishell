@@ -14,6 +14,7 @@
 #include "env.h"
 #include "ft_signal.h"
 #include "tokenize.h"
+#include "expand_env.h"
 #include "libft.h"
 #include "get_next_line.h"
 #include "command_exec.h"
@@ -55,12 +56,20 @@ size_t get_args_list_size(t_command *command)
 	return size;
 }
 
-char *expand_line(char *line)
+char *expand_line(char *line, t_env_manager *env_manager)
 {
-	return strdup(line);
+	t_string struct_line;
+	t_string expanded;
+	
+	struct_line.data = line;
+	struct_line.length = strlen(line);
+	struct_line.max_length = struct_line.length;
+	if (expand_env(&expanded, &struct_line, env_manager) == NULL)
+		return NULL;
+	return expanded.data;
 }
 
-int expand_and_write(int fd, t_redirect_info *info)
+int expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
 {
 	char *line;
 	char *expanded;
@@ -77,7 +86,7 @@ int expand_and_write(int fd, t_redirect_info *info)
 			break;
 		if (strcmp(line, end_text) == 0)
 			break;
-		expanded = expand_line(line);
+		expanded = expand_line(line, env_manager);
 		free(line);
 		if (expanded == NULL)
 			return (-1);
@@ -93,7 +102,7 @@ int expand_and_write(int fd, t_redirect_info *info)
 	return fd;
 }
 
-int here_doc(t_redirect_info *info)
+int here_doc(t_redirect_info *info, t_env_manager *env_manager)
 {
 	int output_fd;
 	int input_fd;
@@ -115,7 +124,7 @@ int here_doc(t_redirect_info *info)
 		close(output_fd);
 		return -1;
 	}
-	if (expand_and_write(output_fd, info) == -1)
+	if (expand_and_write(output_fd, info, env_manager) == -1)
 		return (-1);
 	return input_fd;
 }
@@ -239,7 +248,7 @@ int files_create(t_redirect_info *outputs)
 	return last_fd;
 }
 
-int files_dup2_stdin(t_redirect_info *inputs)
+int files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager)
 {
 	t_redirect_info *current;
 	int fd;
@@ -254,7 +263,7 @@ int files_dup2_stdin(t_redirect_info *inputs)
 		if (current->kind == REDIRECT_IN)
 			fd = open(current->arg, O_RDONLY);
 		else if (current->kind == REDIRECT_HEAR_DOC)
-			fd = here_doc(current);
+			fd = here_doc(current, env_manager);
 		if (fd == -1)
 			return (-1);
 		current = current->next;
@@ -279,7 +288,7 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	if (pid == 0)
 	{
 		//child
-		input_fd = files_dup2_stdin(command->inputs);
+		input_fd = files_dup2_stdin(command->inputs, env_manager);
 		if (input_fd == -1)
 			exit(1);
 		output_fd = files_create(command->outpus);
@@ -324,7 +333,7 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		dup2(before_fd, STDIN_FILENO);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
-		input_fd = files_dup2_stdin(command->inputs);
+		input_fd = files_dup2_stdin(command->inputs, env_manager);
 		if (input_fd == -1)
 			exit(1);
 		output_fd = files_create(command->outpus);
