@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:40:59 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/18 20:31:47 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 16:25:45 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stddef.h>
 
-#define DEFAULT_INIT_SIZE 1024
+# define DEFAULT_INIT_SIZE 1024
 
 typedef struct s_string
 {

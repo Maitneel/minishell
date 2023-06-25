@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/11 15:05:34 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 16:27:55 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 	t_string		buffer;
 	t_string		expanded;
 
-	signal_info.status = READING_PROMPT;
+	g_signal_info.status = READING_PROMPT;
 	if (set_string(&buffer, readline("minishell$ ")) == NULL)
 	{
-		signal_info.status = UNDEFINED;
+		g_signal_info.status = UNDEFINED;
 		write(STDOUT_FILENO, "exit\n", 5);
 		return (NULL);
 	}
-	signal_info.status = UNDEFINED;
+	g_signal_info.status = UNDEFINED;
 	add_history(buffer.data);
 	if (expand_env(&expanded, &buffer, env_manager) == NULL)
 	{

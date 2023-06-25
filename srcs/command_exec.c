@@ -283,7 +283,7 @@ int pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	pid = fork();
 	if (pid == -1)
 		return (-1);
-	if (pid_push_back(&signal_info.pid_list, pid) == NULL)
+	if (pid_push_back(&g_signal_info.pid_list, pid) == NULL)
 		return (-1);
 	if (pid == 0)
 	{
@@ -325,7 +325,7 @@ int non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	pid = fork();
 	if (pid == -1)
 		return (-1);
-	if (pid_push_back(&signal_info.pid_list, pid) == NULL)
+	if (pid_push_back(&g_signal_info.pid_list, pid) == NULL)
 		return (-1);
 	if (pid == 0)
 	{
@@ -362,7 +362,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	t_pid_list	*pid_current;
 	int			before_fd;
 	
-	signal_info.status = EXECUTING_COMMAND;
+	g_signal_info.status = EXECUTING_COMMAND;
 	current = commands;
 	before_fd = STDIN_FILENO;
 	while (current != NULL)
@@ -377,7 +377,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		current = current->next;
 	}
 
-	pid_current = signal_info.pid_list;
+	pid_current = g_signal_info.pid_list;
 	while (pid_current != NULL)
 	{
 		// fprintf(stderr, "waiting\n");
@@ -387,7 +387,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		env_manager->exit_status /= 256;
 		pid_current = pid_current->next;
 	}
-	signal_info.status = UNDEFINED;
-	free_pid_list(&signal_info.pid_list);
+	g_signal_info.status = UNDEFINED;
+	free_pid_list(&g_signal_info.pid_list);
 	return (0);
 }
