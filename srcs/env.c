@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/25 15:15:02 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/25 15:19:45 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,9 @@ t_env_manager	*new_env_manager(char **arg_envs)
 	t_env_manager	*env_manager;
 	size_t			i;
 
-	env_manager = malloc(sizeof(t_env_manager));
+	env_manager = calloc(1, sizeof(t_env_manager));
 	if (env_manager == NULL)
 		return (NULL);
-	env_manager->string_exit_status = NULL;
-	env_manager->exit_status = 0;
 	env_manager->front = new_env(arg_envs[0]);
 	env_manager->last = env_manager->front;
 	env_manager->size = 1;
