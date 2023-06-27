@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **envs)
 {
 	t_token_manager	*token_manager;
 	t_env_manager	*env_manager;
-	t_token			*token;
+	// t_token			*token;
 	t_env			*env;
 	t_command *command;
 
@@ -49,20 +49,21 @@ int	main(int argc, char **argv, char **envs)
 		token_manager = prompt(env_manager);
 		if (token_manager == NULL)
 		{
-			// TODO なんかのしょり
-			// printf("tokenize error\n");
-			// printf("exit\n");
+			// prompt 関数内でエラーメッセージの出力が完了しているので、そのままbreakしexitする
 			break ;
 		}
-		token = token_manager->front;
-		if (token == NULL)
-			break ;
 		// if (strcmp(token->word, "exit") == 0)
 		// 	break ;
 		command = parse(token_manager);
+		if (command == NULL)
+		{
+			// TODO ここでエラーメッセージの出力をするか、parser関数ない出力するか
+			break;
+		}
 		if (command->is_error)
 		{
-			printf("minishell: syntax error\n");
+			// printf("minishell: syntax error\n");
+			continue;
 		} 
 		else if (strcmp(command->command_name, "exit") == 0 && command->next_pipe == 0)
 		{

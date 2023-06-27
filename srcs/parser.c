@@ -6,12 +6,13 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 19:49:22 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/28 00:20:05 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "tokenize.h"
+#include "print_lib.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -234,6 +235,7 @@ bool	add_redirect_to_command(t_command *command, t_token *front_token)
 
 	if (front_token->next == NULL || front_token->next->kind == REDIRECT_KIND)
 	{
+		print_syntax_error(front_token->next);
 		command->is_error = true;
 		return (true);
 	}

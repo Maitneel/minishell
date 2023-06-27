@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/25 16:27:55 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/28 00:00:27 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 		free(buffer.data);
 		// TODO: error handring
 		// エラー(mallocの失敗とか)をどうするかという処理
+		perror("minishell");
 		return (NULL);
 	}
 	tokenized = tokenize(&expanded, env_manager);
