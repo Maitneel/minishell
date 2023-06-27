@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 19:02:09 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/28 01:10:39 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,6 +407,14 @@ int	non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	return (STDIN_FILENO);
 }
 
+int get_exit_code(int n)
+{
+	if (n % 256 == 0)
+		return n / 256;
+	else
+		return (n % 256 + 128);
+}
+
 int	command_exec(t_command *commands, t_env_manager *env_manager)
 {
 	t_command	*current;
@@ -437,7 +445,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		// fprintf(stderr, "process ret : %d\n", env_manager->exit_status);
 		// fprintf(stderr, "process ret / 256: %d\n", env_manager->exit_status
 		// 		/ 256);
-		env_manager->exit_status /= 256;
+		env_manager->exit_status = get_exit_code(env_manager->exit_status);
 		pid_current = pid_current->next;
 	}
 	g_signal_info.status = UNDEFINED;
