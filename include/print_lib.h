@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_lib.c                                        :+:      :+:    :+:   */
+/*   print_lib.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/04 16:21:03 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/27 23:51:23 by dummy            ###   ########.fr       */
+/*   Created: 2023/06/27 23:50:58 by dummy             #+#    #+#             */
+/*   Updated: 2023/06/27 23:51:16 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
-#include <unistd.h>
+#ifndef PRINT_LIB_H
+# define PRINT_LIB_H
 
-void	put_command_not_found(char *command)
-{
-	write(STDERR_FILENO, "builtin not found: ", 19);
-	write(STDERR_FILENO, command, ft_strlen(command));
-	write(STDERR_FILENO, "\n", 1);
-}
+void			put_command_not_found(char *command);
+
+
+#endif

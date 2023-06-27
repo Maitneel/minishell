@@ -31,7 +31,7 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/command_export.c \
 	${SRCS_DIR}/command_pwd.c \
 	${SRCS_DIR}/command_unset.c \
-	${SRCS_DIR}/buildin_print_lib.c \
+	${SRCS_DIR}/print_lib.c \
 	${SRCS_DIR}/buildin_utils.c \
 	${SRCS_DIR}/ft_strcmp.c \
 
