@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 19:02:09 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/27 23:55:17 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "libft.h"
 #include "parser.h"
 #include "tokenize.h"
+#include "print_lib.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -263,7 +264,7 @@ int	ft_exec(t_command *command, t_env_manager *env_manager)
 	command_path = find_path(command, env_manager);
 	if (command_path == NULL)
 	{
-		write(STDERR_FILENO, "command not found\n", 18);
+		put_command_not_found(command->command_name);
 		return (-1);
 	}
 	exit(execve(command_path, args, env_ptr));
