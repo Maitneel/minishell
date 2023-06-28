@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/28 22:40:00 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/29 03:34:50 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,7 @@ bool	add_redirect_to_command(t_command *command, t_token *front_token)
 	if (redirect_info->arg == NULL)
 	{
 		free(redirect_info);
+		// ここ型絶対違うのにコンパイル通るの謎 
 		return (free_command(command));
 	}
 	set_redirect_kind(front_token->word, redirect_info);
@@ -282,6 +283,7 @@ bool	add_command_name_or_args(t_command *command,
 	return (true);
 }
 
+// これヘッダーに移動した方がいい気がする
 typedef enum e_return_status
 {
 	SUCCESS = 3000,

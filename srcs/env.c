@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/28 22:40:47 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/29 03:19:50 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_env_manager	*new_env_manager(char **arg_envs)
 		return (NULL);
 	env_manager->front = new_env(arg_envs[0]);
 	env_manager->last = env_manager->front;
+	// ここおかしい気がする 
 	env_manager->size = 1;
 	if (env_manager->front == NULL)
 		return (env_manager);
