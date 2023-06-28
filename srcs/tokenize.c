@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 19:41:46 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/28 22:43:47 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "stdlib.h"
 #include "tokenize.h"
 #include "parser.h"
+#include "ft_xcalloc.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
@@ -24,7 +25,7 @@ t_token	*new_token(const char *word, const int kind)
 
 	if (word == NULL)
 		return (NULL);
-	token = calloc(sizeof(t_token), 1);
+	token = ft_xcalloc(sizeof(t_token), 1);
 	if (token == NULL)
 		return (NULL);
 	token->word = strdup(word);
@@ -42,7 +43,7 @@ t_token_manager	*new_token_manager(void)
 {
 	t_token_manager	*new;
 
-	new = malloc(sizeof(t_token_manager));
+	new = ft_xcalloc(1, sizeof(t_token_manager));
 	if (new == NULL)
 	{
 		return (NULL);
@@ -195,7 +196,7 @@ bool	tokenize_setup(t_token_manager **token_manager, char **token_string,
 	*token_manager = new_token_manager();
 	if (*token_manager == NULL)
 		return (true);
-	*token_string = calloc(sizeof(char), line->length + 1);
+	*token_string = ft_xcalloc(sizeof(char), line->length + 1);
 	if (*token_string == NULL)
 	{
 		free_token_manager(*token_manager);

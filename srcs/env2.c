@@ -6,12 +6,13 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:31:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/18 20:06:10 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/28 22:40:41 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
 #include "env.h"
+#include "ft_xcalloc.h"
 #include "libft.h"
 #include <stdlib.h>
 #include <string.h>
@@ -163,7 +164,7 @@ char	**make_env_ptr(t_env_manager *env_manager)
 	size_t	i;
 
 	// fprintf(stderr, "call make_env_ptr \n");
-	env_ptr = calloc(sizeof(char *), env_manager->size + 1);
+	env_ptr = ft_xcalloc(sizeof(char *), env_manager->size + 1);
 	if (env_ptr == NULL)
 		return (NULL);
 	i = 0;

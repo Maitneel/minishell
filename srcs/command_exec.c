@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/27 23:55:17 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/28 22:40:55 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "ft_signal.h"
 #include "get_next_line.h"
 #include "libft.h"
+#include "ft_xcalloc.h"
 #include "parser.h"
 #include "tokenize.h"
 #include "print_lib.h"
@@ -164,7 +165,7 @@ char	**make_args(t_command *command)
 	size_t		i;
 
 	args_size = get_args_list_size(command) + 1;
-	args_array = calloc(args_size + 1, sizeof(char *));
+	args_array = ft_xcalloc(args_size + 1, sizeof(char *));
 	if (args_array == NULL)
 		return (NULL);
 	args_array[0] = strdup(command->command_name);

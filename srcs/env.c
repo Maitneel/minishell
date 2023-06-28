@@ -6,12 +6,13 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/25 19:11:32 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/28 22:40:47 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include "libft.h"
+#include "ft_xcalloc.h"
 #include "builtin.h"
 #include <string.h>
 #include <stdlib.h>
@@ -72,7 +73,7 @@ t_env_manager	*new_env_manager(char **arg_envs)
 	t_env_manager	*env_manager;
 	size_t			i;
 
-	env_manager = calloc(1, sizeof(t_env_manager));
+	env_manager = ft_xcalloc(1, sizeof(t_env_manager));
 	if (env_manager == NULL)
 		return (NULL);
 	env_manager->front = new_env(arg_envs[0]);

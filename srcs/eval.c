@@ -6,13 +6,14 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:08:40 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/28 00:11:23 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/28 22:40:35 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_string.h"
 #include "../include/tokenize.h"
 #include "libft.h"
+#include "ft_xcalloc.h"
 #include "print_lib.h"
 #include <ctype.h>
 #include <stdbool.h>
@@ -151,7 +152,7 @@ t_eval_token_helper_args	*set_args(t_eval_token_helper_args *args,
 									t_token *token,
 									t_env_manager *env_manager)
 {
-	args->evaluated_string = calloc(1, sizeof(t_string));
+	args->evaluated_string = ft_xcalloc(1, sizeof(t_string));
 	if (args->evaluated_string == NULL)
 		return (NULL);
 	if (init_string(args->evaluated_string, DEFAULT_INIT_SIZE) == NULL)

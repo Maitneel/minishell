@@ -6,13 +6,14 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/28 00:20:05 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/28 22:40:00 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "tokenize.h"
 #include "print_lib.h"
+#include "ft_xcalloc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,7 +36,7 @@ t_redirect_info	*new_redirect_info(void)
 {
 	t_redirect_info	*redirect_info;
 
-	redirect_info = calloc(1, sizeof(t_redirect_info));
+	redirect_info = ft_xcalloc(1, sizeof(t_redirect_info));
 	if (redirect_info == NULL)
 	{
 		return (NULL);
@@ -82,7 +83,7 @@ t_args_list	*new_args_list(char *string)
 {
 	t_args_list	*args;
 
-	args = calloc(1, sizeof(t_args_list));
+	args = ft_xcalloc(1, sizeof(t_args_list));
 	if (args == NULL)
 	{
 		return (NULL);
@@ -145,7 +146,7 @@ t_command	*new_command(void)
 {
 	t_command	*command;
 
-	command = calloc(sizeof(t_command), 1);
+	command = ft_xcalloc(sizeof(t_command), 1);
 	if (command == NULL)
 	{
 		return (NULL);

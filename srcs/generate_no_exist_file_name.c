@@ -6,11 +6,12 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:13:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/22 20:18:39 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/28 22:40:14 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_xcalloc.h"
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -33,7 +34,7 @@ char	*setup_file_name(char *front_string, size_t front_len, size_t num_len)
 	size_t	i;
 	char	*file_name;
 
-	file_name = ft_calloc(sizeof(char), front_len + 1 + num_len + 1);
+	file_name = ft_xcalloc(sizeof(char), front_len + 1 + num_len + 1);
 	if (file_name == NULL)
 		return (NULL);
 	ft_memcpy(file_name, front_string, front_len);
