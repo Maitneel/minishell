@@ -6,12 +6,14 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 19:49:22 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/29 03:34:50 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "tokenize.h"
+#include "print_lib.h"
+#include "ft_xcalloc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,7 +36,7 @@ t_redirect_info	*new_redirect_info(void)
 {
 	t_redirect_info	*redirect_info;
 
-	redirect_info = calloc(1, sizeof(t_redirect_info));
+	redirect_info = ft_xcalloc(1, sizeof(t_redirect_info));
 	if (redirect_info == NULL)
 	{
 		return (NULL);
@@ -81,7 +83,7 @@ t_args_list	*new_args_list(char *string)
 {
 	t_args_list	*args;
 
-	args = calloc(1, sizeof(t_args_list));
+	args = ft_xcalloc(1, sizeof(t_args_list));
 	if (args == NULL)
 	{
 		return (NULL);
@@ -144,7 +146,7 @@ t_command	*new_command(void)
 {
 	t_command	*command;
 
-	command = calloc(sizeof(t_command), 1);
+	command = ft_xcalloc(sizeof(t_command), 1);
 	if (command == NULL)
 	{
 		return (NULL);
@@ -234,6 +236,7 @@ bool	add_redirect_to_command(t_command *command, t_token *front_token)
 
 	if (front_token->next == NULL || front_token->next->kind == REDIRECT_KIND)
 	{
+		print_syntax_error(front_token->next);
 		command->is_error = true;
 		return (true);
 	}
@@ -244,6 +247,7 @@ bool	add_redirect_to_command(t_command *command, t_token *front_token)
 	if (redirect_info->arg == NULL)
 	{
 		free(redirect_info);
+		// ここ型絶対違うのにコンパイル通るの謎 
 		return (free_command(command));
 	}
 	set_redirect_kind(front_token->word, redirect_info);
@@ -279,6 +283,7 @@ bool	add_command_name_or_args(t_command *command,
 	return (true);
 }
 
+// これヘッダーに移動した方がいい気がする
 typedef enum e_return_status
 {
 	SUCCESS = 3000,

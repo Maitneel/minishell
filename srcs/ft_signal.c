@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_signal.h"
+#include "ft_xcalloc.h"
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -47,7 +48,7 @@ t_pid_list	*new_pid_list(pid_t pid)
 {
 	t_pid_list	*pid_list;
 
-	pid_list = calloc(1, sizeof(t_pid_list));
+	pid_list = ft_xcalloc(1, sizeof(t_pid_list));
 	if (pid_list == NULL)
 		return (NULL);
 	pid_list->pid = pid;

@@ -29,8 +29,8 @@ int	main(int argc, char **argv, char **envs)
 {
 	t_token_manager	*token_manager;
 	t_env_manager	*env_manager;
-	t_token			*token;
-	t_env			*env;
+	// t_token			*token;
+	// t_env			*env;
 	t_command *command;
 
 
@@ -39,30 +39,34 @@ int	main(int argc, char **argv, char **envs)
 	g_signal_info.status = UNDEFINED;
 	g_signal_info.pid_list = NULL;
 	env_manager = new_env_manager(envs);
+	// ここのエラー処理、xcallocにしたのでおそらく消せるが、new_env_managerの処理がエグそうなので消して大丈夫かわからない
 	if (env_manager == NULL)
 	{
 		return (1);
 	}
-	env = env_manager->front;
+	// env = env_manager->front;
 	while (true)
 	{
 		token_manager = prompt(env_manager);
 		if (token_manager == NULL)
 		{
-			// TODO なんかのしょり
-			// printf("tokenize error\n");
-			// printf("exit\n");
+			// prompt 関数内でエラーメッセージの出力が完了しているので、そのままbreakしexitする
+			// このエラー処理はreadlineがNULLを返した時(Cntl+Dの時)に必要なのでいる
 			break ;
 		}
-		token = token_manager->front;
-		if (token == NULL)
-			break ;
 		// if (strcmp(token->word, "exit") == 0)
 		// 	break ;
 		command = parse(token_manager);
+		if (command == NULL)
+		{
+			// ここはおそらくいらない
+			// TODO ここでエラーメッセージの出力をするか、parser関数ない出力するか
+			break;
+		}
 		if (command->is_error)
 		{
-			printf("minishell: syntax error\n");
+			// printf("minishell: syntax error\n");
+			continue;
 		} 
 		else if (strcmp(command->command_name, "exit") == 0 && command->next_pipe == 0)
 		{
@@ -85,7 +89,7 @@ int	main(int argc, char **argv, char **envs)
 	(void)argc;
 	(void)argv;
 	(void)envs;
-	(void)env;
+	// (void)env;
 }
 
 

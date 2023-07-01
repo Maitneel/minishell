@@ -106,6 +106,7 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 		free(buffer.data);
 		// TODO: error handring
 		// エラー(mallocの失敗とか)をどうするかという処理
+		perror("minishell");
 		return (NULL);
 	}
 	tokenized = tokenize(&expanded, env_manager);

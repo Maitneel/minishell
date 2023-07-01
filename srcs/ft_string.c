@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_string.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:41:45 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/19 00:56:01 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/28 22:40:20 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
+#include "ft_xcalloc.h"
 #include "libft.h"
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +20,7 @@ t_string	*init_string(t_string *string, size_t length)
 {
 	if (string == NULL || length == 0 || length == SIZE_MAX)
 		return (NULL);
-	string->data = calloc(sizeof(char), length + 1);
+	string->data = ft_xcalloc(sizeof(char), length + 1);
 	if (string->data == NULL)
 		return (NULL);
 	string->length = 0;
@@ -39,7 +40,7 @@ static t_string	*resize_string(t_string *string, size_t resize_length)
 		free(string->data);
 		return (NULL);
 	}
-	resized_string = calloc(sizeof(char), resize_length + 1);
+	resized_string = ft_xcalloc(sizeof(char), resize_length + 1);
 	if (resized_string == NULL)
 	{
 		free(string->data);

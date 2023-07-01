@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/26 21:13:23 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/29 04:07:28 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 #include "ft_signal.h"
 #include "get_next_line.h"
 #include "libft.h"
+#include "ft_xcalloc.h"
 #include "parser.h"
 #include "tokenize.h"
+#include "print_lib.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -163,7 +165,7 @@ char	**make_args(t_command *command)
 	size_t		i;
 
 	args_size = get_args_list_size(command) + 1;
-	args_array = calloc(args_size + 1, sizeof(char *));
+	args_array = ft_xcalloc(args_size + 1, sizeof(char *));
 	if (args_array == NULL)
 		return (NULL);
 	args_array[0] = strdup(command->command_name);
@@ -211,12 +213,16 @@ char	*find_path(t_command *command, t_env_manager *env_manager)
 	if (path_env == NULL)
 		return (NULL);
 	paths = ft_split(path_env->value, ':');
+	// libftの関数はxcallocに置き換えていないので、これはexitする必要がある
+	if (paths == NULL)
+		ft_exit(ALOCATE_ERROR);
 	i = 0;
 	while (paths[i] != NULL)
 	{
 		absolute_path = make_path(paths[i], command->command_name);
 		if (absolute_path == NULL)
-			return (free_string_array(paths));
+			ft_exit(ALOCATE_ERROR);
+			// return (free_string_array(paths));
 		if (access(absolute_path, F_OK) == 0)
 		{
 			free_string_array(paths);
@@ -263,10 +269,14 @@ int	ft_exec(t_command *command, t_env_manager *env_manager)
 	command_path = find_path(command, env_manager);
 	if (command_path == NULL)
 	{
-		write(STDERR_FILENO, "command not found\n", 18);
+		put_command_not_found(command->command_name);
 		return (-1);
 	}
-	exit(execve(command_path, args, env_ptr));
+ 	execve(command_path, args, env_ptr);
+	write(STDERR_FILENO, "minishell: ", 12);
+	perror(command_path);
+	// コマンドは見つかったが実行できなかった(権限がないとか)の時の終了コード
+	exit(126);
 	return (0);
 }
 // TODO: 名前をいい感じに
@@ -327,7 +337,12 @@ int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	int		output_fd;
 	int		input_fd;
 
-	pipe(pipe_fd);
+	// pipe_fd == -1の時のエラー処理
+	if (pipe(pipe_fd) == -1)
+	{
+		// エラー処理(親プロセスでの処理になる)
+		// exit するのか、そのままpromptに戻すのか
+	}
 	pid = fork();
 	if (pid == -1)
 		return (-1);
@@ -344,6 +359,7 @@ int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 			exit(1);
 		if (command->command_name == NULL)
 			exit(0);
+		// dup2のエラー処理までするかどうか....
 		dup2(before_fd, input_fd);
 		// dup2(pipe_fd[WRITE_FD], output_fd);
 		dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
@@ -355,6 +371,7 @@ int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		close(pipe_fd[READ_FD]);
 		close(output_fd);
 		close(input_fd);
+		// コマンドが見つからなかったのか、コマンドは見つかったが実行できなかったかによって、exitするコードが変わると思う 
 		exit(127); // ?
 	}
 	else
@@ -402,6 +419,7 @@ int	non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	}
 	else
 	{
+		// ここのelse外せるかも
 		// parent
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
