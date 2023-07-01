@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/29 03:19:50 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/01 16:23:10 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_env	*new_env(char *str)
 		i++;
 	if (i == 0 || str[i] == '\0')
 		return (NULL);
-	env = malloc(sizeof(t_env));
+	env = ft_xcalloc(sizeof(t_env), 1);
 	if (env == NULL)
 		return (NULL);
 	env->next = NULL;
