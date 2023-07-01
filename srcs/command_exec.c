@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/01 18:39:23 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:41:34 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,6 @@ int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		return (-1);
 	if (pid == 0)
 	{
-		//child
 		input_fd = files_dup2_stdin(command->inputs, env_manager);
 		if (input_fd == -1)
 			exit(1);
@@ -279,10 +278,10 @@ int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		close(input_fd);
 		// コマンドが見つからなかったのか、コマンドは見つかったが実行できなかったかによって、exitするコードが変わると思う 
 		exit(127); // ?
+
 	}
 	else
 	{
-		// parent
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
 		close(pipe_fd[WRITE_FD]);
@@ -303,7 +302,6 @@ int	non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		return (-1);
 	if (pid == 0)
 	{
-		//child
 		dup2(before_fd, STDIN_FILENO);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);

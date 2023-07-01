@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/25 19:40:08 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/06/25 21:00:26 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int		exec_builtin(t_command *command, char **args, t_env_manager *env_manager);
 int		here_doc(t_redirect_info *info, t_env_manager *env_manager);
 char	*expand_line(char *line, t_env_manager *env_manager);
 int		expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager);
+char	*find_path(t_command *command, t_env_manager *env_manager);
 
 #endif
