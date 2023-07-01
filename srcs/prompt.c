@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/25 21:01:25 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/01 15:26:55 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,39 @@
 // 	return (NULL);
 // }
 
+char	ft_is_space(char c)
+{
+	if (c == ' ' )
+		return true;
+	if (c == '\t' )
+		return true;
+	if (c == '\n' )
+		return true;
+	if (c == '\v' )
+		return true;
+	if (c == '\f' )
+		return true;
+	if (c == '\r')
+		return true;
+	return false;
+}
+
+bool	is_karamoziret(char *str)
+{
+	size_t i ;
+
+	i = 0 ;
+	while (str[i] != '\0')
+	{
+		if (!ft_is_space(str[i]))
+		{
+			return false;
+		}
+		i++;
+	}
+	return true;
+}
+
 char	*read_prompt(void)
 {
 	char	*line;
@@ -42,7 +75,7 @@ char	*read_prompt(void)
 		g_signal_info.status = UNDEFINED;
 		if (line == NULL)
 			break ;
-		if (line[0] == '\0')
+		if (is_karamoziret(line))
 		{
 			free(line);
 			line = NULL;
