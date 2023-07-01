@@ -361,7 +361,9 @@ int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 			exit(0);
 		// dup2のエラー処理までするかどうか....
 		dup2(before_fd, input_fd);
-		dup2(pipe_fd[WRITE_FD], output_fd);
+		// dup2(pipe_fd[WRITE_FD], output_fd);
+		dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
+		dup2(output_fd, STDOUT_FILENO);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
 		ft_exec(command, env_manager);
@@ -404,6 +406,7 @@ int	non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		if (input_fd == -1)
 			exit(1);
 		output_fd = files_create(command->outpus);
+		fprintf(stderr, "output_fd : '%d'\n", output_fd);
 		if (output_fd == -1)
 			exit(1);
 		if (command->command_name == NULL)
@@ -423,6 +426,14 @@ int	non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		return (STDIN_FILENO);
 	}
 	return (STDIN_FILENO);
+}
+
+int get_exit_code(int n)
+{
+	if (n % 256 == 0)
+		return n / 256;
+	else
+		return (n % 256 + 128);
 }
 
 int	command_exec(t_command *commands, t_env_manager *env_manager)
@@ -455,7 +466,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		// fprintf(stderr, "process ret : %d\n", env_manager->exit_status);
 		// fprintf(stderr, "process ret / 256: %d\n", env_manager->exit_status
 		// 		/ 256);
-		env_manager->exit_status /= 256;
+		env_manager->exit_status = get_exit_code(env_manager->exit_status);
 		pid_current = pid_current->next;
 	}
 	g_signal_info.status = UNDEFINED;

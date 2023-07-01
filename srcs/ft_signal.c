@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:13:58 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/28 22:40:28 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/28 01:11:52 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	resive_signal(int sig_id)
 	}
 	else if (g_signal_info.status == EXECUTING_COMMAND)
 	{
+		write(STDOUT_FILENO, "\n", 1);
 		// pid = g_signal_info.pid_list;
 		// while (pid != NULL)
 		// {
