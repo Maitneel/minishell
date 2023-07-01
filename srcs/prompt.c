@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/01 15:26:55 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/01 15:40:27 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	ft_is_space(char c)
 	return false;
 }
 
-bool	is_karamoziret(char *str)
+bool	is_empty_string(char *str)
 {
 	size_t i ;
 
@@ -75,7 +75,7 @@ char	*read_prompt(void)
 		g_signal_info.status = UNDEFINED;
 		if (line == NULL)
 			break ;
-		if (is_karamoziret(line))
+		if (is_empty_string(line))
 		{
 			free(line);
 			line = NULL;
