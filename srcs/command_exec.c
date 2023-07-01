@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/28 01:10:39 by dummy            ###   ########.fr       */
+/*   Updated: 2023/06/26 21:13:23 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,7 +345,9 @@ int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		if (command->command_name == NULL)
 			exit(0);
 		dup2(before_fd, input_fd);
-		dup2(pipe_fd[WRITE_FD], output_fd);
+		// dup2(pipe_fd[WRITE_FD], output_fd);
+		dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
+		dup2(output_fd, STDOUT_FILENO);
 		if (before_fd != STDIN_FILENO)
 			close(before_fd);
 		ft_exec(command, env_manager);
@@ -387,6 +389,7 @@ int	non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		if (input_fd == -1)
 			exit(1);
 		output_fd = files_create(command->outpus);
+		fprintf(stderr, "output_fd : '%d'\n", output_fd);
 		if (output_fd == -1)
 			exit(1);
 		if (command->command_name == NULL)
