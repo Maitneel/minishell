@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:41:08 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 08:03:28 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/03 08:05:13 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	files_create(t_redirect_info *outputs)
 	return (last_fd);
 }
 
-int	files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager)
+int	files_dup2_stdin(t_redirect_info *inputs)
 {
 	t_redirect_info	*current;
 	int				fd;
@@ -82,7 +82,6 @@ int	files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager)
 		current = current->next;
 	}
 	dup2(fd, STDIN_FILENO);
-	(void)(env_manager);
 	return (fd);
 }
 

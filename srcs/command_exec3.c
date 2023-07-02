@@ -6,13 +6,13 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 08:03:56 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/03 08:04:36 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
 
-char	*here_doc(t_redirect_info *info)
+char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
 {
 	int		output_fd;
 	char	*file_name;

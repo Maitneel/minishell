@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec5.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 18:57:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 19:29:36 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 08:06:43 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	non_pipe_child_exec(int before_fd, t_command *command,
 	dup2(before_fd, STDIN_FILENO);
 	if (before_fd != STDIN_FILENO)
 		close(before_fd);
-	input_fd = files_dup2_stdin(command->inputs, env_manager);
+	input_fd = files_dup2_stdin(command->inputs);
 	if (input_fd == -1)
 		exit(1);
 	output_fd = files_create(command->outpus);
@@ -42,7 +42,7 @@ void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
 	int	input_fd;
 	int	output_fd;
 
-	input_fd = files_dup2_stdin(command->inputs, env_manager);
+	input_fd = files_dup2_stdin(command->inputs);
 	if (input_fd == -1)
 		exit(1);
 	output_fd = files_create(command->outpus);
