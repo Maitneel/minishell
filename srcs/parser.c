@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/29 03:34:50 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/03 07:31:16 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,7 +319,7 @@ t_return_status	parser_helper(t_token **front_token, t_command **front_command,
 	return (SUCCESS);
 }
 
-t_command	*parse(t_token_manager *token_manager)
+t_command	*parse(t_token_manager *token_manager, t_env_manager *env_manager)
 {
 	t_command		*command;
 	t_command		*front_command;
@@ -342,6 +342,7 @@ t_command	*parse(t_token_manager *token_manager)
 	push_back_command(&front_command, command);
 	if (front_token != NULL || command->is_error == true)
 		front_command->is_error = true;
+	expand_here_doc(front_command, env_manager);
 	return (front_command);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/02 19:29:55 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 07:19:57 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ size_t	get_args_list_size(t_command *command);
 char	*expand_line(char *line, t_env_manager *env_manager);
 int		expand_and_write(int fd, t_redirect_info *info,
 			t_env_manager *env_manager);
-int		here_doc(t_redirect_info *info, t_env_manager *env_manager);
+char	*here_doc(t_redirect_info *info, t_env_manager *env_manager);
 char	**make_args(t_command *command);
 char	*make_path(const char *path, const char *command);
 char	*find_path(t_command *command, t_env_manager *env_manager);

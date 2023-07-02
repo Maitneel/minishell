@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:41:08 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 20:00:45 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 07:51:36 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,21 @@ int	files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager)
 	while (current != NULL)
 	{
 		close(fd);
-		if (current->kind == REDIRECT_IN)
+		// if (current->kind == REDIRECT_IN)
 			fd = open(current->arg, O_RDONLY);
-		else if (current->kind == REDIRECT_HEAR_DOC)
-			fd = here_doc(current, env_manager);
+		// else if (current->kind == REDIRECT_HEAR_DOC) {
+			// fd = here_doc(current, env_manager);
+		// }
 		if (fd == -1)
+		{
+			write(STDERR_FILENO, "minishell: ", 12);
+			perror(current->arg);
 			return (-1);
+		}
 		current = current->next;
 	}
 	dup2(fd, STDIN_FILENO);
+	(void)(env_manager);
 	return (fd);
 }
 
