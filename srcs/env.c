@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/01 16:23:10 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/01 17:03:11 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,33 +71,23 @@ t_env	*new_env(char *str)
 t_env_manager	*new_env_manager(char **arg_envs)
 {
 	t_env_manager	*env_manager;
+	t_env			*env;
 	size_t			i;
 
 	env_manager = ft_xcalloc(1, sizeof(t_env_manager));
-	if (env_manager == NULL)
-		return (NULL);
-	env_manager->front = new_env(arg_envs[0]);
 	env_manager->last = env_manager->front;
-	// ここおかしい気がする 
-	env_manager->size = 1;
-	if (env_manager->front == NULL)
-		return (env_manager);
-	env_manager->size = 1;
-	i = 1;
+	env_manager->size = 0;
+	i = 0;
 	while (arg_envs[i] != NULL)
 	{
-		if (env_manager->last == NULL)
-			return (free_env_manager(env_manager));
-		env_manager->last->next = new_env(arg_envs[i]);
-		if (env_manager->last->next == NULL)
-			return (free_env_manager(env_manager));
-		env_manager->last = env_manager->last->next;
+		env = new_env(arg_envs[i]);
+		env->next = env_manager->front;
+		env_manager->front = env;
 		env_manager->size++;
 		i++;
 	}
 	return (env_manager);
 }
-
 
 int	command_env(t_env_manager *env_manager, char **tokens)
 {
