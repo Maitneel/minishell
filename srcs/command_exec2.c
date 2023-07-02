@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 18:56:53 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/01 19:00:28 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/02 15:59:47 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ bool	is_builtin(char *command)
 		"unset",
 		"exit",
 		"env",
-		NULL};
+		NULL
+	};
 
 	i = 0;
 	while (commands[i])
