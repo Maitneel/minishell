@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:41:08 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 19:28:54 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/02 20:00:45 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	ft_exec(t_command *command, t_env_manager *env_manager)
 	execve(command_path, args, env_ptr);
 	write(STDERR_FILENO, "minishell: ", 12);
 	perror(command_path);
-	// コマンドは見つかったが実行できなかった(権限がないとか)の時の終了コード
 	exit(126);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 18:37:31 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/02 20:00:08 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 			before_fd = pipe_exec(before_fd, current, env_manager);
 		else
 			before_fd = non_pipe_exec(before_fd, current, env_manager);
-		// TODO: before_fd == -1の時の処理
 		current = current->next;
 	}
 	pid_current = g_signal_info.pid_list;
