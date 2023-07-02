@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 18:56:53 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 15:59:47 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:57:12 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,7 @@ int	expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
 		free(line);
 		if (expanded == NULL)
 			return (-1);
-		if (write(fd, expanded, strlen(expanded)) == -1)
-		{
-			free(expanded);
-			return (-1);
-		}
+		write(fd, expanded, strlen(expanded));
 		free(expanded);
 	}
 	free(line);

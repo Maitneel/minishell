@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 15:42:33 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:12:44 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,20 @@ char	**make_args(t_command *command)
 	return (args_array);
 }
 
-char	*make_path(const char *path, const char *command)
+char	*make_path(const char *path, const char *command_name)
 {
 	char	*slashed;
 	char	*joined;
 
-	if (path == NULL || command == NULL)
-		return (NULL);
+	if (path == NULL || command_name == NULL)
+		exit(1);
 	slashed = ft_strjoin(path, "/");
 	if (slashed == NULL)
-		return (NULL);
-	joined = ft_strjoin(slashed, command);
+		ft_exit(ALOCATE_ERROR);
+	joined = ft_strjoin(slashed, command_name);
 	free(slashed);
+	if (joined == NULL)
+		ft_exit(ALOCATE_ERROR);
 	return (joined);
 }
 
@@ -89,23 +91,16 @@ char	*find_path(t_command *command, t_env_manager *env_manager)
 	char	*absolute_path;
 	char	**paths;
 
-	// 絶対パスかのチェック
 	if (access(command->command_name, F_OK) == 0)
 		return (strdup(command->command_name));
 	path_env = find_env(env_manager, "PATH");
 	if (path_env == NULL)
 		return (NULL);
-	paths = ft_split(path_env->value, ':');
-	// libftの関数はxcallocに置き換えていないので、これはexitする必要がある
-	if (paths == NULL)
-		ft_exit(ALOCATE_ERROR);
+	paths = ft_xsplit(path_env->value, ':');
 	i = 0;
 	while (paths[i] != NULL)
 	{
 		absolute_path = make_path(paths[i], command->command_name);
-		if (absolute_path == NULL)
-			ft_exit(ALOCATE_ERROR);
-			// return (free_string_array(paths));
 		if (access(absolute_path, F_OK) == 0)
 		{
 			free_string_array(paths);
@@ -114,8 +109,7 @@ char	*find_path(t_command *command, t_env_manager *env_manager)
 		free(absolute_path);
 		i++;
 	}
-	free_string_array(paths);
-	return (NULL);
+	return (free_string_array(paths));
 }
 
 int	exec_builtin(t_command *command, char **args, t_env_manager *env_manager)

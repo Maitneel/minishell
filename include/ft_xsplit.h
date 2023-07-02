@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_xcalloc.h                                       :+:      :+:    :+:   */
+/*   ft_xsplit.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/28 22:31:22 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/02 18:07:47 by taksaito         ###   ########.fr       */
+/*   Created: 2023/07/02 18:08:19 by taksaito          #+#    #+#             */
+/*   Updated: 2023/07/02 18:13:10 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_XCALLOC_H
-# define FT_XCALLOC_H
+#ifndef FT_XSPLIT_H
+# define FT_XSPLIT_H
 
-# include <stddef.h>
+# include "libft.h"
 
-typedef enum s_error_enum
-{
-	UNKNOWN = 5000,
-	ALOCATE_ERROR,
-}		t_error_enum;
-
-void	*ft_xcalloc(size_t count, size_t size);
-void	ft_exit(t_error_enum error_type);
+char	**ft_xsplit(const char *str, char sep);
 
 #endif

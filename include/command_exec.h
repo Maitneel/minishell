@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/02 16:42:44 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:12:13 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include "parser.h"
 # include "tokenize.h"
 # include "print_lib.h"
+# include "ft_xsplit.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>

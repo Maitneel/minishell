@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:41:08 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 16:41:24 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:18:54 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	ft_exec(t_command *command, t_env_manager *env_manager)
 	char	**args;
 	char	**env_ptr;
 
-	// TODO: envの$?に入れる　
-	// fprintf(stderr, "--------------------\n");
 	args = make_args(command);
 	env_ptr = make_env_ptr(env_manager);
 	if (is_builtin(command->command_name))
@@ -30,14 +28,13 @@ int	ft_exec(t_command *command, t_env_manager *env_manager)
 		put_command_not_found(command->command_name);
 		return (-1);
 	}
- 	execve(command_path, args, env_ptr);
+	execve(command_path, args, env_ptr);
 	write(STDERR_FILENO, "minishell: ", 12);
 	perror(command_path);
 	// コマンドは見つかったが実行できなかった(権限がないとか)の時の終了コード
 	exit(126);
 	return (0);
 }
-// TODO: 名前をいい感じに
 
 int	files_create(t_redirect_info *outputs)
 {
@@ -116,7 +113,7 @@ int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 			exit(1);
 		if (command->command_name == NULL)
 			exit(0);
-		// dup2のエラー処理までするかどうか....
+		// TODO: dup2のエラー処理までするかどうか....
 		dup2(before_fd, input_fd);
 		dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
 		dup2(output_fd, STDOUT_FILENO);
@@ -159,7 +156,6 @@ int	non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 		if (input_fd == -1)
 			exit(1);
 		output_fd = files_create(command->outpus);
-		fprintf(stderr, "output_fd : '%d'\n", output_fd);
 		if (output_fd == -1)
 			exit(1);
 		if (command->command_name == NULL)

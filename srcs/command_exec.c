@@ -6,16 +6,16 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 16:46:40 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/02 17:08:32 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
 
-int get_exit_code(int n)
+int	get_exit_code(int n)
 {
 	if (n % 256 == 0)
-		return n / 256;
+		return (n / 256);
 	else
 		return (n % 256 + 128);
 }

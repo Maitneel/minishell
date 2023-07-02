@@ -54,8 +54,6 @@ int	main(int argc, char **argv, char **envs)
 			// このエラー処理はreadlineがNULLを返した時(Cntl+Dの時)に必要なのでいる
 			break ;
 		}
-		// if (strcmp(token->word, "exit") == 0)
-		// 	break ;
 		command = parse(token_manager);
 		if (command == NULL)
 		{
@@ -68,7 +66,7 @@ int	main(int argc, char **argv, char **envs)
 			// printf("minishell: syntax error\n");
 			continue;
 		} 
-		else if (strcmp(command->command_name, "exit") == 0 && command->next_pipe == 0)
+		else if (command->command_name != NULL && strcmp(command->command_name, "exit") == 0 && command->next_pipe == 0)
 		{
 			char **args;
 			args = make_args(command);
@@ -89,7 +87,6 @@ int	main(int argc, char **argv, char **envs)
 	(void)argc;
 	(void)argv;
 	(void)envs;
-	// (void)env;
 }
 
 
