@@ -23,6 +23,10 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/ft_signal.c \
 	${SRCS_DIR}/expand_env.c \
 	${SRCS_DIR}/command_exec.c \
+	${SRCS_DIR}/command_exec2.c \
+	${SRCS_DIR}/command_exec3.c \
+	${SRCS_DIR}/command_exec4.c \
+	${SRCS_DIR}/command_exec5.c \
 	${SRCS_DIR}/command_exit.c \
 	${SRCS_DIR}/generate_no_exist_file_name.c \
 	${GNL_DIR}/get_next_line.c \
@@ -35,6 +39,7 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/buildin_utils.c \
 	${SRCS_DIR}/ft_strcmp.c \
 	${SRCS_DIR}/ft_xcalloc.c \
+	${SRCS_DIR}/ft_xsplit.c \
 
 OBJS := ${SRCS:%.c=%.o}
 
