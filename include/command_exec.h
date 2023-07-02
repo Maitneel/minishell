@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/02 18:12:13 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/02 19:29:55 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ int		files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager);
 int		pipe_exec(int before_fd, t_command *command,
 			t_env_manager *env_manager);
 int		non_pipe_exec(int before_fd, t_command *command,
+			t_env_manager *env_manager);
+void	non_pipe_child_exec(int before_fd, t_command *command,
+			t_env_manager *env_manager);
+void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
 			t_env_manager *env_manager);
 
 #endif
