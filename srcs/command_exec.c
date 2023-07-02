@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 07:58:11 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/03 08:18:50 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	unlink_tempfile(t_command *command)
 	current_command = command;
 	while (current_command != NULL)
 	{
-		current_inputs = command->inputs;
+		current_inputs = current_command->inputs;
 		while (current_inputs != NULL)
 		{
 			if (current_inputs->kind == REDIRECT_HEAR_DOC)
