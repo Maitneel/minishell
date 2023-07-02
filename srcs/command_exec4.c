@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:41:08 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 07:51:36 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/03 08:03:28 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,7 @@ int	files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager)
 	while (current != NULL)
 	{
 		close(fd);
-		// if (current->kind == REDIRECT_IN)
-			fd = open(current->arg, O_RDONLY);
-		// else if (current->kind == REDIRECT_HEAR_DOC) {
-			// fd = here_doc(current, env_manager);
-		// }
+		fd = open(current->arg, O_RDONLY);
 		if (fd == -1)
 		{
 			write(STDERR_FILENO, "minishell: ", 12);

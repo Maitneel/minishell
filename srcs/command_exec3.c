@@ -6,16 +6,15 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 07:24:34 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/03 08:03:56 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
 
-char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
+char	*here_doc(t_redirect_info *info)
 {
 	int		output_fd;
-	// int		input_fd;
 	char	*file_name;
 
 	file_name = generate_no_exist_file_name("/tmp/here_doc_tmp");
@@ -27,17 +26,8 @@ char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
 		free(file_name);
 		return (NULL);
 	}
-	// input_fd = open(file_name, (O_RDONLY));
-	// unlink(file_name);
-	// free(file_name);
-	// if (input_fd == -1)
-	// {
-	// 	close(output_fd);
-	// 	return (-1);
-	// }
 	if (expand_and_write(output_fd, info, env_manager) == -1)
 		return (NULL);
-	(void)(env_manager);
 	return (file_name);
 }
 
