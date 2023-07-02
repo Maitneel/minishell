@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 06:58:37 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/03 07:56:32 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/03 08:16:31 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	expand_here_doc(t_command *command, t_env_manager *env_manager)
 	current_command = command;
 	while (current_command != NULL)
 	{
-		if (expand_here_of_one_command(command, env_manager) != 0)
+		if (expand_here_of_one_command(current_command, env_manager) != 0)
 		{
 			// TODO error handring
 			// heredocが失敗した時にどういう処理をするか
