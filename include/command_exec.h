@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/03 19:03:38 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/03 21:38:04 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**make_args(t_command *command);
 char	*make_path(const char *path, const char *command);
 char	*find_path(t_command *command, t_env_manager *env_manager);
 int		exec_builtin(t_command *command, char **args,
-			t_env_manager *env_manager);
+			t_env_manager *env_manager, int output_fd);
 int		ft_exec(t_command *command, t_env_manager *env_manager);
 int		files_create(t_redirect_info *outputs);
 int		files_dup2_stdin(t_redirect_info *inputs);

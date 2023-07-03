@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 19:03:11 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/03 21:47:53 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
+#include <sys/fcntl.h>
 
 int	get_exit_code(int n)
 {
@@ -31,7 +32,7 @@ void	unlink_tempfile(t_command *command)
 		current_inputs = current_command->inputs;
 		while (current_inputs != NULL)
 		{
-			if (current_inputs->kind == EXPANDED_HEREDOC)
+			if (current_inputs->kind == REDIRECT_HEAR_DOC)
 				unlink(current_inputs->arg);
 			current_inputs = current_inputs->next;
 		}
@@ -52,6 +53,39 @@ void	wait_child_proceess(t_env_manager *env_manager)
 	}
 }
 
+void	exec_builtin_no_fork(t_command *command, t_env_manager *env_manager)
+{
+	int output_fd;
+	int input_fd;
+	char **args;
+
+	t_redirect_info *input_current;
+	input_current = command->inputs;		
+	while(input_current != NULL)
+	{
+		input_fd = open(input_current->arg, O_RDONLY);
+		if (input_fd == -1)
+		{
+			write(STDERR_FILENO, "minishell: ", 12);
+			perror(input_current->arg);
+			env_manager->exit_status = 1;
+			return ;
+		}
+		close(input_fd);
+		input_current = input_current->next;
+	}
+	output_fd = files_create(command->outpus);
+	if (output_fd == -1) {
+		env_manager->exit_status = 1;
+		return ;
+	}
+	args = make_args(command);
+	env_manager->exit_status = exec_builtin(command, args, env_manager, output_fd);
+	free_string_array(args);
+	if (output_fd != STDOUT_FILENO)
+		close(output_fd);
+}
+
 int	command_exec(t_command *commands, t_env_manager *env_manager)
 {
 	t_command	*current;
@@ -60,6 +94,13 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	g_signal_info.status = EXECUTING_COMMAND;
 	current = commands;
 	before_fd = STDIN_FILENO;
+	if (is_builtin(current->command_name) && !current->next_pipe)
+	{
+		exec_builtin_no_fork(current, env_manager);
+		fprintf(stdout, "buitin end \n");
+		unlink_tempfile(commands);
+		return (0);
+	}		
 	while (current != NULL)
 	{
 		if (current->next_pipe)
