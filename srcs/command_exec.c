@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 21:47:53 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:54:18 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	if (is_builtin(current->command_name) && !current->next_pipe)
 	{
 		exec_builtin_no_fork(current, env_manager);
-		fprintf(stdout, "buitin end \n");
 		unlink_tempfile(commands);
 		return (0);
 	}		

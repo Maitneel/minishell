@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/01 17:03:11 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:52:01 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_env_manager	*new_env_manager(char **arg_envs)
 	return (env_manager);
 }
 
-int	command_env(t_env_manager *env_manager, char **tokens)
+int	command_env(t_env_manager *env_manager, char **tokens, int fd)
 {
 	size_t	i;
 	t_env	*next;
@@ -102,10 +102,10 @@ int	command_env(t_env_manager *env_manager, char **tokens)
 	next = env_manager->front;
 	while (next != NULL)
 	{
-		write(STDOUT_FILENO, next->key, ft_strlen(next->key));
-		write(STDERR_FILENO, "=", 1);
-		write(STDOUT_FILENO, next->value, ft_strlen(next->value));
-		write(STDOUT_FILENO, "\n", 1);
+		write(fd, next->key, ft_strlen(next->key));
+		write(fd, "=", 1);
+		write(fd, next->value, ft_strlen(next->value));
+		write(fd, "\n", 1);
 		next = next->next;
 		i++;
 	}

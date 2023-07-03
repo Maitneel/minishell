@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 21:26:11 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:53:03 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,15 +105,14 @@ char	*find_path(t_command *command, t_env_manager *env_manager)
 
 int	exec_builtin(t_command *command, char **args, t_env_manager *env_manager, int output_fd)
 {
-	(void)output_fd;
 	if (ft_strcmp(command->command_name, "echo") == 0)
-		return (command_echo(args));
+		return (command_echo(args, output_fd));
 	if (ft_strcmp(command->command_name, "cd") == 0)
-		return (command_cd(args));
+		return (command_cd(args, output_fd));
 	if (ft_strcmp(command->command_name, "pwd") == 0)
-		return (command_pwd());
+		return (command_pwd(output_fd));
 	if (ft_strcmp(command->command_name, "env") == 0)
-		return (command_env(env_manager, args));
+		return (command_env(env_manager, args, output_fd));
 	if (ft_strcmp(command->command_name, "export") == 0)
 		return (command_export(env_manager, args));
 	if (ft_strcmp(command->command_name, "unset") == 0)
