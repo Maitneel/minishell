@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/03 21:38:04 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 22:05:54 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int		non_pipe_exec(int before_fd, t_command *command,
 void	non_pipe_child_exec(int before_fd, t_command *command,
 			t_env_manager *env_manager);
 void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
+			t_env_manager *env_manager);
+int		can_open_input_files(t_redirect_info *input_current,
 			t_env_manager *env_manager);
 
 #endif

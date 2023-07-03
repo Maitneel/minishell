@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 21:54:18 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 22:05:48 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,32 +55,20 @@ void	wait_child_proceess(t_env_manager *env_manager)
 
 void	exec_builtin_no_fork(t_command *command, t_env_manager *env_manager)
 {
-	int output_fd;
-	int input_fd;
-	char **args;
+	int				output_fd;
+	char			**args;
 
-	t_redirect_info *input_current;
-	input_current = command->inputs;		
-	while(input_current != NULL)
-	{
-		input_fd = open(input_current->arg, O_RDONLY);
-		if (input_fd == -1)
-		{
-			write(STDERR_FILENO, "minishell: ", 12);
-			perror(input_current->arg);
-			env_manager->exit_status = 1;
-			return ;
-		}
-		close(input_fd);
-		input_current = input_current->next;
-	}
+	if (can_open_input_files(command->inputs, env_manager) == -1)
+		return ;
 	output_fd = files_create(command->outpus);
-	if (output_fd == -1) {
+	if (output_fd == -1)
+	{
 		env_manager->exit_status = 1;
 		return ;
 	}
 	args = make_args(command);
-	env_manager->exit_status = exec_builtin(command, args, env_manager, output_fd);
+	env_manager->exit_status = \
+			exec_builtin(command, args, env_manager, output_fd);
 	free_string_array(args);
 	if (output_fd != STDOUT_FILENO)
 		close(output_fd);
