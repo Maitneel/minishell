@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 18:56:53 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 16:57:12 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 18:43:11 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
 	while (true)
 	{
 		write(STDOUT_FILENO, "> ", 2);
-		line = get_next_line(STDIN_FILENO);
+		line = get_next_line(g_signal_info.heredoc_fd);
 		if (line == NULL)
 			break ;
 		if (strcmp(line, end_text) == 0)
