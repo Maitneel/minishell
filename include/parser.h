@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:58:09 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 07:31:28 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/03 19:02:01 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef enum e_redirect_enum
 {
 	REDIRECT_IN = 0,
 	REDIRECT_HEAR_DOC,
+	EXPANDED_HEREDOC,
 	REDIRECT_OUT_OVERWRITE,
 	REDIRECT_OUT_POST
 }							t_redirect_enum;
@@ -40,6 +41,7 @@ typedef struct s_args_list
 typedef struct s_command
 {
 	bool					is_error;
+	bool					is_heredoc_error;
 	char					*command_name;
 	char					**args;
 	t_args_list				*args_list;
