@@ -3,41 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 18:12:44 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 08:04:36 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
 
-int	here_doc(t_redirect_info *info, t_env_manager *env_manager)
+char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
 {
 	int		output_fd;
-	int		input_fd;
 	char	*file_name;
 
 	file_name = generate_no_exist_file_name("/tmp/here_doc_tmp");
 	if (file_name == NULL)
-		return (-1);
+		return (NULL);
 	output_fd = open(file_name, (O_WRONLY | O_CREAT));
 	if (output_fd == -1)
 	{
 		free(file_name);
-		return (-1);
-	}
-	input_fd = open(file_name, (O_RDONLY));
-	unlink(file_name);
-	free(file_name);
-	if (input_fd == -1)
-	{
-		close(output_fd);
-		return (-1);
+		return (NULL);
 	}
 	if (expand_and_write(output_fd, info, env_manager) == -1)
-		return (-1);
-	return (input_fd);
+		return (NULL);
+	return (file_name);
 }
 
 char	**make_args(t_command *command)

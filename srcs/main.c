@@ -54,7 +54,7 @@ int	main(int argc, char **argv, char **envs)
 			// このエラー処理はreadlineがNULLを返した時(Cntl+Dの時)に必要なのでいる
 			break ;
 		}
-		command = parse(token_manager);
+		command = parse(token_manager, env_manager);
 		if (command == NULL)
 		{
 			// ここはおそらくいらない
