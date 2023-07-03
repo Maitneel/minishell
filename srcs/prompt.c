@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/01 15:40:27 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 20:47:50 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*read_prompt(void)
 	while (line == NULL)
 	{
 		g_signal_info.status = READING_PROMPT;
-		line = readline("minishe$ ");
+		line = readline("minishell$ ");
 		g_signal_info.status = UNDEFINED;
 		if (line == NULL)
 			break ;
