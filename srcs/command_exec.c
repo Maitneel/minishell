@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 22:05:48 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/06 19:38:49 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	unlink_tempfile(t_command *command)
 		current_inputs = current_command->inputs;
 		while (current_inputs != NULL)
 		{
-			if (current_inputs->kind == REDIRECT_HEAR_DOC)
+			if (current_inputs->kind == EXPANDED_HEREDOC)
 				unlink(current_inputs->arg);
 			current_inputs = current_inputs->next;
 		}
