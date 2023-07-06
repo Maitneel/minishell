@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec5.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 18:57:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 08:06:43 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/03 22:05:03 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,25 @@ void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
 	close(output_fd);
 	close(input_fd);
 	exit(127);
+}
+
+int	can_open_input_files(t_redirect_info *input_current,
+		t_env_manager *env_manager)
+{
+	int	input_fd;
+
+	while (input_current != NULL)
+	{
+		input_fd = open(input_current->arg, O_RDONLY);
+		if (input_fd == -1)
+		{
+			write(STDERR_FILENO, "minishell: ", 12);
+			perror(input_current->arg);
+			env_manager->exit_status = 1;
+			return (-1);
+		}
+		close(input_fd);
+		input_current = input_current->next;
+	}
+	return (0);
 }

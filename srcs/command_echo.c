@@ -6,14 +6,14 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:34:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 16:38:55 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:50:47 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "builtin.h"
 
-int	command_echo(char **tokens)
+int	command_echo(char **tokens, int fd)
 {
 	size_t	i;
 	bool	is_print_nl;
@@ -27,14 +27,14 @@ int	command_echo(char **tokens)
 	}
 	while (tokens[i] != NULL)
 	{
-		write(STDOUT_FILENO, tokens[i], ft_strlen(tokens[i]));
+		write(fd, tokens[i], ft_strlen(tokens[i]));
 		i++;
 		if (tokens[i] != NULL)
 		{
-			write(STDOUT_FILENO, " ", 1);
+			write(fd, " ", 1);
 		}
 	}
 	if (is_print_nl)
-		write(STDOUT_FILENO, "\n", 1);
+		write(fd, "\n", 1);
 	return (0);
 }
