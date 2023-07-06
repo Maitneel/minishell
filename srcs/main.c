@@ -106,5 +106,5 @@ void check_fd(void) {
 __attribute__((destructor)) void destructor()
 {
 	// check_fd();
-	system("leaks minishell -q > /dev/stderr/");
+	// system("leaks minishell -q > /dev/stderr/");
 }

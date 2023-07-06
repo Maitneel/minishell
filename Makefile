@@ -1,7 +1,7 @@
 NAME := minishell
 
 CC := cc
-CFLAG = -Wall -Wextra -Werror -I$(shell brew --prefix readline)/include -I${INCLUDE_DIR} -I${LIBFT_DIR}
+CFLAG = -Wall -Wextra -Werror -I$(shell brew --prefix readline)/include -I${INCLUDE_DIR} -I${LIBFT_DIR} -g -fsanitize=address
 READLINE_FLAG  = -I$(shell brew --prefix readline)/include -L$(shell brew --prefix readline)/lib -lreadline
 RM := rm
 RM_FLAG := -rf
@@ -56,7 +56,7 @@ ${LIBFT} : ${LIBFT_DIR}/*.c
 	${CC} ${CFLAG} ${GNL_FLAG} $^ -c -o $@
 
 clean :
-	make -C ${LIBFT_DIR} fclean
+	# make -C ${LIBFT_DIR} fclean
 	${RM} ${RM_FLAG} ${OBJS}
 
 fclean : clean
