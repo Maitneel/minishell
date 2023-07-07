@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/08 00:10:33 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/08 00:12:03 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	main(int argc, char **argv, char **envs)
 	t_token_manager	*token_manager;
 	t_env_manager	*env_manager;
 	t_command		*command;
-	char			**args;
 
 	setup_signal();
 	env_manager = new_env_manager(envs);
@@ -72,19 +71,8 @@ int	main(int argc, char **argv, char **envs)
 			free_token_manager(token_manager);
 			continue ;
 		}
-		else if (command->command_name != NULL && strcmp(command->command_name,
-					"exit") == 0 && command->next_pipe == 0)
-		{
-			args = make_args(command);
-			env_manager->exit_status = command_exit(env_manager, args);
-			free_string_array(args);
-			continue ;
-		}
-		else
-		{
-			print_command(command);
-			command_exec(command, env_manager);
-		}
+		print_command(command);
+		command_exec(command, env_manager);
 		free_command(command);
 		free_token_manager(token_manager);
 	}
