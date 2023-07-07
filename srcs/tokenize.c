@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/28 22:43:47 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/08 00:30:18 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ bool	tokenize_setup(t_token_manager **token_manager, char **token_string,
 	return (false);
 }
 
-t_token_kind get_token_kind(char *token_string)
+t_token_kind	get_token_kind(char *token_string)
 {
 	if (token_string == NULL)
 		return (NULL_KIND);
