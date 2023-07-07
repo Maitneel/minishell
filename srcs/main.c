@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/08 00:12:03 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/08 00:23:46 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,49 @@ void	setup_signal(void)
 	g_signal_info.pid_list = NULL;
 }
 
-int	main(int argc, char **argv, char **envs)
+#define LOOP_CONTINUE 0
+#define LOOP_BREAK 1
+
+int	shell_loop(t_env_manager *env_manager)
 {
 	t_token_manager	*token_manager;
-	t_env_manager	*env_manager;
 	t_command		*command;
 
+	token_manager = prompt(env_manager);
+	if (token_manager == NULL)
+	{
+		// prompt 関数内でエラーメッセージの出力が完了しているので、そのままbreakしexitする
+		// このエラー処理はreadlineがNULLを返した時(Cntl+Dの時)に必要なのでいる
+		return (LOOP_BREAK);
+	}
+	command = parse(token_manager, env_manager);
+	if (command == NULL)
+	{
+		// ここはおそらくいらない
+		// TODO ここでエラーメッセージの出力をするか、parser関数ない出力するか
+		free_token_manager(token_manager);
+		return (LOOP_BREAK);
+	}
+	if (command->is_error || command->is_heredoc_error)
+	{
+		// printf("minishell: syntax error\n");
+		free_token_manager(token_manager);
+		free_command(command);
+		return (LOOP_CONTINUE);
+	}
+	print_command(command);
+	command_exec(command, env_manager);
+	free_token_manager(token_manager);
+	free_command(command);
+	return (LOOP_CONTINUE);
+}
+
+int	main(int argc, char **argv, char **envs)
+{
+	t_env_manager	*env_manager;
+
+	// t_token_manager	*token_manager;
+	// t_command		*command;
 	setup_signal();
 	env_manager = new_env_manager(envs);
 	// ここのエラー処理、xcallocにしたのでおそらく消せるが、new_env_managerの処理がエグそうなので消して大丈夫かわからない
@@ -48,53 +85,26 @@ int	main(int argc, char **argv, char **envs)
 		return (1);
 	}
 	// env = env_manager->front;
-	while (true)
-	{
-		token_manager = prompt(env_manager);
-		if (token_manager == NULL)
-		{
-			// prompt 関数内でエラーメッセージの出力が完了しているので、そのままbreakしexitする
-			// このエラー処理はreadlineがNULLを返した時(Cntl+Dの時)に必要なのでいる
-			break ;
-		}
-		command = parse(token_manager, env_manager);
-		if (command == NULL)
-		{
-			// ここはおそらくいらない
-			// TODO ここでエラーメッセージの出力をするか、parser関数ない出力するか
-			break ;
-		}
-		if (command->is_error || command->is_heredoc_error)
-		{
-			// printf("minishell: syntax error\n");
-			free_command(command);
-			free_token_manager(token_manager);
-			continue ;
-		}
-		print_command(command);
-		command_exec(command, env_manager);
-		free_command(command);
-		free_token_manager(token_manager);
-	}
-	free_token_manager(token_manager);
+	while (shell_loop(env_manager) == LOOP_CONTINUE)
+		;
 	free_env_manager(env_manager);
 	(void)argc;
 	(void)argv;
 	(void)envs;
 }
 
-void	check_fd(void)
-{
-	for (size_t i = 3; i < 10000; i++)
-	{
-		if (close(i) == 0)
-		{
-			fprintf(stderr, "\x1b[35m");
-			fprintf(stderr, "close %5zu\n", i);
-			fprintf(stderr, "\x1b[39m");
-		}
-	}
-}
+// void	check_fd(void)
+// {
+// 	for (size_t i = 3; i < 10000; i++)
+// 	{
+// 		if (close(i) == 0)
+// 		{
+// 			fprintf(stderr, "\x1b[35m");
+// 			fprintf(stderr, "close %5zu\n", i);
+// 			fprintf(stderr, "\x1b[39m");
+// 		}
+// 	}
+// }
 
 // __attribute__((destructor)) void destructor()
 // {
