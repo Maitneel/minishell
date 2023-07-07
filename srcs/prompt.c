@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/03 20:47:50 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/08 00:05:45 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,35 +32,35 @@
 
 char	ft_is_space(char c)
 {
-	if (c == ' ' )
-		return true;
-	if (c == '\t' )
-		return true;
-	if (c == '\n' )
-		return true;
-	if (c == '\v' )
-		return true;
-	if (c == '\f' )
-		return true;
+	if (c == ' ')
+		return (true);
+	if (c == '\t')
+		return (true);
+	if (c == '\n')
+		return (true);
+	if (c == '\v')
+		return (true);
+	if (c == '\f')
+		return (true);
 	if (c == '\r')
-		return true;
-	return false;
+		return (true);
+	return (false);
 }
 
 bool	is_empty_string(char *str)
 {
-	size_t i ;
+	size_t	i;
 
-	i = 0 ;
+	i = 0;
 	while (str[i] != '\0')
 	{
 		if (!ft_is_space(str[i]))
 		{
-			return false;
+			return (false);
 		}
 		i++;
 	}
-	return true;
+	return (true);
 }
 
 char	*read_prompt(void)
