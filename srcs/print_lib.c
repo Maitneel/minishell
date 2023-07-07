@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 16:21:03 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/28 00:27:53 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/08 00:25:19 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void	put_command_not_found(char *command)
 	write(STDERR_FILENO, command, ft_strlen(command));
 	write(STDERR_FILENO, ": command not found\n", 21);
 }
-
-#include <stdio.h>
 
 void	print_unclosed_quote(void)
 {
