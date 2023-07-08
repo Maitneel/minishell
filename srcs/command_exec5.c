@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 18:57:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 19:29:36 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 22:05:03 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	non_pipe_child_exec(int before_fd, t_command *command,
 	dup2(before_fd, STDIN_FILENO);
 	if (before_fd != STDIN_FILENO)
 		close(before_fd);
-	input_fd = files_dup2_stdin(command->inputs, env_manager);
+	input_fd = files_dup2_stdin(command->inputs);
 	if (input_fd == -1)
 		exit(1);
 	output_fd = files_create(command->outpus);
@@ -42,7 +42,7 @@ void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
 	int	input_fd;
 	int	output_fd;
 
-	input_fd = files_dup2_stdin(command->inputs, env_manager);
+	input_fd = files_dup2_stdin(command->inputs);
 	if (input_fd == -1)
 		exit(1);
 	output_fd = files_create(command->outpus);
@@ -61,4 +61,25 @@ void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
 	close(output_fd);
 	close(input_fd);
 	exit(127);
+}
+
+int	can_open_input_files(t_redirect_info *input_current,
+		t_env_manager *env_manager)
+{
+	int	input_fd;
+
+	while (input_current != NULL)
+	{
+		input_fd = open(input_current->arg, O_RDONLY);
+		if (input_fd == -1)
+		{
+			write(STDERR_FILENO, "minishell: ", 12);
+			perror(input_current->arg);
+			env_manager->exit_status = 1;
+			return (-1);
+		}
+		close(input_fd);
+		input_current = input_current->next;
+	}
+	return (0);
 }

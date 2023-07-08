@@ -37,6 +37,7 @@ int	main(int argc, char **argv, char **envs)
 	signal(SIGINT, resive_signal);
 	signal(SIGQUIT, resive_signal);
 	g_signal_info.status = UNDEFINED;
+	g_signal_info.resived_sigid = -1;
 	g_signal_info.pid_list = NULL;
 	env_manager = new_env_manager(envs);
 	// ここのエラー処理、xcallocにしたのでおそらく消せるが、new_env_managerの処理がエグそうなので消して大丈夫かわからない
@@ -54,14 +55,14 @@ int	main(int argc, char **argv, char **envs)
 			// このエラー処理はreadlineがNULLを返した時(Cntl+Dの時)に必要なのでいる
 			break ;
 		}
-		command = parse(token_manager);
+		command = parse(token_manager, env_manager);
 		if (command == NULL)
 		{
 			// ここはおそらくいらない
 			// TODO ここでエラーメッセージの出力をするか、parser関数ない出力するか
 			break;
 		}
-		if (command->is_error)
+		if (command->is_error || command->is_heredoc_error)
 		{
 			// printf("minishell: syntax error\n");
 			continue;

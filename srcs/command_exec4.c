@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:41:08 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/02 20:00:45 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:41:00 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_exec(t_command *command, t_env_manager *env_manager)
 	args = make_args(command);
 	env_ptr = make_env_ptr(env_manager);
 	if (is_builtin(command->command_name))
-		exit(exec_builtin(command, args, env_manager));
+		exit(exec_builtin(command, args, env_manager, STDOUT_FILENO));
 	command_path = find_path(command, env_manager);
 	if (command_path == NULL)
 	{
@@ -54,13 +54,17 @@ int	files_create(t_redirect_info *outputs)
 		else
 			exit(1);
 		if (last_fd == -1)
+		{
+			write(STDERR_FILENO, "minishell: ", 12);
+			perror(current->arg);
 			return (-1);
+		}
 		current = current->next;
 	}
 	return (last_fd);
 }
 
-int	files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager)
+int	files_dup2_stdin(t_redirect_info *inputs)
 {
 	t_redirect_info	*current;
 	int				fd;
@@ -72,12 +76,13 @@ int	files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager)
 	while (current != NULL)
 	{
 		close(fd);
-		if (current->kind == REDIRECT_IN)
-			fd = open(current->arg, O_RDONLY);
-		else if (current->kind == REDIRECT_HEAR_DOC)
-			fd = here_doc(current, env_manager);
+		fd = open(current->arg, O_RDONLY);
 		if (fd == -1)
+		{
+			write(STDERR_FILENO, "minishell: ", 12);
+			perror(current->arg);
 			return (-1);
+		}
 		current = current->next;
 	}
 	dup2(fd, STDIN_FILENO);

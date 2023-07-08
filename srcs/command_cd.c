@@ -6,14 +6,14 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:32:52 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 17:18:55 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:53:18 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include <string.h>
 
-int	command_cd(char **tokens)
+int	command_cd(char **tokens, int fd)
 {
 	int		ret_code;
 	size_t	token_size;
@@ -36,6 +36,6 @@ int	command_cd(char **tokens)
 		strerror(errno);
 		exit(1);
 	}
-	command_pwd();
+	command_pwd(fd);
 	return (ret_code);
 }

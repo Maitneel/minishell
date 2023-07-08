@@ -6,7 +6,7 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/02 19:29:55 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/03 22:05:54 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # include <unistd.h>
 
 int		command_exec(t_command *commands, t_env_manager *env_manager);
+void	unlink_tempfile(t_command *command);
 void	*free_string_array(char **string_array);
 char	*generate_no_exist_file_name(char *front_string);
 char	**make_args(t_command *command);
@@ -45,15 +46,15 @@ size_t	get_args_list_size(t_command *command);
 char	*expand_line(char *line, t_env_manager *env_manager);
 int		expand_and_write(int fd, t_redirect_info *info,
 			t_env_manager *env_manager);
-int		here_doc(t_redirect_info *info, t_env_manager *env_manager);
+char	*here_doc(t_redirect_info *info, t_env_manager *env_manager);
 char	**make_args(t_command *command);
 char	*make_path(const char *path, const char *command);
 char	*find_path(t_command *command, t_env_manager *env_manager);
 int		exec_builtin(t_command *command, char **args,
-			t_env_manager *env_manager);
+			t_env_manager *env_manager, int output_fd);
 int		ft_exec(t_command *command, t_env_manager *env_manager);
 int		files_create(t_redirect_info *outputs);
-int		files_dup2_stdin(t_redirect_info *inputs, t_env_manager *env_manager);
+int		files_dup2_stdin(t_redirect_info *inputs);
 int		pipe_exec(int before_fd, t_command *command,
 			t_env_manager *env_manager);
 int		non_pipe_exec(int before_fd, t_command *command,
@@ -61,6 +62,8 @@ int		non_pipe_exec(int before_fd, t_command *command,
 void	non_pipe_child_exec(int before_fd, t_command *command,
 			t_env_manager *env_manager);
 void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
+			t_env_manager *env_manager);
+int		can_open_input_files(t_redirect_info *input_current,
 			t_env_manager *env_manager);
 
 #endif
