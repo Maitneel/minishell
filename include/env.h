@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:58 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/25 16:26:59 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/08 13:23:13 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_env				*find_before_env(t_env_manager *env_manager,
 t_env				*find_env(t_env_manager *env_manager, const char *key);
 t_env				*add_env(t_env_manager *env_manager, char *token);
 void				env_delete(t_env_manager *env_manager, const char *key);
+char				*get_raw_string(t_env *env);
+/* ----------------- env3.c ----------------- */
 char				**make_env_ptr(t_env_manager *env_manager);
 
 #endif
