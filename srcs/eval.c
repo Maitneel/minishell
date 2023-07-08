@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:08:40 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/28 22:40:35 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/08 13:34:02 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,36 +21,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-const char					*g_eval_char = "'\"$\\";
-const size_t				g_eval_char_size = 4;
-
-static bool	should_eval(t_token *token)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	while (token->word[i] != '\0')
-	{
-		j = 0;
-		while (j < g_eval_char_size)
-		{
-			if (token->word[i] == g_eval_char[j])
-			{
-				return (true);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (false);
-}
-
-bool	is_env_delimiter(char c)
-{
-	return (!(isalnum(c) || c == '_'));
-}
-
 char	*get_special_env(char key, t_env_manager *env_manager)
 {
 	if (key == '?')
@@ -62,36 +32,6 @@ char	*get_special_env(char key, t_env_manager *env_manager)
 	return (NULL);
 }
 
-char	*get_env_value_ptr(char *token_string, size_t *token_index,
-		t_env_manager *env_manager)
-{
-	char	*key;
-	size_t	i;
-	t_env	*env;
-
-	if (token_string == NULL || env_manager == NULL)
-		return (NULL);
-	i = 0;
-	(*token_index)++;
-	if ((isdigit(token_string[0]) || (token_string[0] == '?')))
-		return (get_special_env(token_string[0], env_manager));
-	else
-	{
-		key = strdup(token_string);
-		if (key == NULL)
-			return (NULL);
-		while (!is_env_delimiter(key[i]))
-			i++;
-	}
-	key[i] = '\0';
-	*token_index += i - 1;
-	env = find_env(env_manager, key);
-	free(key);
-	if (env == NULL)
-		return (NULL);
-	return (env->value);
-}
-
 typedef struct s_eval_token_helper_args
 {
 	t_token					*token;
@@ -100,25 +40,6 @@ typedef struct s_eval_token_helper_args
 	size_t					i;
 	t_string				*evaluated_string;
 }							t_eval_token_helper_args;
-
-bool	is_change_quote_flag(char quote_flag, char current_char)
-{
-	if (!(current_char == '\'' || current_char == '"'))
-		return (false);
-	if (current_char != quote_flag && quote_flag != '\0')
-		return (false);
-	return (true);
-}
-
-bool	is_expand(char quote_flag)
-{
-	return (quote_flag == '\0' || quote_flag == '"');
-}
-
-bool	is_add_doller(char *string)
-{
-	return (string[0] == '$' && is_env_delimiter(string[1]));
-}
 
 int	evaluated_token_helper(t_eval_token_helper_args *args)
 {

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:49:12 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 19:34:13 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/08 13:36:21 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "env.h"
 # include "ft_string.h"
+# include <stdbool.h>
 
 typedef enum e_token_kind
 {
@@ -42,11 +43,18 @@ t_token				*new_token(const char *word, const int kind);
 t_token_manager		*new_token_manager(void);
 void				*free_token_manager(t_token_manager *token_manager);
 t_token_manager		*tokenize(t_string *line, t_env_manager *env_manager);
-t_token_manager		*eval(t_token_manager *token_manager,
+t_token_manager	*eval(t_token_manager *token_manager,
 						t_env_manager *env_manager);
 char				*get_env_value_ptr(char *token_string, size_t *token_index,
 						t_env_manager *env_manager);
 void				add_token(t_token_manager *token_maneger, t_token *token);
 void				quote_check(char *line, char *quote, size_t *i);
-
+char	*get_special_env(char key, t_env_manager *env_manager);
+bool				should_eval(t_token *token);
+bool				is_env_delimiter(char c);
+bool				is_change_quote_flag(char quote_flag, char current_char);
+bool				is_expand(char quote_flag);
+bool				is_add_doller(char *string);
+char				*get_env_value_ptr(char *token_string, size_t *token_index,
+						t_env_manager *env_manager);
 #endif
