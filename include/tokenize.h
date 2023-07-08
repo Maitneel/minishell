@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:49:12 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/08 13:36:21 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/08 17:30:14 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,10 @@ bool				is_expand(char quote_flag);
 bool				is_add_doller(char *string);
 char				*get_env_value_ptr(char *token_string, size_t *token_index,
 						t_env_manager *env_manager);
+t_token	*new_token(const char *word, const int kind);
+t_token_manager	*new_token_manager(void);
+void	add_token(t_token_manager *token_maneger, t_token *token);
+void	*free_token_manager(t_token_manager *token_manager);
+size_t	set_next_char(char *line, char *token_string, char *quote, size_t *i);
+size_t	set_next_token_string(char *token_string, char *line);
 #endif

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/08 17:19:45 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/08 17:33:58 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_command	*parse(t_token_manager *token_manager, t_env_manager *env_manager)
 	return (front_command);
 }
 
-/*
+// /*
 void	print_command(t_command *command)
 {
 	t_redirect_info	*redirect;
