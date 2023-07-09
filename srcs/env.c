@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/03 21:52:01 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:55:09 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,16 @@ t_env_manager	*new_env_manager(char **arg_envs)
 	while (arg_envs[i] != NULL)
 	{
 		env = new_env(arg_envs[i]);
-		env->next = env_manager->front;
-		env_manager->front = env;
+		if (env_manager->front == NULL)
+		{
+			env_manager->front = env;
+			env_manager->last = env;
+		}
+		else
+		{
+			env_manager->last->next = env;
+			env_manager->last = env;
+		}
 		env_manager->size++;
 		i++;
 	}

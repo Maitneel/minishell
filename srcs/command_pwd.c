@@ -3,20 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   command_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:33:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 21:52:42 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/06 20:47:50 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+#include <stdio.h>
 
 int	command_pwd(int fd)
 {
 	char	*buffer;
 
 	buffer = getcwd(NULL, 0);
+	if (buffer == NULL )
+	{
+		perror("minishell: pwd");
+	}
 	write(fd, buffer, ft_strlen(buffer));
 	write(fd, "\n", 1);
 	free(buffer);

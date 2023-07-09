@@ -56,7 +56,7 @@ ${LIBFT} : ${LIBFT_DIR}/*.c
 	${CC} ${CFLAG} ${GNL_FLAG} $^ -c -o $@
 
 clean :
-	# make -C ${LIBFT_DIR} fclean
+	make -C ${LIBFT_DIR} fclean
 	${RM} ${RM_FLAG} ${OBJS}
 
 fclean : clean
