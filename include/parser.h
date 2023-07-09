@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:58:09 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/08 17:12:01 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 17:05:13 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	push_back_redirect_info(t_redirect_info **front, t_redirect_info *node);
 void	*free_args_list(t_args_list *front);
 void	push_back_args_list(t_args_list **front, t_args_list *node);
 t_args_list	*new_args_list(char *string);
-bool		add_redirect_to_command(t_command *command, t_token *front_token);
+bool	add_redirect(t_command *command, t_token *front_token,
+			t_env_manager *env_manager);
 void	*free_command(t_command *command);
 t_command	*new_command(void);
 void	push_back_command(t_command **front, t_command *command);

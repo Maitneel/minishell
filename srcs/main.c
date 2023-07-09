@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:49:53 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:53:03 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,18 @@ int	main(int argc, char **argv, char **envs)
 	t_env_manager	*env_manager;
 	int				status_code;
 
-	// t_token_manager	*token_manager;
-	// t_command		*command;
+	(void)argc;
+	(void)argv;
 	setup_signal();
 	env_manager = new_env_manager(envs);
-	// ここのエラー処理、xcallocにしたのでおそらく消せるが、new_env_managerの処理がエグそうなので消して大丈夫かわからない
 	if (env_manager == NULL)
 	{
 		return (1);
 	}
-	// env = env_manager->front;
 	while (shell_loop(env_manager) == LOOP_CONTINUE)
 		;
 	status_code = env_manager->exit_status;
 	free_env_manager(env_manager);
-	(void)argc;
-	(void)argv;
 	return (status_code);
 }
 
