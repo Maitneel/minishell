@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   buildin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 16:18:22 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/25 17:02:22 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:36:30 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include <stddef.h>
 #include <stdlib.h>
-#include <sys/errno.h>
+
 #include <unistd.h>
 
 size_t	array_size(char **array)
