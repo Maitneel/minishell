@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/07 23:55:09 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:07:52 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_env	*new_env(char *str)
 		return (NULL);
 	env->next = NULL;
 	env->key = ft_substr(str, 0, i);
-	env->value = ft_substr(str, i + 1, strlen(str) - 1);
+	env->value = ft_substr(str, i + 1, ft_strlen(str) - 1);
 	return (env);
 }
 

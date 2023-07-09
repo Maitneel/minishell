@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/08 00:26:01 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:22:38 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ char	**make_args(t_command *command)
 	args_array = ft_xcalloc(args_size + 1, sizeof(char *));
 	if (args_array == NULL)
 		return (NULL);
-	args_array[0] = strdup(command->command_name);
+	args_array[0] = ft_strdup(command->command_name);
 	if (args_array[0] == NULL)
 		return (free_string_array(args_array));
 	i = 1;
 	args_list = command->args_list;
 	while (args_list != NULL)
 	{
-		args_array[i] = strdup(args_list->string);
+		args_array[i] = ft_strdup(args_list->string);
 		if (args_array[i] == NULL)
 			return (free_string_array(args_array));
 		i++;
@@ -83,7 +83,7 @@ char	*find_path(t_command *command, t_env_manager *env_manager)
 	char	**paths;
 
 	if (access(command->command_name, F_OK) == 0)
-		return (strdup(command->command_name));
+		return (ft_strdup(command->command_name));
 	path_env = find_env(env_manager, "PATH");
 	if (path_env == NULL)
 		return (NULL);

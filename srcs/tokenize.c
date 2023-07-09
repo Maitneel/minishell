@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/08 17:33:40 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:06:24 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_token_manager	*tokenize(t_string *line, t_env_manager *env_manager)
 		if (token == NULL)
 			return (free_token_manager(token_manager));
 		add_token(token_manager, token);
-		bzero(token_string, strlen(token_string) + 1);
+		bzero(token_string, ft_strlen(token_string) + 1);
 	}
 	if (token_manager->last == NULL)
 		add_token(token_manager, new_token("", NULL_KIND));

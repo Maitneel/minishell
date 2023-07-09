@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 22:24:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/08 00:27:34 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:15:24 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <sys/errno.h>
 #include "ft_xcalloc.h"
+#include "libft.h"
 
 void	*ft_xcalloc(size_t count, size_t size)
 {
@@ -26,7 +27,7 @@ void	*ft_xcalloc(size_t count, size_t size)
 		count = 1;
 		size = 1;
 	}
-	new_ptr = calloc(count, size);
+	new_ptr = ft_calloc(count, size);
 	if (new_ptr == NULL)
 	{
 		write(STDERR_FILENO, "minishell: failed to allocate memory\n", 38);

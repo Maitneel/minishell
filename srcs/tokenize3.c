@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 17:26:22 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/08 17:32:36 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:06:24 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,12 @@ size_t	set_next_token_string(char *token_string, char *line)
 	quote = '\0';
 	i = 0;
 	str_index = 0;
-	line_length = strlen(line);
+	line_length = ft_strlen(line);
 	while (i < line_length)
 	{
 		quote_check(line, &quote, &i);
 		str_index += set_next_char(line, &token_string[str_index], &quote, &i);
-		if (((str_index != 0 && strlen(token_string) != 0
+		if (((str_index != 0 && ft_strlen(token_string) != 0
 					&& (is_delimiter(line[i + 1]) || is_meta_char(line[i + 1])
 						|| is_meta_char(line[i]))) && quote == '\0')
 			|| i == line_length - 1)

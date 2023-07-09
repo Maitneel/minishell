@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:49:12 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/08 17:30:14 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:07:18 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "env.h"
 # include "ft_string.h"
+# include "libft.h"
 # include <stdbool.h>
 
 typedef enum e_token_kind

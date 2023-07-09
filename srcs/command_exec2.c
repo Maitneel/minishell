@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 18:56:53 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/06 20:20:21 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:21:12 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*expand_line(char *line, t_env_manager *env_manager)
 	t_string	expanded;
 
 	struct_line.data = line;
-	struct_line.length = strlen(line);
+	struct_line.length = ft_strlen(line);
 	struct_line.max_length = struct_line.length;
 	if (expand_env(&expanded, &struct_line, env_manager) == NULL)
 		return (NULL);
@@ -97,13 +97,13 @@ int	expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
 		line = get_next_line(g_signal_info.heredoc_fd);
 		if (line == NULL)
 			break ;
-		if (strcmp(line, end_text) == 0)
+		if (ft_strcmp(line, end_text) == 0)
 			break ;
 		expanded = expand_line(line, env_manager);
 		free(line);
 		if (expanded == NULL)
 			return (-1);
-		write(fd, expanded, strlen(expanded));
+		write(fd, expanded, ft_strlen(expanded));
 		free(expanded);
 	}
 	free(line);
