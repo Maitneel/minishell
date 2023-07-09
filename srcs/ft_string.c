@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:41:45 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/28 22:40:20 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:07:52 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_string	*push_back_string(t_string *dest, char *src)
 
 	if (dest == NULL || src == NULL)
 		return (dest);
-	src_length = strlen(src);
+	src_length = ft_strlen(src);
 	if (SIZE_MAX - src_length < dest->length)
 	{
 		free(dest->data);
