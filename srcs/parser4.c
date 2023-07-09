@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser5.c                                          :+:      :+:    :+:   */
+/*   parser4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 17:06:45 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/08 17:14:20 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:22:38 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_args_list	*new_args_list(char *string)
 	{
 		return (NULL);
 	}
-	args->string = strdup(string);
+	args->string = ft_strdup(string);
 	if (args->string == NULL)
 	{
 		free(args);

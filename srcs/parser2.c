@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:58:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:21:02 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:22:38 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ bool	add_redirect_to_command(t_command *command, t_token *front_token)
 	redirect_info = new_redirect_info();
 	if (redirect_info == NULL)
 		return (false);
-	redirect_info->arg = strdup(front_token->next->word);
+	redirect_info->arg = ft_strdup(front_token->next->word);
 	if (redirect_info->arg == NULL)
 	{
 		free(redirect_info);
@@ -86,7 +86,7 @@ bool	add_command_name_or_args(t_command *command,
 
 	if (command->command_name == NULL)
 	{
-		command->command_name = strdup(front_token->word);
+		command->command_name = ft_strdup(front_token->word);
 		if (command->command_name == NULL)
 		{
 			return (false);

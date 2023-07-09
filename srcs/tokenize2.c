@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 17:25:22 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/08 17:33:30 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:22:38 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token	*new_token(const char *word, const int kind)
 	token = ft_xcalloc(sizeof(t_token), 1);
 	if (token == NULL)
 		return (NULL);
-	token->word = strdup(word);
+	token->word = ft_strdup(word);
 	token->kind = kind;
 	token->next = NULL;
 	if (token->word == NULL)
