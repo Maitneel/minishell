@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 21:53:03 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/08 00:26:01 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ char	*find_path(t_command *command, t_env_manager *env_manager)
 	return (free_string_array(paths));
 }
 
-int	exec_builtin(t_command *command, char **args, t_env_manager *env_manager, int output_fd)
+int	exec_builtin(t_command *command, char **args,
+		t_env_manager *env_manager, int output_fd)
 {
 	if (ft_strcmp(command->command_name, "echo") == 0)
 		return (command_echo(args, output_fd));

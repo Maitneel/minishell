@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_xcalloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 22:24:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/02 18:07:22 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/08 00:27:34 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ void	*ft_xcalloc(size_t count, size_t size)
 	return (new_ptr);
 }
 
-void ft_exit(t_error_enum error_type)
+void	ft_exit(t_error_enum error_type)
 {
 	if (errno != 0)
 		perror("minishell");
 	else if (error_type == ALOCATE_ERROR)
 		write(STDERR_FILENO, "minishell: failed to allocate memory\n", 38);
-	else 
+	else
 		write(STDERR_FILENO, "minishell: unkonw error\n", 25);
 	exit(1);
 }

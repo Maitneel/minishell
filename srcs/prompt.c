@@ -32,35 +32,35 @@
 
 char	ft_is_space(char c)
 {
-	if (c == ' ' )
-		return true;
-	if (c == '\t' )
-		return true;
-	if (c == '\n' )
-		return true;
-	if (c == '\v' )
-		return true;
-	if (c == '\f' )
-		return true;
+	if (c == ' ')
+		return (true);
+	if (c == '\t')
+		return (true);
+	if (c == '\n')
+		return (true);
+	if (c == '\v')
+		return (true);
+	if (c == '\f')
+		return (true);
 	if (c == '\r')
-		return true;
-	return false;
+		return (true);
+	return (false);
 }
 
 bool	is_empty_string(char *str)
 {
-	size_t i ;
+	size_t	i;
 
-	i = 0 ;
+	i = 0;
 	while (str[i] != '\0')
 	{
 		if (!ft_is_space(str[i]))
 		{
-			return false;
+			return (false);
 		}
 		i++;
 	}
-	return true;
+	return (true);
 }
 
 char	*read_prompt(void)
