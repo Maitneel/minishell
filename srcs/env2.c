@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:31:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/28 22:40:41 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/08 13:23:45 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,27 +156,3 @@ char	*get_raw_string(t_env *env)
 // 	}
 // 	return (NULL);
 // }
-
-char	**make_env_ptr(t_env_manager *env_manager)
-{
-	char	**env_ptr;
-	t_env	*current;
-	size_t	i;
-
-	// fprintf(stderr, "call make_env_ptr \n");
-	env_ptr = ft_xcalloc(sizeof(char *), env_manager->size + 1);
-	if (env_ptr == NULL)
-		return (NULL);
-	i = 0;
-	current = env_manager->front;
-	while (i < env_manager->size)
-	{
-		env_ptr[i] = get_raw_string(current);
-		// fprintf(stderr, "env: i : %zu, str : %s\n", i, env_ptr[i]);
-		if (env_ptr[i] == NULL)
-			return (free_string_array(env_ptr));
-		current = current->next;
-		i++;
-	}
-	return (env_ptr);
-}

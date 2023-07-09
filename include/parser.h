@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:58:09 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/08 00:34:46 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/08 17:12:01 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@ typedef enum e_redirect_enum
 	REDIRECT_OUT_OVERWRITE,
 	REDIRECT_OUT_POST
 }							t_redirect_enum;
+
+typedef enum e_return_status
+{
+	SUCCESS = 3000,
+	TO_RETURN,
+	TO_BREAK
+}				t_return_status;
+
 
 typedef struct s_redirect_info
 {
@@ -51,12 +59,25 @@ typedef struct s_command
 	struct s_command		*next;
 }							t_command;
 
-void						*free_command(t_command *command);
-t_command					*parse(t_token_manager *token_manager,
-								t_env_manager *env_manager);
-void						print_command(t_command *command);
-bool						is_redirect_word(char *string);
-int							expand_here_doc(t_command *command,
-								t_env_manager *env_manager);
+void		*free_command(t_command *command);
+t_command	*parse(t_token_manager *token_manager, t_env_manager *env_manager);
+void		print_command(t_command *command);
+bool	is_in_redirect_word(char *string);
+bool		is_out_redirect_word(char *string);
+bool		is_redirect_word(char *string);
+bool		is_redirect_word(char *string);
+void	*free_redirect_info(t_redirect_info *front);
+t_redirect_info	*new_redirect_info(void);
+void	push_back_redirect_info(t_redirect_info **front, t_redirect_info *node);
+void	*free_args_list(t_args_list *front);
+void	push_back_args_list(t_args_list **front, t_args_list *node);
+t_args_list	*new_args_list(char *string);
+bool		add_redirect_to_command(t_command *command, t_token *front_token);
+void	*free_command(t_command *command);
+t_command	*new_command(void);
+void	push_back_command(t_command **front, t_command *command);
+bool		add_command_name_or_args(t_command *command, t_token *front_token);
+int			expand_here_doc(t_command *command, t_env_manager *env_manager);
+void	set_redirect_kind(char *token_word, t_redirect_info *redirect_info);
 
 #endif

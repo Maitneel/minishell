@@ -15,12 +15,21 @@ LIBFT := ${LIBFT_DIR}/libft.a
 SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/prompt.c \
 	${SRCS_DIR}/tokenize.c \
+	${SRCS_DIR}/tokenize2.c \
+	${SRCS_DIR}/tokenize3.c \
 	${SRCS_DIR}/ft_string.c \
 	${SRCS_DIR}/eval.c \
+	${SRCS_DIR}/eval2.c \
+	${SRCS_DIR}/eval3.c \
 	${SRCS_DIR}/parser.c \
+	${SRCS_DIR}/parser2.c \
+	${SRCS_DIR}/parser3.c \
+	${SRCS_DIR}/parser4.c \
+	${SRCS_DIR}/parser5.c \
 	${SRCS_DIR}/expand_here_doc.c \
 	${SRCS_DIR}/env.c \
 	${SRCS_DIR}/env2.c \
+	${SRCS_DIR}/env3.c \
 	${SRCS_DIR}/ft_signal.c \
 	${SRCS_DIR}/expand_env.c \
 	${SRCS_DIR}/command_exec.c \
