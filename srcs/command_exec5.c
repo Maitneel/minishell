@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 18:57:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 20:03:07 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 20:15:27 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,22 @@ int	can_open_input_files(t_redirect_info *input_current,
 		input_current = input_current->next;
 	}
 	return (0);
+}
+
+bool	is_path(char *str)
+{
+	size_t	i;
+
+	if (str == NULL)
+		return (false);
+	i = 0;
+	while (i < 3 && str[i] != '\0')
+	{
+		if (str[i] == '/')
+			return (true);
+		else if (str[i] != '.')
+			break ;
+		i++;
+	}
+	return (false);
 }

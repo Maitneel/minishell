@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 18:40:45 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 20:15:18 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,24 +73,6 @@ char	*make_path(const char *path, const char *command_name)
 	if (joined == NULL)
 		ft_exit(ALOCATE_ERROR);
 	return (joined);
-}
-
-bool	is_path(char *str)
-{
-	size_t	i;
-
-	if (str == NULL)
-		return (false);
-	i = 0;
-	while (i < 3 && str[i] != '\0')
-	{
-		if (str[i] == '/')
-			return (true);
-		else if (str[i] != '.')
-			break ;
-		i++;
-	}
-	return (false);
 }
 
 char	*find_path(t_command *cmd, t_env_manager *env_manager)
