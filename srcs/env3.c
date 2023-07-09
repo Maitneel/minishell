@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 13:21:24 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/08 13:23:42 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 17:19:38 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	**make_env_ptr(t_env_manager *env_manager)
 	t_env	*current;
 	size_t	i;
 
-	// fprintf(stderr, "call make_env_ptr \n");
 	env_ptr = ft_xcalloc(sizeof(char *), env_manager->size + 1);
 	if (env_ptr == NULL)
 		return (NULL);
@@ -30,7 +29,6 @@ char	**make_env_ptr(t_env_manager *env_manager)
 	while (i < env_manager->size)
 	{
 		env_ptr[i] = get_raw_string(current);
-		// fprintf(stderr, "env: i : %zu, str : %s\n", i, env_ptr[i]);
 		if (env_ptr[i] == NULL)
 			return (free_string_array(env_ptr));
 		current = current->next;

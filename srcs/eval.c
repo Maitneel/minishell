@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:08:40 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:28:06 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 17:21:42 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@
 #include "print_lib.h"
 #include <ctype.h>
 #include <stdbool.h>
-
 #include <stdlib.h>
-
 
 char	*get_special_env(char key, t_env_manager *env_manager)
 {
@@ -60,11 +58,6 @@ int	evaluated_token_helper(t_eval_token_helper_args *args)
 	else
 		push_back_ret = push_back_string_char(args->evaluated_string,
 				args->token->word[args->i]);
-	if (push_back_ret == NULL)
-	{
-		// TODO error handring
-		return (-1);
-	}
 	(args->i)++;
 	return (0);
 }
@@ -97,10 +90,7 @@ static t_token	*evaluated_token(t_token *token, t_env_manager *env)
 		return (NULL);
 	while (args.token->word[args.i] != '\0')
 	{
-		if (evaluated_token_helper(&args) < 0)
-		{
-			// TODO error handring;
-		}
+		evaluated_token_helper(&args);
 	}
 	evaluated = new_token(args.evaluated_string->data, 1);
 	if (evaluated != NULL)

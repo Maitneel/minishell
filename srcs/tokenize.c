@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:48:39 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:28:06 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 17:31:20 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 #include "stdlib.h"
 #include "tokenize.h"
 #include <stdbool.h>
-
-
 
 bool	tokenize_setup(t_token_manager **token_manager, char **token_string,
 		size_t *i, t_string *line)

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:30:50 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 17:15:55 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@
 #include "tokenize.h"
 #include "expand_env.h"
 #include "ft_signal.h"
-
-// static void	*free_with_return_null(void *ptr)
-// {
-// 	free(ptr);
-// 	return (NULL);
-// }
 
 char	ft_is_space(char c)
 {
@@ -96,7 +90,7 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 		if (set_string(&buffer, read_prompt()) == NULL)
 		{
 			g_signal_info.status = UNDEFINED;
-			write(STDOUT_FILENO, "exit\n", 5);
+			write(STDERR_FILENO, "exit\n", 5);
 			return (NULL);
 		}
 	}
@@ -104,8 +98,6 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 	if (expand_env(&expanded, &buffer, env_manager) == NULL)
 	{
 		free(buffer.data);
-		// TODO: error handring
-		// エラー(mallocの失敗とか)をどうするかという処理
 		perror("minishell");
 		return (NULL);
 	}

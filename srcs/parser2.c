@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:58:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:25:27 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 17:08:40 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,15 @@ bool	is_redirect_word(char *string)
 	return (false);
 }
 
-bool	add_redirect_to_command(t_command *command, t_token *front_token)
+bool	add_redirect(t_command *command, t_token *front_token,
+			t_env_manager *env_manager)
 {
 	t_redirect_info	*redirect_info;
 
 	if (front_token->next == NULL || front_token->next->kind == REDIRECT_KIND)
 	{
 		print_syntax_error(front_token->next);
+		env_manager->exit_status = 258;
 		command->is_error = true;
 		return (true);
 	}
@@ -68,7 +70,6 @@ bool	add_redirect_to_command(t_command *command, t_token *front_token)
 	if (redirect_info->arg == NULL)
 	{
 		free(redirect_info);
-		// ここ型絶対違うのにコンパイル通るの謎 
 		return (free_command(command));
 	}
 	set_redirect_kind(front_token->word, redirect_info);
