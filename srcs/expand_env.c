@@ -6,12 +6,12 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:02:11 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:28:06 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:34:31 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include "string.h"
+#include "ft_string.h"
 #include "tokenize.h"
 
 #include <stdlib.h>
