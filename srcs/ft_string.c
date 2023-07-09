@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:41:45 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:07:52 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:28:06 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ft_xcalloc.h"
 #include "libft.h"
 #include <stdlib.h>
-#include <string.h>
+
 
 t_string	*init_string(t_string *string, size_t length)
 {
@@ -118,7 +118,7 @@ t_string	*set_string(t_string *struct_string, char *string_ptr)
 	return (struct_string);
 }
 
-// #include <stdio.h>
+// 
 // int main() {
 // 	t_string string;
 

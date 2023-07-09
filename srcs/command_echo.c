@@ -6,11 +6,11 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:34:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:21:12 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:28:06 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+
 #include "builtin.h"
 
 int	command_echo(char **tokens, int fd)

@@ -6,14 +6,14 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 17:26:22 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:06:24 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:25:27 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenize.h"
 #include <stdbool.h>
 #include <stddef.h>
-#include <string.h>
+
 
 // 区切り文字判定
 // この関数をいじればtokenizeの区切りを変えられる

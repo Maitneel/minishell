@@ -6,14 +6,14 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 17:06:45 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:22:38 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:25:27 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "ft_xcalloc.h"
 #include <stdlib.h>
-#include <string.h>
+
 
 void	*free_args_list(t_args_list *front)
 {

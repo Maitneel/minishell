@@ -6,13 +6,13 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 17:29:26 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:07:52 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:28:06 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include <errno.h>
-#include <stdio.h>
+
 #include <unistd.h>
 
 bool	is_long(char *str)

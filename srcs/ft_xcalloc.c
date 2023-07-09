@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 22:24:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:15:24 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:36:30 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <sys/errno.h>
+
 #include "ft_xcalloc.h"
 #include "libft.h"
 

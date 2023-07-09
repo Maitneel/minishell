@@ -6,12 +6,12 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:32:52 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/06 20:38:59 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:32:30 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
-#include <string.h>
+
 #include <stdio.h>
 
 int	command_cd(char **tokens, int fd)

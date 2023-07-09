@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:41:08 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 21:41:00 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:31:54 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
+#include <stdio.h>
 
 int	ft_exec(t_command *command, t_env_manager *env_manager)
 {

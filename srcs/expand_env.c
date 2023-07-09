@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:02:11 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/02 18:23:55 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:34:31 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include "string.h"
+#include "ft_string.h"
 #include "tokenize.h"
-#include <stdio.h>
+
 #include <stdlib.h>
 
 void	expand_env_setup(char *quote_flag, size_t *i)
