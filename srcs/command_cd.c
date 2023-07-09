@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   command_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:32:52 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 21:53:18 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/06 20:38:59 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include <string.h>
+#include <stdio.h>
 
 int	command_cd(char **tokens, int fd)
 {
@@ -33,8 +34,8 @@ int	command_cd(char **tokens, int fd)
 	if (ret_code != 0)
 	{
 		write(STDERR_FILENO, "cd: ", 4);
-		strerror(errno);
-		exit(1);
+		perror(tokens[1]);
+		return (1);
 	}
 	command_pwd(fd);
 	return (ret_code);
