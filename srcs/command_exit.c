@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 17:29:26 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:28:06 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 20:35:42 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <errno.h>
 
 #include <unistd.h>
+#include <stdio.h>
 
 bool	is_long(char *str)
 {
@@ -27,13 +28,18 @@ bool	is_long(char *str)
 		sign = -1;
 		str++;
 	}
+	else if (str[0] == '+')
+		str++;
 	while (*str && ft_isdigit(*str))
 	{
-		if ((ret > (LONG_MAX - (*str - '0')) / 10) && sign == 1)
+		if ((ret > (LONG_MAX - (*str - '0')) / 10))
 			return (false);
-		if ((ret > (LONG_MAX - (*str - '0')) / 10) && sign == -1)
+		else if (ret < (LONG_MIN + (*str - '0')) / 10)
 			return (false);
-		ret = 10 * ret + (*str++ - '0');
+		if (sign == 1)
+			ret = 10 * ret + (*str++ - '0');
+		else
+			ret = 10 * ret - (*str++ - '0');
 	}
 	return (*str == '\0');
 }
