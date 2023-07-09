@@ -65,6 +65,8 @@ int	main(int argc, char **argv, char **envs)
 		if (command->is_error || command->is_heredoc_error)
 		{
 			// printf("minishell: syntax error\n");
+			free_command(command);
+			free_token_manager(token_manager);
 			continue;
 		} 
 		else if (command->command_name != NULL && strcmp(command->command_name, "exit") == 0 && command->next_pipe == 0)

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 18:56:53 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 18:43:11 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/06 20:20:21 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ bool	is_builtin(char *command)
 		NULL
 	};
 
+	if (command == NULL)
+		return (false);
 	i = 0;
 	while (commands[i])
 	{
