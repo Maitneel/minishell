@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:30:50 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:48:18 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 		if (set_string(&buffer, read_prompt()) == NULL)
 		{
 			g_signal_info.status = UNDEFINED;
-			write(STDOUT_FILENO, "exit\n", 5);
+			write(STDERR_FILENO, "exit\n", 5);
 			return (NULL);
 		}
 	}

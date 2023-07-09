@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:31:09 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:49:53 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,7 @@ int	shell_loop(t_env_manager *env_manager)
 
 	token_manager = prompt(env_manager);
 	if (token_manager == NULL)
-	{
-		// prompt 関数内でエラーメッセージの出力が完了しているので、そのままbreakしexitする
-		// このエラー処理はreadlineがNULLを返した時(Cntl+Dの時)に必要なのでいる
 		return (LOOP_BREAK);
-	}
 	command = parse(token_manager, env_manager);
 	if (command == NULL)
 	{
@@ -73,6 +69,7 @@ int	shell_loop(t_env_manager *env_manager)
 int	main(int argc, char **argv, char **envs)
 {
 	t_env_manager	*env_manager;
+	int				status_code;
 
 	// t_token_manager	*token_manager;
 	// t_command		*command;
@@ -86,10 +83,11 @@ int	main(int argc, char **argv, char **envs)
 	// env = env_manager->front;
 	while (shell_loop(env_manager) == LOOP_CONTINUE)
 		;
+	status_code = env_manager->exit_status;
 	free_env_manager(env_manager);
 	(void)argc;
 	(void)argv;
-	(void)envs;
+	return (status_code);
 }
 
 // void	check_fd(void)
