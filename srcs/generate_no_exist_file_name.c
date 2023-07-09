@@ -6,14 +6,12 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 19:13:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:28:06 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 17:29:54 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_xcalloc.h"
-
-
 #include <unistd.h>
 
 size_t	ft_pow(size_t x, size_t y)

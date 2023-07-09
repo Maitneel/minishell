@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:31:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:25:27 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 17:18:17 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "ft_xcalloc.h"
 #include "libft.h"
 #include <stdlib.h>
-
 
 t_env	*find_before_env(t_env_manager *env_manager, const char *key)
 {
@@ -97,7 +96,7 @@ void	env_delete(t_env_manager *env_manager, const char *key)
 	{
 		return ;
 	}
-	if (before_env == env_manager->front && ft_strcmp(before_env->key, key) == 0)
+	if (before_env == env_manager->front && !ft_strcmp(before_env->key, key))
 	{
 		env_manager->front = before_env->next;
 		free_env(before_env);

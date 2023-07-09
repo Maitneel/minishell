@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 17:26:22 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:25:27 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 17:31:38 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-
-// 区切り文字判定
-// この関数をいじればtokenizeの区切りを変えられる
 bool	is_delimiter(char c)
 {
 	const char		*delimiter = " \t\n\f\r";

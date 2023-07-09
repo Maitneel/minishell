@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:53:03 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 17:31:10 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,11 @@ int	shell_loop(t_env_manager *env_manager)
 	command = parse(token_manager, env_manager);
 	if (command == NULL)
 	{
-		// ここはおそらくいらない
-		// TODO ここでエラーメッセージの出力をするか、parser関数ない出力するか
 		free_token_manager(token_manager);
 		return (LOOP_BREAK);
 	}
 	if (command->is_error || command->is_heredoc_error)
 	{
-		// printf("minishell: syntax error\n");
 		free_token_manager(token_manager);
 		free_command(command);
 		return (LOOP_CONTINUE);
