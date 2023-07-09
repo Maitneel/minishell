@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:02:11 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:34:31 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 20:13:26 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ t_string	*push_back_string_char(t_string *string, char c)
 	return (push_back_string(string, temp));
 }
 
+bool	is_env_key_char(char c)
+{
+	return (ft_isalnum(c) || c == '_' || c == '?');
+}
+
 t_string	*expand_env(t_string *expanded, t_string *line,
 		t_env_manager *env_manager)
 {
@@ -45,7 +50,8 @@ t_string	*expand_env(t_string *expanded, t_string *line,
 	while (line->data[++i] != '\0')
 	{
 		quote_check(line->data, &quote_flag, &i);
-		if (line->data[i] == '$' && quote_flag != '\'')
+		if (line->data[i] == '$' && quote_flag != '\'' && \
+				is_env_key_char(line->data[i + 1]))
 		{
 			if (push_back_string(expanded, get_env_value_ptr(&line->data[i + 1],
 						&i, env_manager)) == NULL)

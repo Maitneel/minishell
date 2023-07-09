@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:41:08 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:31:54 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 20:04:00 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	ft_exec(t_command *command, t_env_manager *env_manager)
 	char	**args;
 	char	**env_ptr;
 
+	if (ft_strcmp(command->command_name, "") == 0)
+		exit(0);
 	args = make_args(command);
 	env_ptr = make_env_ptr(env_manager);
 	if (is_builtin(command->command_name))

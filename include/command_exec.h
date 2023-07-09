@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:28:38 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 20:16:04 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
 			t_env_manager *env_manager);
 int		can_open_input_files(t_redirect_info *input_current,
 			t_env_manager *env_manager);
+bool	is_path(char *str);
 
 #endif

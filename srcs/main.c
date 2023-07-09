@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 17:31:10 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 21:10:59 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,22 +82,3 @@ int	main(int argc, char **argv, char **envs)
 	free_env_manager(env_manager);
 	return (status_code);
 }
-
-// void	check_fd(void)
-// {
-// 	for (size_t i = 3; i < 10000; i++)
-// 	{
-// 		if (close(i) == 0)
-// 		{
-// 			fprintf(stderr, "\x1b[35m");
-// 			fprintf(stderr, "close %5zu\n", i);
-// 			fprintf(stderr, "\x1b[39m");
-// 		}
-// 	}
-// }
-
-// __attribute__((destructor)) void destructor()
-// {
-// 	// check_fd();
-// 	// system("leaks minishell -q > /dev/stderr/");
-// }

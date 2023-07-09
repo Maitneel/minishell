@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 18:57:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:32:13 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 20:15:27 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 void	non_pipe_child_exec(int before_fd, t_command *command,
-			t_env_manager *env_manager)
+		t_env_manager *env_manager)
 {
 	int	input_fd;
 	int	output_fd;
@@ -38,11 +38,12 @@ void	non_pipe_child_exec(int before_fd, t_command *command,
 }
 
 void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
-			t_env_manager *env_manager)
+		t_env_manager *env_manager)
 {
 	int	input_fd;
 	int	output_fd;
 
+	dup2(before_fd, STDIN_FILENO);
 	input_fd = files_dup2_stdin(command->inputs);
 	if (input_fd == -1)
 		exit(1);
@@ -51,21 +52,23 @@ void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
 		exit(1);
 	if (command->command_name == NULL)
 		exit(0);
-	dup2(before_fd, input_fd);
 	dup2(pipe_fd[WRITE_FD], STDOUT_FILENO);
 	dup2(output_fd, STDOUT_FILENO);
 	if (before_fd != STDIN_FILENO)
 		close(before_fd);
-	ft_exec(command, env_manager);
+	if (output_fd != STDOUT_FILENO)
+		close(output_fd);
 	close(pipe_fd[WRITE_FD]);
 	close(pipe_fd[READ_FD]);
-	close(output_fd);
-	close(input_fd);
+	if (input_fd != STDIN_FILENO)
+		close(input_fd);
+	ft_exec(command, env_manager);
+	close(STDIN_FILENO);
 	exit(127);
 }
 
 int	can_open_input_files(t_redirect_info *input_current,
-		t_env_manager *env_manager)
+							t_env_manager *env_manager)
 {
 	int	input_fd;
 
@@ -83,4 +86,22 @@ int	can_open_input_files(t_redirect_info *input_current,
 		input_current = input_current->next;
 	}
 	return (0);
+}
+
+bool	is_path(char *str)
+{
+	size_t	i;
+
+	if (str == NULL)
+		return (false);
+	i = 0;
+	while (i < 3 && str[i] != '\0')
+	{
+		if (str[i] == '/')
+			return (true);
+		else if (str[i] != '.')
+			break ;
+		i++;
+	}
+	return (false);
 }

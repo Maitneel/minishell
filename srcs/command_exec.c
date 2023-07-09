@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/06 19:38:49 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 19:58:33 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	wait_child_proceess(t_env_manager *env_manager)
 	pid_current = g_signal_info.pid_list;
 	while (pid_current != NULL)
 	{
-		wait(&env_manager->exit_status);
+		waitpid(pid_current->pid, &env_manager->exit_status, 0);
 		env_manager->exit_status = get_exit_code(env_manager->exit_status);
 		pid_current = pid_current->next;
 	}
