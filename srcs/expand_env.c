@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:02:11 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:34:31 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 18:48:27 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_string	*expand_env(t_string *expanded, t_string *line,
 	while (line->data[++i] != '\0')
 	{
 		quote_check(line->data, &quote_flag, &i);
-		if (line->data[i] == '$' && quote_flag != '\'')
+		if (line->data[i] == '$' && quote_flag != '\'' && (ft_isalnum(line->data[i + 1]) || line->data[i + 1] == '_' || line->data[i + 1] == '?'))
 		{
 			if (push_back_string(expanded, get_env_value_ptr(&line->data[i + 1],
 						&i, env_manager)) == NULL)

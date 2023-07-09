@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:22:38 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 18:40:45 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,33 @@ char	*make_path(const char *path, const char *command_name)
 	return (joined);
 }
 
-char	*find_path(t_command *command, t_env_manager *env_manager)
+bool	is_path(char *str)
+{
+	size_t	i;
+
+	if (str == NULL)
+		return (false);
+	i = 0;
+	while (i < 3 && str[i] != '\0')
+	{
+		if (str[i] == '/')
+			return (true);
+		else if (str[i] != '.')
+			break ;
+		i++;
+	}
+	return (false);
+}
+
+char	*find_path(t_command *cmd, t_env_manager *env_manager)
 {
 	t_env	*path_env;
 	size_t	i;
 	char	*absolute_path;
 	char	**paths;
 
-	if (access(command->command_name, F_OK) == 0)
-		return (ft_strdup(command->command_name));
+	if (access(cmd->command_name, F_OK) == 0 && is_path(cmd->command_name))
+		return (ft_strdup(cmd->command_name));
 	path_env = find_env(env_manager, "PATH");
 	if (path_env == NULL)
 		return (NULL);
@@ -91,7 +109,7 @@ char	*find_path(t_command *command, t_env_manager *env_manager)
 	i = 0;
 	while (paths[i] != NULL)
 	{
-		absolute_path = make_path(paths[i], command->command_name);
+		absolute_path = make_path(paths[i], cmd->command_name);
 		if (access(absolute_path, F_OK) == 0)
 		{
 			free_string_array(paths);
@@ -103,8 +121,8 @@ char	*find_path(t_command *command, t_env_manager *env_manager)
 	return (free_string_array(paths));
 }
 
-int	exec_builtin(t_command *command, char **args,
-		t_env_manager *env_manager, int output_fd)
+int	exec_builtin(t_command *command, char **args, t_env_manager *env_manager,
+		int output_fd)
 {
 	if (ft_strcmp(command->command_name, "echo") == 0)
 		return (command_echo(args, output_fd));
