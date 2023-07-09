@@ -6,20 +6,45 @@
 /*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:34:55 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 17:02:05 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/09 15:47:55 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-bool	valid_token(const char *str)
+bool	is_valid_key(const char *str)
 {
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '=' && str[i] != '\0')
+	{
+		if (i == 0 && !(ft_isalpha(str[i]) || str[i] == '_'))
+			return (false);
+		if (i != 0 && !(ft_isalnum(str[i]) || str[i] == '_'))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+bool	valid_token(const char *str)
+{	
 	return (ft_strchr(str, '='));
+}
+
+int	print_invalid_error(const char *str)
+{
+	write(STDERR_FILENO, "minishell: export: `", 21);
+	write(STDERR_FILENO, str, ft_strlen(str));
+	write(STDERR_FILENO, "': not a valid identifier\n", 27);
+	return (1);
 }
 
 int	command_export(t_env_manager *env_manager, char **tokens)
 {
 	size_t	i;
+	int		status_code;
 
 	if (array_size(tokens) == 1)
 	{
@@ -27,16 +52,14 @@ int	command_export(t_env_manager *env_manager, char **tokens)
 		return (1);
 	}
 	i = 1;
+	status_code = 0;
 	while (i < array_size(tokens))
 	{
-		if (!valid_token(tokens[i]))
-			write(STDOUT_FILENO, "export: error\n", 14);
-		else
-		{
-			if (add_env(env_manager, (char *)tokens[i]) == NULL)
-				write(STDOUT_FILENO, "export: error\n", 14);
-		}
+		if (!is_valid_key(tokens[i]))
+			status_code = print_invalid_error(tokens[i]);
+		else if (valid_token(tokens[i]))
+			add_env(env_manager, (char *)tokens[i]);
 		i++;
 	}
-	return (0);
+	return (status_code);
 }
