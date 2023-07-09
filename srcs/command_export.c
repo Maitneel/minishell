@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:34:55 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:07:52 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 20:43:13 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ bool	is_valid_key(const char *str)
 			return (false);
 		i++;
 	}
-	return (true);
+	return (true && ft_strcmp(str, "=") != 0);
 }
 
 bool	valid_token(const char *str)

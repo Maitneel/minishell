@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:35:45 by taksaito          #+#    #+#             */
-/*   Updated: 2023/06/25 17:01:37 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/09 20:40:00 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ int	command_unset(t_env_manager *env_manager, char **tokens)
 	tokens_size = array_size(tokens);
 	if (tokens_size == 1)
 	{
-		write(STDERR_FILENO, "unset: not enough arguments\n", 28);
-		return (1);
+		return (0);
 	}
 	i = 1;
 	while (i < tokens_size)
