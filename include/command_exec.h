@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/03 22:05:54 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:28:38 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 # include "print_lib.h"
 # include "ft_xsplit.h"
 # include <fcntl.h>
-# include <stdio.h>
+
 # include <stdlib.h>
-# include <string.h>
+
 # include <unistd.h>
 
 int		command_exec(t_command *commands, t_env_manager *env_manager);

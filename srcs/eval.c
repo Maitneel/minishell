@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:08:40 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:25:27 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:28:06 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "print_lib.h"
 #include <ctype.h>
 #include <stdbool.h>
-#include <stdio.h>
+
 #include <stdlib.h>
 
 

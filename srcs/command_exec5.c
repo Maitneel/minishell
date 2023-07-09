@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   command_exec5.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 18:57:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/03 22:05:03 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/09 16:32:13 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
+#include <stdio.h>
 
 void	non_pipe_child_exec(int before_fd, t_command *command,
 			t_env_manager *env_manager)

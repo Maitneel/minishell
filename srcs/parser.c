@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:25:27 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:28:06 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "tokenize.h"
 #include "print_lib.h"
 #include "ft_xcalloc.h"
-#include <stdio.h>
+
 #include <stdlib.h>
 
 
