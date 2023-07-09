@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/08 00:23:46 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:11:57 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	shell_loop(t_env_manager *env_manager)
 		free_command(command);
 		return (LOOP_CONTINUE);
 	}
-	print_command(command);
 	command_exec(command, env_manager);
 	free_token_manager(token_manager);
 	free_command(command);
