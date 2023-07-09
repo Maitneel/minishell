@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 18:56:53 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:06:24 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:21:12 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
 		line = get_next_line(g_signal_info.heredoc_fd);
 		if (line == NULL)
 			break ;
-		if (strcmp(line, end_text) == 0)
+		if (ft_strcmp(line, end_text) == 0)
 			break ;
 		expanded = expand_line(line, env_manager);
 		free(line);

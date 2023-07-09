@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:09:15 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:21:02 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@
 
 void	set_redirect_kind(char *token_word, t_redirect_info *redirect_info)
 {
-	if (strcmp(token_word, "<") == 0)
+	if (ft_strcmp(token_word, "<") == 0)
 	{
 		redirect_info->kind = REDIRECT_IN;
 	}
-	else if (strcmp(token_word, "<<") == 0)
+	else if (ft_strcmp(token_word, "<<") == 0)
 	{
 		redirect_info->kind = REDIRECT_HEAR_DOC;
 	}
-	else if (strcmp(token_word, ">") == 0)
+	else if (ft_strcmp(token_word, ">") == 0)
 	{
 		redirect_info->kind = REDIRECT_OUT_OVERWRITE;
 	}
-	else if (strcmp(token_word, ">>") == 0)
+	else if (ft_strcmp(token_word, ">>") == 0)
 	{
 		redirect_info->kind = REDIRECT_OUT_POST;
 	}
@@ -41,7 +41,7 @@ void	set_redirect_kind(char *token_word, t_redirect_info *redirect_info)
 t_return_status	parser_helper(t_token **front_token, t_command **front_command,
 		t_command **command)
 {
-	if (strcmp((*front_token)->word, "|") == 0)
+	if (ft_strcmp((*front_token)->word, "|") == 0)
 	{
 		push_back_command(front_command, (*command));
 		(*command)->next_pipe = true;

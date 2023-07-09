@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 20:40:59 by dummy             #+#    #+#             */
-/*   Updated: 2023/06/25 16:25:45 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:21:51 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ t_string	*init_string(t_string *string, size_t length);
 t_string	*push_back_string(t_string *dest, char *src);
 t_string	*push_back_string_char(t_string *string, char c);
 t_string	*set_string(t_string *struct_string, char *string_ptr);
+int			ft_strcmp(const char *s1, const char *s2);
 
 #endif

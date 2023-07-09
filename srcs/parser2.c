@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:58:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/08 17:19:51 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:21:02 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 
 bool	is_in_redirect_word(char *string)
 {
-	if (strcmp(string, "<") == 0)
+	if (ft_strcmp(string, "<") == 0)
 	{
 		return (true);
 	}
-	if (strcmp(string, "<<") == 0)
+	if (ft_strcmp(string, "<<") == 0)
 	{
 		return (true);
 	}
@@ -31,11 +31,11 @@ bool	is_in_redirect_word(char *string)
 
 bool	is_out_redirect_word(char *string)
 {
-	if (strcmp(string, ">") == 0)
+	if (ft_strcmp(string, ">") == 0)
 	{
 		return (true);
 	}
-	if (strcmp(string, ">>") == 0)
+	if (ft_strcmp(string, ">>") == 0)
 	{
 		return (true);
 	}

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:31:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/08 13:23:45 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:21:02 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_env	*find_before_env(t_env_manager *env_manager, const char *key)
 	env = env_manager->front;
 	if (env == NULL)
 		return (NULL);
-	if (strcmp(env->key, key) == 0)
+	if (ft_strcmp(env->key, key) == 0)
 	{
 		return (env);
 	}
@@ -37,7 +37,7 @@ t_env	*find_before_env(t_env_manager *env_manager, const char *key)
 	{
 		before_env = env;
 		env = env->next;
-		if (strcmp(env->key, key) == 0)
+		if (ft_strcmp(env->key, key) == 0)
 		{
 			return (before_env);
 		}
@@ -52,7 +52,7 @@ t_env	*find_env(t_env_manager *env_manager, const char *key)
 	env = env_manager->front;
 	while (env != NULL)
 	{
-		if (strcmp(env->key, key) == 0)
+		if (ft_strcmp(env->key, key) == 0)
 			return (env);
 		env = env->next;
 	}
@@ -97,7 +97,7 @@ void	env_delete(t_env_manager *env_manager, const char *key)
 	{
 		return ;
 	}
-	if (before_env == env_manager->front && strcmp(before_env->key, key) == 0)
+	if (before_env == env_manager->front && ft_strcmp(before_env->key, key) == 0)
 	{
 		env_manager->front = before_env->next;
 		free_env(before_env);
