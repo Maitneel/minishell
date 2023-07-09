@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 19:20:30 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:07:52 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:25:27 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "ft_xcalloc.h"
 #include "builtin.h"
-#include <string.h>
+
 #include <stdlib.h>
 
 void	free_env(t_env *env)

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:31:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:21:02 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:25:27 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_xcalloc.h"
 #include "libft.h"
 #include <stdlib.h>
-#include <string.h>
+
 
 t_env	*find_before_env(t_env_manager *env_manager, const char *key)
 {

@@ -6,13 +6,13 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:58:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:22:38 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/09 16:25:27 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "parser.h"
-#include <string.h>
+
 #include <stdlib.h>
 #include "print_lib.h"
 
