@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:31:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 17:18:17 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/15 23:14:50 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void	env_delete(t_env_manager *env_manager, const char *key)
 			env_manager->last = before_env;
 		}
 	}
+	env_manager->size--;
 }
 
 // size_t get_env_list_size(t_env *env)
