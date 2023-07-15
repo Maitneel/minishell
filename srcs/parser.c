@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/16 20:43:17 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 21:02:06 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ t_return_status	parser_helper(t_token **front_token, t_command **front_command,
 	{
 		push_back_command(front_command, (*command));
 		(*command)->next_pipe = true;
+		if ((*front_token)->next == NULL) 
+		{
+			print_syntax_error((*front_token)->next);
+			(*command)->is_error = true;
+			env_manager->exit_status = 1;
+		}
 		(*command) = new_command();
 		if ((*command) == NULL)
 			return (TO_RETURN);
