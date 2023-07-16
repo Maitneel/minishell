@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/16 21:41:12 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 21:48:57 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,15 @@ t_return_status	parser_helper(t_token **front_token, t_command **front_command,
 	return (SUCCESS);
 }
 
+t_command	*syntax_error_in_front(t_token *f_token,
+					t_command *cmd, t_env_manager *env_manager)
+{
+	print_syntax_error(f_token);
+	cmd->is_error = true;
+	env_manager->exit_status = 1;
+	return (cmd);
+}
+
 t_command	*parse(t_token_manager *token_manager, t_env_manager *env_manager)
 {
 	t_command		*cmd;
@@ -93,6 +102,8 @@ t_command	*parse(t_token_manager *token_manager, t_env_manager *env_manager)
 	if (cmd == NULL)
 		return (free_command(cmd));
 	f_token = token_manager->front;
+	if (f_token->kind == PIPE_KIND)
+		syntax_error_in_front(f_token, cmd, env_manager);
 	while (f_token != NULL && f_token->kind != SYNTAX_ERROR)
 	{
 		return_status = parser_helper(&f_token, &f_cmd, &cmd, env_manager);
