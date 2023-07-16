@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:02:11 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/16 20:44:26 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 20:49:24 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ size_t	get_number_of_include_pipe(char *str)
 	}
 	return (result);
 }
-
-#include <stdio.h>
 
 void	expand_pipe(char **dest, char *env_ptr, char quote_flag, size_t length)
 {
