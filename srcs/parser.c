@@ -6,15 +6,14 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/16 21:02:06 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 21:41:12 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "tokenize.h"
-#include "print_lib.h"
 #include "ft_xcalloc.h"
-
+#include "parser.h"
+#include "print_lib.h"
+#include "tokenize.h"
 #include <stdlib.h>
 
 void	set_redirect_kind(char *token_word, t_redirect_info *redirect_info)
@@ -37,19 +36,30 @@ void	set_redirect_kind(char *token_word, t_redirect_info *redirect_info)
 	}
 }
 
+bool	is_pipe_syntax_error(t_token **front_token)
+{
+	return ((*front_token)->next == NULL || \
+		(*front_token)->next->kind == PIPE_KIND);
+}
+
+t_return_status	pipe_syntax_error(t_token **front_token,
+		t_command **command, t_env_manager *env_manager)
+{
+	print_syntax_error((*front_token)->next);
+	(*command)->is_error = true;
+	env_manager->exit_status = 1;
+	return (TO_BREAK);
+}
+
 t_return_status	parser_helper(t_token **front_token, t_command **front_command,
 		t_command **command, t_env_manager *env_manager)
 {
 	if ((*front_token)->kind == PIPE_KIND)
 	{
+		if (is_pipe_syntax_error(front_token))
+			return (pipe_syntax_error(front_token, command, env_manager));
 		push_back_command(front_command, (*command));
 		(*command)->next_pipe = true;
-		if ((*front_token)->next == NULL) 
-		{
-			print_syntax_error((*front_token)->next);
-			(*command)->is_error = true;
-			env_manager->exit_status = 1;
-		}
 		(*command) = new_command();
 		if ((*command) == NULL)
 			return (TO_RETURN);
