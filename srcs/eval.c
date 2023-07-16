@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:08:40 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 17:21:42 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 20:21:11 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,6 @@ int	evaluated_token_helper(t_eval_token_helper_args *args)
 	}
 	if (is_add_doller(&args->token->word[args->i]))
 		push_back_ret = push_back_string(args->evaluated_string, "$");
-	else if (args->token->word[args->i] == '$' && is_expand(args->quote_flag))
-		push_back_ret = push_back_string(args->evaluated_string,
-				get_env_value_ptr(&args->token->word[args->i + 1],
-					&args->i, args->env));
 	else
 		push_back_ret = push_back_string_char(args->evaluated_string,
 				args->token->word[args->i]);
