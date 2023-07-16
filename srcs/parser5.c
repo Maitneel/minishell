@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 17:08:01 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/16 21:56:13 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 21:57:44 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	push_back_command(t_command **front, t_command *command)
 	}
 	current->next = command;
 }
-
 
 t_command	*syntax_error_in_front(t_token *f_token,
 					t_command *cmd, t_env_manager *env_manager)
