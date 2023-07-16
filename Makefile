@@ -50,6 +50,7 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/ft_strcmp.c \
 	${SRCS_DIR}/ft_xcalloc.c \
 	${SRCS_DIR}/ft_xsplit.c \
+	./ignore/print_command.c \
 
 OBJS := ${SRCS:%.c=%.o}
 
