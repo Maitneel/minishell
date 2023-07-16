@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:02:11 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/16 17:55:16 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 20:11:36 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	*get_expande_pipe(char *env_ptr, bool is_expand, char quote_flag)
 		}
 		return (expanded);
 	}
-	length = ft_strlen(env_ptr) + get_number_of_include_pipe(env_ptr) * 2;
+	length = ft_strlen(env_ptr) + get_number_of_include_pipe(env_ptr) * 2 + 1;
 	if (quote_flag != '\0')
 		length += get_number_of_include_pipe(env_ptr) * 2;
 	expanded = ft_xcalloc(sizeof(char), length);
