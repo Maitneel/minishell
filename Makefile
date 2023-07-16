@@ -1,7 +1,7 @@
 NAME := minishell
 
 CC := cc
-CFLAG = -Wall -Wextra -Werror -I$(shell brew --prefix readline)/include -I${INCLUDE_DIR} -I${LIBFT_DIR} ${shell echo > ~/.inputrc set echo-control-characters off}
+CFLAG = -Wall -Wextra  -I$(shell brew --prefix readline)/include -I${INCLUDE_DIR} -I${LIBFT_DIR} ${shell echo > ~/.inputrc set echo-control-characters off} -fsanitize=address -g 
 READLINE_FLAG  = -I$(shell brew --prefix readline)/include -L$(shell brew --prefix readline)/lib -lreadline
 RM := rm
 RM_FLAG := -rf
