@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 17:25:22 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 17:31:28 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 20:12:11 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 #include "ft_xcalloc.h"
 #include <stdlib.h>
 
+#include <stdio.h>
+
 t_token	*new_token(const char *word, const int kind)
 {
+	fprintf(stderr, "new token : '%s'\n", word);
 	t_token	*token;
 
 	if (word == NULL)
