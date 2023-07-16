@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:31:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 17:18:17 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 16:40:29 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_env	*add_env(t_env_manager *env_manager, char *token)
 		else
 			env_manager->last->next = env;
 		env_manager->last = env;
+		(env_manager->size)++;
 		return (env);
 	}
 	else
@@ -111,6 +112,7 @@ void	env_delete(t_env_manager *env_manager, const char *key)
 			env_manager->last = before_env;
 		}
 	}
+	env_manager->size--;
 }
 
 // size_t get_env_list_size(t_env *env)
