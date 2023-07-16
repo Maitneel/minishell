@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser6.c                                          :+:      :+:    :+:   */
+/*   parser5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 17:08:01 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/08 17:14:42 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 21:56:13 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,14 @@ void	push_back_command(t_command **front, t_command *command)
 		current = current->next;
 	}
 	current->next = command;
+}
+
+
+t_command	*syntax_error_in_front(t_token *f_token,
+					t_command *cmd, t_env_manager *env_manager)
+{
+	print_syntax_error(f_token);
+	cmd->is_error = true;
+	env_manager->exit_status = 1;
+	return (cmd);
 }

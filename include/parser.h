@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:58:09 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 17:32:46 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 21:57:05 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,7 @@ int							expand_here_doc(t_command *command,
 								t_env_manager *env_manager);
 void						set_redirect_kind(char *token_word,
 								t_redirect_info *redirect_info);
+t_command					*syntax_error_in_front(t_token *f_token,
+								t_command *cmd, t_env_manager *env_manager);
 
 #endif
