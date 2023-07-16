@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:31:12 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/15 23:14:50 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/16 16:40:29 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_env	*add_env(t_env_manager *env_manager, char *token)
 		else
 			env_manager->last->next = env;
 		env_manager->last = env;
+		(env_manager->size)++;
 		return (env);
 	}
 	else
