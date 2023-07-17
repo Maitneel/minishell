@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:32:52 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/17 17:42:34 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:44:12 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 
-int	command_cd(char **tokens, int fd)
+int	command_cd(char **tokens)
 {
 	int		ret_code;
 	size_t	token_size;
