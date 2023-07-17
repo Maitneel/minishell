@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 17:26:22 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 17:31:38 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:15:00 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	is_delimiter(char c)
 
 bool	is_meta_char(char c)
 {
-	const char		*meta_char = "<>|&";
+	const char		*meta_char = "<>|";
 	const size_t	meta_char_size = 4;
 	size_t			i;
 
@@ -70,7 +70,8 @@ size_t	set_next_char(char *line, char *token_string, char *quote, size_t *i)
 	{
 		token_string[index] = line[*i];
 		(index)++;
-		if (is_meta_char(line[*i]) && line[*i] == line[*i + 1])
+		if (is_meta_char(line[*i]) && line[*i] == line[*i + 1]
+			&& line[*i] != '|')
 		{
 			(*i)++;
 			token_string[index] = line[*i];
