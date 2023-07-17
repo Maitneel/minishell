@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/17 17:44:36 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:51:33 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	exec_builtin(t_command *command, char **args, t_env_manager *env_manager,
 	if (ft_strcmp(command->command_name, "echo") == 0)
 		return (command_echo(args, output_fd));
 	if (ft_strcmp(command->command_name, "cd") == 0)
-		return (command_cd(args));
+		return (command_cd(env_manager, args));
 	if (ft_strcmp(command->command_name, "pwd") == 0)
 		return (command_pwd(output_fd));
 	if (ft_strcmp(command->command_name, "env") == 0)

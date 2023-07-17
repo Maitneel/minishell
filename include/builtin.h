@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 18:20:18 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/17 17:45:02 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:51:07 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 int		ft_strcmp(const char *s1, const char *s2);
 int		command_echo(char **tokens, int fd);
 int		command_pwd(int fd);
-int		command_cd(char **tokens);
+int		command_cd(t_env_manager *env_manager, char **tokens);
 int		command_env(t_env_manager *env_manager, char **tokens, int fd);
 int		command_export(t_env_manager *env_manager, char **tokens);
 int		command_unset(t_env_manager *env_manager, char **tokens);
