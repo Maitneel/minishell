@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 21:10:59 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:32:49 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@
 #include "command_exec.h"
 #include "builtin.h"
 
-void	setup_signal(void)
+void	setup_signal(int *exit_code_ptr)
 {
 	signal(SIGINT, resive_signal);
 	signal(SIGQUIT, resive_signal);
 	g_signal_info.status = UNDEFINED;
 	g_signal_info.resived_sigid = -1;
 	g_signal_info.pid_list = NULL;
+	g_signal_info.exit_status = exit_code_ptr;
 }
 
 #define LOOP_CONTINUE 0
@@ -70,12 +71,12 @@ int	main(int argc, char **argv, char **envs)
 
 	(void)argc;
 	(void)argv;
-	setup_signal();
 	env_manager = new_env_manager(envs);
 	if (env_manager == NULL)
 	{
 		return (1);
 	}
+	setup_signal(&(env_manager->exit_status));
 	while (shell_loop(env_manager) == LOOP_CONTINUE)
 		;
 	status_code = env_manager->exit_status;
