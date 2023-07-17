@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:32:52 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:32:30 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:42:34 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,5 @@ int	command_cd(char **tokens, int fd)
 		perror(tokens[1]);
 		return (1);
 	}
-	command_pwd(fd);
 	return (ret_code);
 }
