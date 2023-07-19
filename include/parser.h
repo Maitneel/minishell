@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:58:09 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 17:32:46 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/19 19:43:58 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include "tokenize.h"
+# include "print_lib.h"
 # include <stdbool.h>
 
 typedef enum e_redirect_enum
