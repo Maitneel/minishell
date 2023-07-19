@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:49:12 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 17:33:29 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 20:33:21 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef enum e_token_kind
 {
 	SYNTAX_ERROR = 1000,
 	DEFAULT_KIND,
+	PIPE_KIND,
 	REDIRECT_KIND,
 	NULL_KIND,
 }					t_token_kind;

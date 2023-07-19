@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 17:07:28 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 20:43:17 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	set_redirect_kind(char *token_word, t_redirect_info *redirect_info)
 t_return_status	parser_helper(t_token **front_token, t_command **front_command,
 		t_command **command, t_env_manager *env_manager)
 {
-	if (ft_strcmp((*front_token)->word, "|") == 0)
+	if ((*front_token)->kind == PIPE_KIND)
 	{
 		push_back_command(front_command, (*command));
 		(*command)->next_pipe = true;
