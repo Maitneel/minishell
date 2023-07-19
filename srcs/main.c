@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 21:10:59 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 21:09:21 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 #include "ft_signal.h"
 #include "command_exec.h"
 #include "builtin.h"
+
+#include "print_command.h"
 
 void	setup_signal(void)
 {
@@ -57,6 +59,7 @@ int	shell_loop(t_env_manager *env_manager)
 		free_command(command);
 		return (LOOP_CONTINUE);
 	}
+	print_command(command);
 	command_exec(command, env_manager);
 	free_token_manager(token_manager);
 	free_command(command);
