@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 12:57:19 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/16 21:56:09 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/19 19:58:41 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_command	*parse(t_token_manager *token_manager, t_env_manager *env_manager)
 		return (free_command(cmd));
 	f_token = token_manager->front;
 	if (f_token->kind == PIPE_KIND)
-		syntax_error_in_front(f_token, cmd, env_manager);
+		return (syntax_error_in_front(f_token, cmd, env_manager));
 	while (f_token != NULL && f_token->kind != SYNTAX_ERROR)
 	{
 		return_status = parser_helper(&f_token, &f_cmd, &cmd, env_manager);
