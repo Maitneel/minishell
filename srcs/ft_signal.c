@@ -24,11 +24,15 @@ void	resive_signal(int sig_id)
 {
 	if (!(sig_id == SIGINT || sig_id == SIGQUIT))
 		return ;
-	write(STDOUT_FILENO, "\n", 1);
+	if (sig_id != SIGQUIT)
+		write(STDOUT_FILENO, "\n", 1);
 	if (g_signal_info.status == READING_PROMPT)
 	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
+		if (sig_id == SIGINT)
+		{
+			rl_on_new_line();
+			rl_replace_line("", 0);
+		}
 		rl_redisplay();
 		*(g_signal_info.exit_status) = 1;
 	}
