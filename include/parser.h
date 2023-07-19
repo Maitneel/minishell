@@ -88,5 +88,7 @@ int							expand_here_doc(t_command *command,
 								t_env_manager *env_manager);
 void						set_redirect_kind(char *token_word,
 								t_redirect_info *redirect_info);
+t_command					*syntax_error_in_front(t_token *f_token,
+								t_command *cmd, t_env_manager *env_manager);
 
 #endif

@@ -6,14 +6,15 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:08:40 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 17:21:42 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/16 20:39:30 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/ft_string.h"
 #include "../include/tokenize.h"
-#include "libft.h"
 #include "ft_xcalloc.h"
+#include "libft.h"
+#include "parser.h"
 #include "print_lib.h"
 #include <ctype.h>
 #include <stdbool.h>
@@ -37,6 +38,7 @@ typedef struct s_eval_token_helper_args
 	char					quote_flag;
 	size_t					i;
 	t_string				*evaluated_string;
+	t_token_kind			kind;
 }							t_eval_token_helper_args;
 
 int	evaluated_token_helper(t_eval_token_helper_args *args)
@@ -51,10 +53,6 @@ int	evaluated_token_helper(t_eval_token_helper_args *args)
 	}
 	if (is_add_doller(&args->token->word[args->i]))
 		push_back_ret = push_back_string(args->evaluated_string, "$");
-	else if (args->token->word[args->i] == '$' && is_expand(args->quote_flag))
-		push_back_ret = push_back_string(args->evaluated_string,
-				get_env_value_ptr(&args->token->word[args->i + 1],
-					&args->i, args->env));
 	else
 		push_back_ret = push_back_string_char(args->evaluated_string,
 				args->token->word[args->i]);
@@ -81,6 +79,19 @@ t_eval_token_helper_args	*set_args(t_eval_token_helper_args *args,
 	return (args);
 }
 
+t_token_kind	get_evaluated_kind(t_token *before_eval_token)
+{
+	if (before_eval_token == NULL)
+		return (NULL_KIND);
+	if (before_eval_token->word == NULL)
+		return (NULL_KIND);
+	if (ft_strcmp(before_eval_token->word, "|") == 0)
+		return (PIPE_KIND);
+	if (is_redirect_word(before_eval_token->word))
+		return (REDIRECT_KIND);
+	return (DEFAULT_KIND);
+}
+
 static t_token	*evaluated_token(t_token *token, t_env_manager *env)
 {
 	t_token						*evaluated;
@@ -92,7 +103,8 @@ static t_token	*evaluated_token(t_token *token, t_env_manager *env)
 	{
 		evaluated_token_helper(&args);
 	}
-	evaluated = new_token(args.evaluated_string->data, 1);
+	evaluated = new_token(args.evaluated_string->data,
+			get_evaluated_kind(token));
 	if (evaluated != NULL)
 	{
 		if (args.quote_flag != '\0')
@@ -121,7 +133,8 @@ t_token_manager	*eval(t_token_manager *token_manager,
 		if (should_eval(current))
 			add_token(evaluated, evaluated_token(current, env_manager));
 		else
-			add_token(evaluated, new_token(current->word, current->kind));
+			add_token(evaluated, new_token(current->word,
+					get_evaluated_kind(current)));
 		if (evaluated->last == NULL)
 		{
 			free_token_manager(evaluated);

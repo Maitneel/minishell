@@ -25,6 +25,8 @@
 #include "command_exec.h"
 #include "builtin.h"
 
+#include "print_command.h"
+
 void	setup_signal(void)
 {
 	signal(SIGINT, resive_signal);
@@ -57,6 +59,7 @@ int	shell_loop(t_env_manager *env_manager)
 		free_command(command);
 		return (LOOP_CONTINUE);
 	}
+	print_command(command);
 	command_exec(command, env_manager);
 	free_token_manager(token_manager);
 	free_command(command);
