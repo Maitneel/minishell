@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
+/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 17:02:11 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/16 20:49:24 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/19 20:38:32 by taksaito         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,19 +113,14 @@ char	*get_expande_pipe(char *env_ptr, bool is_expand, char quote_flag)
 	return (expanded);
 }
 
-t_string	*expand_env(t_string *expanded, t_string *line,
-		t_env_manager *env_manager)
+t_string	*expnad_env_helper(t_string *expanded, t_string *line,
+					char quote_flag, t_env_manager *env_manager)
 {
-	char	quote_flag;
-	size_t	i;
 	char	*expanded_pipe;
+	size_t	i;
 
-	expand_env_setup(&quote_flag, &i);
-	if (line == NULL || env_manager == NULL)
-		return (NULL);
-	if (init_string(expanded, DEFAULT_INIT_SIZE) == NULL)
-		return (NULL);
-	while (line->data[++i] != '\0')
+	i = 0;
+	while (line->data[i] != '\0')
 	{
 		quote_check(line->data, &quote_flag, &i);
 		if (line->data[i] == '$' && quote_flag != '\'' && \
@@ -142,6 +137,20 @@ t_string	*expand_env(t_string *expanded, t_string *line,
 			if (push_back_string_char(expanded, line->data[i]) == NULL)
 				return (NULL);
 		}
+		i++;
 	}
 	return (expanded);
+}
+
+t_string	*expand_env(t_string *expanded, t_string *line,
+		t_env_manager *env_manager)
+{
+	char	quote_flag;
+
+	quote_flag = '\0';
+	if (line == NULL || env_manager == NULL)
+		return (NULL);
+	if (init_string(expanded, DEFAULT_INIT_SIZE) == NULL)
+		return (NULL);
+	return (expnad_env_helper(expanded, line, quote_flag, env_manager));
 }
