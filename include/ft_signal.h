@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:12:38 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/03 18:40:01 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:26:48 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_signal_struct
 	int					resived_sigid;
 	t_pid_list			*pid_list;
 	int					heredoc_fd;
+	int					*exit_status;
 }						t_sginal_struct;
 
 void					resive_signal(int sig_id);

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:13:58 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/15 20:36:55 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:27:26 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	resive_signal(int sig_id)
 			rl_replace_line("", 0);
 		}
 		rl_redisplay();
+		*(g_signal_info.exit_status) = 1;
 	}
 	else if (g_signal_info.status == READING_HEREDOC && sig_id == SIGINT)
 	{
