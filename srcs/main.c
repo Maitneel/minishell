@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taksaito <taksaito@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/19 20:21:35 by taksaito         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:26:15 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	setup_signal(int *exit_code_ptr)
 	signal(SIGQUIT, resive_signal);
 	g_signal_info.status = UNDEFINED;
 	g_signal_info.resived_sigid = -1;
-	g_signal_info.pid_list = NULL;
 	g_signal_info.exit_status = exit_code_ptr;
 }
 
