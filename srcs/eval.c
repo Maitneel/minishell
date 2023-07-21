@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:08:40 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/16 20:39:30 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/21 16:46:53 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,6 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdlib.h>
-
-char	*get_special_env(char key, t_env_manager *env_manager)
-{
-	if (key == '?')
-	{
-		free(env_manager->string_exit_status);
-		env_manager->string_exit_status = ft_itoa(env_manager->exit_status);
-		return (env_manager->string_exit_status);
-	}
-	return (NULL);
-}
 
 typedef struct s_eval_token_helper_args
 {
