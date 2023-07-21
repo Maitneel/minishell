@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 19:58:33 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/21 17:22:59 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	unlink_tempfile(t_command *command)
 	}
 }
 
-void	wait_child_proceess(t_env_manager *env_manager)
+void	wait_child_proceess(t_pid_list *pid_list, t_env_manager *env_manager)
 {
 	t_pid_list	*pid_current;
 
-	pid_current = g_signal_info.pid_list;
+	pid_current = pid_list;
 	while (pid_current != NULL)
 	{
 		waitpid(pid_current->pid, &env_manager->exit_status, 0);
@@ -77,9 +77,11 @@ void	exec_builtin_no_fork(t_command *command, t_env_manager *env_manager)
 int	command_exec(t_command *commands, t_env_manager *env_manager)
 {
 	t_command	*current;
+	t_pid_list	*pids;
 	int			before_fd;
 
 	g_signal_info.status = EXECUTING_COMMAND;
+	pids = NULL;
 	current = commands;
 	before_fd = STDIN_FILENO;
 	if (is_builtin(current->command_name) && !current->next_pipe)
@@ -91,14 +93,11 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	while (current != NULL)
 	{
 		if (current->next_pipe)
-			before_fd = pipe_exec(before_fd, current, env_manager);
+			before_fd = pipe_exec(before_fd, current, &pids, env_manager);
 		else
-			before_fd = non_pipe_exec(before_fd, current, env_manager);
+			before_fd = non_pipe_exec(before_fd, current, &pids, env_manager);
 		current = current->next;
 	}
-	wait_child_proceess(env_manager);
-	g_signal_info.status = UNDEFINED;
-	free_pid_list(&g_signal_info.pid_list);
-	unlink_tempfile(commands);
+	exec_end_processing(pids, commands, env_manager);
 	return (0);
 }
