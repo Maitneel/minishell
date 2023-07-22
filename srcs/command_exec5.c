@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 18:57:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/21 17:16:34 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 16:35:12 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ void	exec_end_processing(t_pid_list *pid_list, t_command *command,
 		t_env_manager *env_manager)
 {
 	wait_child_proceess(pid_list, env_manager);
-	g_signal_info.status = UNDEFINED;
 	free_pid_list(&pid_list);
 	unlink_tempfile(command);
 }

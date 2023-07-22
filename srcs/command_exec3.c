@@ -6,11 +6,13 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/17 17:51:33 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 17:04:10 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
+#include "signal_handler.h"
+#include <stdio.h>
 
 char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
 {
@@ -20,15 +22,34 @@ char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
 	file_name = generate_no_exist_file_name("/tmp/here_doc_tmp");
 	if (file_name == NULL)
 		return (NULL);
-	output_fd = open(file_name, (O_WRONLY | O_CREAT));
-	if (output_fd == -1)
+	pid_t pid = fork();
+	if (pid == -1)
+		return (NULL);
+	if (pid == 0)
 	{
-		free(file_name);
-		return (NULL);
+		register_signal_handler(heredoc_child_signal_handler);
+		output_fd = open(file_name, (O_WRONLY | O_CREAT), 0644);
+		if (output_fd == -1)
+		{
+			free(file_name);
+			exit(1);
+		}
+		if (expand_and_write(output_fd, info, env_manager) == -1)
+		{
+			unlink(file_name);
+			exit(1);
+		}
+		exit(0);
 	}
-	if (expand_and_write(output_fd, info, env_manager) == -1)
-		return (NULL);
-	return (file_name);
+	else
+	{
+		int exit_code;
+		wait(&exit_code);
+		fprintf(stderr, "exit_code : '%d'\n", exit_code);
+		if (exit_code != 0)
+			return NULL;
+		return file_name;
+	}
 }
 
 char	**make_args(t_command *command)

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/21 17:22:59 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 16:45:19 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	t_command	*current;
 	t_pid_list	*pids;
 	int			before_fd;
-
-	g_signal_info.status = EXECUTING_COMMAND;
+	
 	pids = NULL;
 	current = commands;
 	before_fd = STDIN_FILENO;

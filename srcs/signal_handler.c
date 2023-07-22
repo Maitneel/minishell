@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_signal.c                                        :+:      :+:    :+:   */
+/*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 14:13:58 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/22 16:34:09 by dummy            ###   ########.fr       */
+/*   Created: 2023/07/22 16:03:54 by dummy             #+#    #+#             */
+/*   Updated: 2023/07/22 17:06:36 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_signal.h"
-#include "ft_xcalloc.h"
 #include <signal.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <stddef.h>
 #include <readline/readline.h>
+#include "ft_signal.h"
 
 // void	resive_signal(int sig_id)
 // {
@@ -44,54 +40,43 @@
 // 	}
 // }
 
-t_pid_list	*new_pid_list(pid_t pid)
+void	heredoc_signal_handler(int sig_id)
 {
-	t_pid_list	*pid_list;
-
-	pid_list = ft_xcalloc(1, sizeof(t_pid_list));
-	if (pid_list == NULL)
-		return (NULL);
-	pid_list->pid = pid;
-	return (pid_list);
+	if (sig_id == SIGINT)
+		write(STDOUT_FILENO, "\n", 1);
+	write(1, "hogehoge\n", 9);
+	g_recived_signal_id = sig_id;
 }
 
-void	*free_pid_list(t_pid_list **pid_list)
+void	heredoc_child_signal_handler(int sig_id)
 {
-	t_pid_list	*current;
-	t_pid_list	*next;
-
-	current = *pid_list;
-	(*pid_list) = NULL;
-	while (current != NULL)
-	{
-		next = current->next;
-		current->next = NULL;
-		free(current);
-		current = next;
-	}
-	return (NULL);
+	if (sig_id == SIGINT)
+		exit(0);
 }
 
-t_pid_list	*pid_push_back(t_pid_list **list, pid_t pid)
-{
-	t_pid_list	*current;
 
-	if (list == NULL)
-		return (NULL);
-	if (*list == NULL)
+void	readline_signal_handler(int sig_id)
+{
+	g_recived_signal_id = sig_id;
+	if (sig_id == SIGINT)
+		write(STDOUT_FILENO, "\n", 1);
+	if (sig_id == SIGINT)
 	{
-		*list = new_pid_list(pid);
-		return (*list);
+		rl_on_new_line();
+		rl_replace_line("", 0);
 	}
-	current = *list;
-	while (current->next != NULL)
-	{
-		current = current->next;
-	}
-	current->next = new_pid_list(pid);
-	if (current->next == NULL)
-	{
-		return (free_pid_list(list));
-	}
-	return (*list);
+	rl_redisplay();
+}
+
+void	signal_handler(int sig_id)
+{
+	g_recived_signal_id = sig_id;
+	if (sig_id == SIGINT)
+		write(STDOUT_FILENO, "\n", 1);
+}
+
+void register_signal_handler(void(*handler)(int))
+{
+	signal(SIGINT, handler);
+	signal(SIGQUIT, handler);
 }

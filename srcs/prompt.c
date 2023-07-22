@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 17:15:55 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 16:32:18 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "tokenize.h"
 #include "expand_env.h"
 #include "ft_signal.h"
+#include "signal_handler.h"
 
 char	ft_is_space(char c)
 {
@@ -64,9 +65,9 @@ char	*read_prompt(void)
 	line = NULL;
 	while (line == NULL)
 	{
-		g_signal_info.status = READING_PROMPT;
+		register_signal_handler(readline_signal_handler);
 		line = readline("minishell$ ");
-		g_signal_info.status = UNDEFINED;
+		register_signal_handler(signal_handler);
 		if (line == NULL)
 			break ;
 		if (is_empty_string(line))
@@ -89,7 +90,6 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 	{
 		if (set_string(&buffer, read_prompt()) == NULL)
 		{
-			g_signal_info.status = UNDEFINED;
 			write(STDERR_FILENO, "exit\n", 5);
 			return (NULL);
 		}
