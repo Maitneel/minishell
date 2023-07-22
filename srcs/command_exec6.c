@@ -6,9 +6,12 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 18:20:07 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/22 18:20:50 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 18:26:57 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "command_exec.h"
+#include "signal_handler.h"
 
 void	heredoc_child(char *file_name, t_redirect_info *info,
 		t_env_manager *env_manager)

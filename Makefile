@@ -38,6 +38,7 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/command_exec3.c \
 	${SRCS_DIR}/command_exec4.c \
 	${SRCS_DIR}/command_exec5.c \
+	${SRCS_DIR}/command_exec6.c \
 	${SRCS_DIR}/command_exit.c \
 	${SRCS_DIR}/generate_no_exist_file_name.c \
 	${GNL_DIR}/get_next_line.c \
