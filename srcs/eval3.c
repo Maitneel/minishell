@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 13:34:13 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 16:22:45 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/21 16:46:16 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,15 @@ char	*get_env_value_ptr(char *token_string, size_t *token_index,
 	if (env == NULL)
 		return (NULL);
 	return (env->value);
+}
+
+char	*get_special_env(char key, t_env_manager *env_manager)
+{
+	if (key == '?')
+	{
+		free(env_manager->string_exit_status);
+		env_manager->string_exit_status = ft_itoa(env_manager->exit_status);
+		return (env_manager->string_exit_status);
+	}
+	return (NULL);
 }

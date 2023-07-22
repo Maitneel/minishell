@@ -32,6 +32,7 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/env3.c \
 	${SRCS_DIR}/ft_signal.c \
 	${SRCS_DIR}/expand_env.c \
+	${SRCS_DIR}/expand_env2.c \
 	${SRCS_DIR}/command_exec.c \
 	${SRCS_DIR}/command_exec2.c \
 	${SRCS_DIR}/command_exec3.c \
