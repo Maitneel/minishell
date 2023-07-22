@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_signal.h                                        :+:      :+:    :+:   */
+/*   command_exec6.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 14:12:38 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/22 18:18:59 by dummy            ###   ########.fr       */
+/*   Created: 2023/07/22 18:20:07 by dummy             #+#    #+#             */
+/*   Updated: 2023/07/22 18:20:50 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_SIGNAL_H
-# define FT_SIGNAL_H
-
-# include <unistd.h>
-
-typedef struct s_pid_list
+void	heredoc_child(char *file_name, t_redirect_info *info,
+		t_env_manager *env_manager)
 {
-	pid_t				pid;
-	struct s_pid_list	*next;
-}						t_pid_list;
+	int	output_fd;
 
-void					resive_signal(int sig_id);
-t_pid_list				*pid_push_back(t_pid_list **list, pid_t pid);
-void					*free_pid_list(t_pid_list **pid_list);
-int						g_recived_signal_id;
-
-#endif
+	register_signal_handler(heredoc_child_signal_handler);
+	output_fd = open(file_name, (O_WRONLY | O_CREAT), 0644);
+	if (output_fd == -1)
+	{
+		free(file_name);
+		exit(1);
+	}
+	if (expand_and_write(output_fd, info, env_manager) == -1)
+	{
+		unlink(file_name);
+		exit(1);
+	}
+	exit(0);
+}

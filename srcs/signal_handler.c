@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:03:54 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/22 17:57:19 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 18:20:37 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	heredoc_child_signal_handler(int sig_id)
 {
 	if (sig_id == SIGINT)
 		exit(0);
+	rl_redisplay();
 }
 
 void	readline_signal_handler(int sig_id)
