@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/22 16:32:18 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 17:31:21 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool	is_empty_string(char *str)
 	return (true);
 }
 
-char	*read_prompt(void)
+char	*read_prompt(t_env_manager *env_manager)
 {
 	char	*line;
 
@@ -67,6 +67,11 @@ char	*read_prompt(void)
 	{
 		register_signal_handler(readline_signal_handler);
 		line = readline("minishell$ ");
+		if (g_recived_signal_id == SIGINT)
+		{
+			env_manager->exit_status = 1;
+			g_recived_signal_id = -1;
+		}
 		register_signal_handler(signal_handler);
 		if (line == NULL)
 			break ;
@@ -88,7 +93,7 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 	buffer.data = NULL;
 	while (buffer.data == NULL)
 	{
-		if (set_string(&buffer, read_prompt()) == NULL)
+		if (set_string(&buffer, read_prompt(env_manager)) == NULL)
 		{
 			write(STDERR_FILENO, "exit\n", 5);
 			return (NULL);

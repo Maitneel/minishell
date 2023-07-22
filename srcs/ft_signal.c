@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:13:58 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/22 16:34:09 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 17:33:40 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,6 @@
 #include <sys/types.h>
 #include <stddef.h>
 #include <readline/readline.h>
-
-// void	resive_signal(int sig_id)
-// {
-// 	if (!(sig_id == SIGINT || sig_id == SIGQUIT))
-// 		return ;
-// 	if (sig_id != SIGQUIT)
-// 		write(STDOUT_FILENO, "\n", 1);
-// 	if (g_signal_info.status == READING_PROMPT)
-// 	{
-// 		if (sig_id == SIGINT)
-// 		{
-// 			rl_on_new_line();
-// 			rl_replace_line("", 0);
-// 		}
-// 		rl_redisplay();
-// 		*(g_signal_info.exit_status) = 1;
-// 	}
-// 	else if (g_signal_info.status == READING_HEREDOC && sig_id == SIGINT)
-// 	{
-// 		g_signal_info.resived_sigid = sig_id;
-// 		close(g_signal_info.heredoc_fd);
-// 		g_signal_info.heredoc_fd = -1;
-// 	}
-// }
 
 t_pid_list	*new_pid_list(pid_t pid)
 {

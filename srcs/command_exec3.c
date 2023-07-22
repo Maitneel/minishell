@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/22 17:04:10 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 17:19:54 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
 {
 	int		output_fd;
 	char	*file_name;
+	pid_t	pid;
+	int		exit_code;
 
 	file_name = generate_no_exist_file_name("/tmp/here_doc_tmp");
 	if (file_name == NULL)
 		return (NULL);
-	pid_t pid = fork();
+	pid = fork();
 	if (pid == -1)
 		return (NULL);
 	if (pid == 0)
@@ -43,12 +45,10 @@ char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
 	}
 	else
 	{
-		int exit_code;
 		wait(&exit_code);
-		fprintf(stderr, "exit_code : '%d'\n", exit_code);
 		if (exit_code != 0)
-			return NULL;
-		return file_name;
+			return (NULL);
+		return (file_name);
 	}
 }
 
