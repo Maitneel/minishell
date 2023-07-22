@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:12:38 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/17 17:26:48 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/21 17:26:10 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_signal_struct
 {
 	t_running_status	status;
 	int					resived_sigid;
-	t_pid_list			*pid_list;
 	int					heredoc_fd;
 	int					*exit_status;
 }						t_sginal_struct;

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:41:08 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 20:04:00 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/21 17:20:25 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int	files_dup2_stdin(t_redirect_info *inputs)
 	return (fd);
 }
 
-int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
+int	pipe_exec(int before_fd, t_command *command, t_pid_list **pid_list,
+		t_env_manager *env_manager)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
@@ -102,7 +103,7 @@ int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	pid = fork();
 	if (pid == -1)
 		return (-1);
-	if (pid_push_back(&g_signal_info.pid_list, pid) == NULL)
+	if (pid_push_back(pid_list, pid) == NULL)
 		return (-1);
 	if (pid == 0)
 		pipe_child_exec(before_fd, pipe_fd, command, env_manager);
@@ -115,14 +116,15 @@ int	pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
 	return (pipe_fd[READ_FD]);
 }
 
-int	non_pipe_exec(int before_fd, t_command *command, t_env_manager *env_manager)
+int	non_pipe_exec(int before_fd, t_command *command, t_pid_list **pid_list,
+		t_env_manager *env_manager)
 {
 	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
 		return (-1);
-	if (pid_push_back(&g_signal_info.pid_list, pid) == NULL)
+	if (pid_push_back(pid_list, pid) == NULL)
 		return (-1);
 	if (pid == 0)
 		non_pipe_child_exec(before_fd, command, env_manager);

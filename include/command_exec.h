@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 20:16:04 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/21 17:20:35 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 
 int		command_exec(t_command *commands, t_env_manager *env_manager);
 void	unlink_tempfile(t_command *command);
+void	wait_child_proceess(t_pid_list *pid_list, t_env_manager *env_manager);
 void	*free_string_array(char **string_array);
 char	*generate_no_exist_file_name(char *front_string);
 char	**make_args(t_command *command);
@@ -56,9 +57,9 @@ int		ft_exec(t_command *command, t_env_manager *env_manager);
 int		files_create(t_redirect_info *outputs);
 int		files_dup2_stdin(t_redirect_info *inputs);
 int		pipe_exec(int before_fd, t_command *command,
-			t_env_manager *env_manager);
+			t_pid_list **pid_list, t_env_manager *env_manager);
 int		non_pipe_exec(int before_fd, t_command *command,
-			t_env_manager *env_manager);
+			t_pid_list **pid_list, t_env_manager *env_manager);
 void	non_pipe_child_exec(int before_fd, t_command *command,
 			t_env_manager *env_manager);
 void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
@@ -66,5 +67,7 @@ void	pipe_child_exec(int before_fd, int pipe_fd[2], t_command *command,
 int		can_open_input_files(t_redirect_info *input_current,
 			t_env_manager *env_manager);
 bool	is_path(char *str);
+void	exec_end_processing(t_pid_list *pid_list, t_command *command,
+			t_env_manager *env_manager);
 
 #endif
