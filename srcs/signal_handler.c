@@ -6,20 +6,18 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 16:03:54 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/22 17:34:03 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 17:57:19 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_signal.h"
-#include <readline/readline.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <readline/readline.h>
 
-void	heredoc_signal_handler(int sig_id)
+void	cmd_exec_signal_handler(int sig_id)
 {
-	if (sig_id == SIGINT)
-		write(STDOUT_FILENO, "\n", 1);
 	g_recived_signal_id = sig_id;
 }
 

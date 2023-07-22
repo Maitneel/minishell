@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/25 16:26:16 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/21 17:20:35 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 18:12:00 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ int		can_open_input_files(t_redirect_info *input_current,
 bool	is_path(char *str);
 void	exec_end_processing(t_pid_list *pid_list, t_command *command,
 			t_env_manager *env_manager);
-
+void	heredoc_child(char *file_name, t_redirect_info *info,
+			t_env_manager *env_manager);
 #endif

@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/22 17:19:54 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 18:11:28 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
 {
-	int		output_fd;
 	char	*file_name;
 	pid_t	pid;
 	int		exit_code;
@@ -29,27 +28,12 @@ char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
 		return (NULL);
 	if (pid == 0)
 	{
-		register_signal_handler(heredoc_child_signal_handler);
-		output_fd = open(file_name, (O_WRONLY | O_CREAT), 0644);
-		if (output_fd == -1)
-		{
-			free(file_name);
-			exit(1);
-		}
-		if (expand_and_write(output_fd, info, env_manager) == -1)
-		{
-			unlink(file_name);
-			exit(1);
-		}
-		exit(0);
+		heredoc_child(file_name, info, env_manager);
 	}
-	else
-	{
-		wait(&exit_code);
-		if (exit_code != 0)
-			return (NULL);
-		return (file_name);
-	}
+	wait(&exit_code);
+	if (exit_code != 0)
+		return (NULL);
+	return (file_name);
 }
 
 char	**make_args(t_command *command)

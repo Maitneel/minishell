@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 06:58:37 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/22 17:27:01 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 17:51:40 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	processing_heredoc(t_redirect_info *current, t_env_manager *env_manager)
 {
 	char	*file_name;
 
-	register_signal_handler(heredoc_signal_handler);
 	file_name = here_doc(current, env_manager);
 	register_signal_handler(signal_handler);
 	if (file_name == NULL)

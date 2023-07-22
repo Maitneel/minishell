@@ -1,0 +1,10 @@
+Makefile
+get_next_line
+hoge
+include
+leak.sh
+libft
+minishell
+output.txt
+srcs
+test_dir

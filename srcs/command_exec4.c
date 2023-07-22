@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:41:08 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/21 17:20:25 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 18:08:55 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	files_create(t_redirect_info *outputs)
 	{
 		close(last_fd);
 		if (current->kind == REDIRECT_OUT_OVERWRITE)
-			last_fd = open(current->arg, (O_WRONLY | O_CREAT), 0644);
+			last_fd = open(current->arg, (O_WRONLY | O_CREAT | O_TRUNC), 0644);
 		else if (current->kind == REDIRECT_OUT_POST)
 			last_fd = open(current->arg, (O_APPEND | O_CREAT | O_WRONLY), 0644);
 		else

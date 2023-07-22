@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 18:56:53 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/22 16:52:35 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 18:00:29 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,7 @@ int	expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
 {
 	char	*line;
 	char	*expanded;
-	char	*end_text;
 
-	end_text = ft_strjoin(info->arg, "\n");
-	if (end_text == NULL)
-		return (-1);
 	while (true)
 	{
 		line = readline("> ");
@@ -109,6 +105,5 @@ int	expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
 		free(expanded);
 	}
 	free(line);
-	free(end_text);
 	return (fd);
 }
