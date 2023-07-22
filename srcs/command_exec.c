@@ -6,11 +6,12 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/04 18:11:20 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/21 17:22:59 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 17:56:29 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
+#include "signal_handler.h"
 #include <sys/fcntl.h>
 
 int	get_exit_code(int n)
@@ -80,10 +81,10 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 	t_pid_list	*pids;
 	int			before_fd;
 
-	g_signal_info.status = EXECUTING_COMMAND;
 	pids = NULL;
 	current = commands;
 	before_fd = STDIN_FILENO;
+	register_signal_handler(cmd_exec_signal_handler);
 	if (is_builtin(current->command_name) && !current->next_pipe)
 	{
 		exec_builtin_no_fork(current, env_manager);

@@ -6,11 +6,13 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 18:56:53 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/09 16:21:12 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 18:00:29 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
+#include <stdio.h>
+#include <readline/readline.h>
 
 bool	is_builtin(char *command)
 {
@@ -86,27 +88,22 @@ int	expand_and_write(int fd, t_redirect_info *info, t_env_manager *env_manager)
 {
 	char	*line;
 	char	*expanded;
-	char	*end_text;
 
-	end_text = ft_strjoin(info->arg, "\n");
-	if (end_text == NULL)
-		return (-1);
 	while (true)
 	{
-		write(STDOUT_FILENO, "> ", 2);
-		line = get_next_line(g_signal_info.heredoc_fd);
+		line = readline("> ");
 		if (line == NULL)
 			break ;
-		if (ft_strcmp(line, end_text) == 0)
+		if (ft_strcmp(line, info->arg) == 0)
 			break ;
 		expanded = expand_line(line, env_manager);
 		free(line);
 		if (expanded == NULL)
 			return (-1);
 		write(fd, expanded, ft_strlen(expanded));
+		write(fd, "\n", 1);
 		free(expanded);
 	}
 	free(line);
-	free(end_text);
 	return (fd);
 }

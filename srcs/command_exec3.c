@@ -6,27 +6,32 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 15:42:10 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/17 17:51:33 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 18:11:28 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command_exec.h"
+#include "signal_handler.h"
+#include <stdio.h>
 
 char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
 {
-	int		output_fd;
 	char	*file_name;
+	pid_t	pid;
+	int		exit_code;
 
 	file_name = generate_no_exist_file_name("/tmp/here_doc_tmp");
 	if (file_name == NULL)
 		return (NULL);
-	output_fd = open(file_name, (O_WRONLY | O_CREAT));
-	if (output_fd == -1)
-	{
-		free(file_name);
+	pid = fork();
+	if (pid == -1)
 		return (NULL);
+	if (pid == 0)
+	{
+		heredoc_child(file_name, info, env_manager);
 	}
-	if (expand_and_write(output_fd, info, env_manager) == -1)
+	wait(&exit_code);
+	if (exit_code != 0)
 		return (NULL);
 	return (file_name);
 }

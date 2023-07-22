@@ -1,7 +1,7 @@
 NAME := minishell
 
 CC := cc
-CFLAG = -Wall -Wextra -Werror -I$(shell brew --prefix readline)/include -I${INCLUDE_DIR} -I${LIBFT_DIR} ${shell echo > ~/.inputrc set echo-control-characters off}
+CFLAG = -Wall -Wextra -Werror -I$(shell brew --prefix readline)/include -I${INCLUDE_DIR} -I${LIBFT_DIR} ${shell echo > ~/.inputrc set echo-control-characters off} 
 READLINE_FLAG  = -I$(shell brew --prefix readline)/include -L$(shell brew --prefix readline)/lib -lreadline
 RM := rm
 RM_FLAG := -rf
@@ -38,6 +38,7 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/command_exec3.c \
 	${SRCS_DIR}/command_exec4.c \
 	${SRCS_DIR}/command_exec5.c \
+	${SRCS_DIR}/command_exec6.c \
 	${SRCS_DIR}/command_exit.c \
 	${SRCS_DIR}/generate_no_exist_file_name.c \
 	${GNL_DIR}/get_next_line.c \
@@ -51,6 +52,7 @@ SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/ft_strcmp.c \
 	${SRCS_DIR}/ft_xcalloc.c \
 	${SRCS_DIR}/ft_xsplit.c \
+	${SRCS_DIR}/signal_handler.c \
 
 OBJS := ${SRCS:%.c=%.o}
 

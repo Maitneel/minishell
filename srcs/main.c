@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 20:34:42 by taksaito          #+#    #+#             */
-/*   Updated: 2023/07/21 17:26:15 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 17:33:12 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,7 @@
 #include "ft_signal.h"
 #include "command_exec.h"
 #include "builtin.h"
-
-void	setup_signal(int *exit_code_ptr)
-{
-	signal(SIGINT, resive_signal);
-	signal(SIGQUIT, resive_signal);
-	g_signal_info.status = UNDEFINED;
-	g_signal_info.resived_sigid = -1;
-	g_signal_info.exit_status = exit_code_ptr;
-}
+#include "signal_handler.h"
 
 #define LOOP_CONTINUE 0
 #define LOOP_BREAK 1
@@ -75,7 +67,8 @@ int	main(int argc, char **argv, char **envs)
 	{
 		return (1);
 	}
-	setup_signal(&(env_manager->exit_status));
+	register_signal_handler(signal_handler);
+	g_recived_signal_id = -1;
 	while (shell_loop(env_manager) == LOOP_CONTINUE)
 		;
 	status_code = env_manager->exit_status;

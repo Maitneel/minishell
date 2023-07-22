@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_signal.h                                        :+:      :+:    :+:   */
+/*   signal_handler.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 14:12:38 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/22 18:18:59 by dummy            ###   ########.fr       */
+/*   Created: 2023/07/22 16:03:12 by dummy             #+#    #+#             */
+/*   Updated: 2023/07/22 17:49:14 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_SIGNAL_H
-# define FT_SIGNAL_H
+#ifndef SIGNAL_HANDLER_H
+# define SIGNAL_HANDLER_H
 
-# include <unistd.h>
-
-typedef struct s_pid_list
-{
-	pid_t				pid;
-	struct s_pid_list	*next;
-}						t_pid_list;
-
-void					resive_signal(int sig_id);
-t_pid_list				*pid_push_back(t_pid_list **list, pid_t pid);
-void					*free_pid_list(t_pid_list **pid_list);
-int						g_recived_signal_id;
+void	cmd_exec_signal_handler(int sig_id);
+void	readline_signal_handler(int sig_id);
+void	signal_handler(int sig_id);
+void	heredoc_child_signal_handler(int sig_id);
+void	register_signal_handler(void (*handler)(int));
 
 #endif

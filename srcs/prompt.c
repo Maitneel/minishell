@@ -6,7 +6,7 @@
 /*   By: dummy <dummy@example.com>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 15:27:47 by dummy             #+#    #+#             */
-/*   Updated: 2023/07/09 17:15:55 by dummy            ###   ########.fr       */
+/*   Updated: 2023/07/22 17:31:21 by dummy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "tokenize.h"
 #include "expand_env.h"
 #include "ft_signal.h"
+#include "signal_handler.h"
 
 char	ft_is_space(char c)
 {
@@ -57,16 +58,21 @@ bool	is_empty_string(char *str)
 	return (true);
 }
 
-char	*read_prompt(void)
+char	*read_prompt(t_env_manager *env_manager)
 {
 	char	*line;
 
 	line = NULL;
 	while (line == NULL)
 	{
-		g_signal_info.status = READING_PROMPT;
+		register_signal_handler(readline_signal_handler);
 		line = readline("minishell$ ");
-		g_signal_info.status = UNDEFINED;
+		if (g_recived_signal_id == SIGINT)
+		{
+			env_manager->exit_status = 1;
+			g_recived_signal_id = -1;
+		}
+		register_signal_handler(signal_handler);
 		if (line == NULL)
 			break ;
 		if (is_empty_string(line))
@@ -87,9 +93,8 @@ t_token_manager	*prompt(t_env_manager *env_manager)
 	buffer.data = NULL;
 	while (buffer.data == NULL)
 	{
-		if (set_string(&buffer, read_prompt()) == NULL)
+		if (set_string(&buffer, read_prompt(env_manager)) == NULL)
 		{
-			g_signal_info.status = UNDEFINED;
 			write(STDERR_FILENO, "exit\n", 5);
 			return (NULL);
 		}
