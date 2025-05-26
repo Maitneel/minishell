@@ -41,6 +41,16 @@ typedef struct s_token_maneger
 	size_t			size;
 }					t_token_manager;
 
+typedef struct s_eval_token_helper_args
+{
+	t_token					*token;
+	t_env_manager			*env;
+	char					quote_flag;
+	size_t					i;
+	t_string				*evaluated_string;
+	t_token_kind			kind;
+}							t_eval_token_helper_args;
+
 t_token				*new_token(const char *word, const int kind);
 t_token_manager		*new_token_manager(void);
 void				*free_token_manager(t_token_manager *token_manager);

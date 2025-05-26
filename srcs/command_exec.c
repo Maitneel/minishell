@@ -90,7 +90,7 @@ int	command_exec(t_command *commands, t_env_manager *env_manager)
 		exec_builtin_no_fork(current, env_manager);
 		unlink_tempfile(commands);
 		return (0);
-	}		
+	}
 	while (current != NULL)
 	{
 		if (current->next_pipe)
