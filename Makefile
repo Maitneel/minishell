@@ -97,4 +97,7 @@ test : ${NAME}
 	exec ${SHELL} -l
 	# brew install readline
 
+docker:
+	docker compose run --rm minishell
+
 .PHONY: all clean fclean re
