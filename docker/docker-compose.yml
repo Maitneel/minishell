@@ -1,0 +1,12 @@
+services:
+  minishell:
+    build: ./minishell-service
+    volumes:
+      - type: volume
+        source: minishell-volume
+        target: /home/workspace
+
+volumes:
+  minishell-volume:
+    name: minishell-volume
+    driver: local

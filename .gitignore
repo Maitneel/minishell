@@ -5,6 +5,7 @@
 *.o
 a.out
 !Makefile
+!Dockerfile
 sandbox/
 *.a
 .DS_store
