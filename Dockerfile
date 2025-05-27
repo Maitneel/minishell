@@ -2,8 +2,6 @@ FROM ubuntu:24.04
 
 RUN apt update && apt install -y gcc make libreadline-dev tini
 
-# RUN git clone git@github.com:ndmxjp/minishell.git /home/workspace/minishell
-
 COPY ./srcs/            /home/workspace/minishell/srcs/
 COPY ./include/         /home/workspace/minishell/include/
 COPY ./libft/           /home/workspace/minishell/libft/
