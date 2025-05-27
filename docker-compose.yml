@@ -1,10 +1,13 @@
 services:
   minishell:
-    build: ./minishell-service
+    build: .
     volumes:
       - type: volume
         source: minishell-volume
         target: /home/workspace
+    stdin_open: true
+    tty: true
+
 
 volumes:
   minishell-volume:
