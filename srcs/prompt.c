@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/signal.h>
 
 #include <readline/history.h>
 #include <readline/readline.h>

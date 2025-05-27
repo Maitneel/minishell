@@ -16,6 +16,7 @@
 #include "signal_handler.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <sys/signal.h>
 
 int	set_heredoc_error(t_command *command, t_env_manager *env_manager)
 {

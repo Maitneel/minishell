@@ -13,6 +13,7 @@
 #include "ft_string.h"
 #include "ft_xcalloc.h"
 #include "libft.h"
+#include <stdint.h>
 #include <stdlib.h>
 
 t_string	*init_string(t_string *string, size_t length)

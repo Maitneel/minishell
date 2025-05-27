@@ -1,8 +1,7 @@
 NAME := minishell
 
 CC := cc
-CFLAG = -Wall -Wextra -Werror -I$(shell brew --prefix readline)/include -I${INCLUDE_DIR} -I${LIBFT_DIR} ${shell echo > ~/.inputrc set echo-control-characters off} 
-READLINE_FLAG  = -I$(shell brew --prefix readline)/include -L$(shell brew --prefix readline)/lib -lreadline
+CFLAG = -Wall -Wextra -Werror -I${INCLUDE_DIR} -I${LIBFT_DIR}
 RM := rm
 RM_FLAG := -rf
 SRCS_DIR := srcs
@@ -11,6 +10,15 @@ GNL_FLAG := -I$(GNL_DIR)
 INCLUDE_DIR := include
 LIBFT_DIR := libft
 LIBFT := ${LIBFT_DIR}/libft.a
+
+KERNEL := ${shell uname}
+
+ifeq (${KERNEL},Darwin)
+	CFLAG +=  -I$(shell brew --prefix readline)/include ${shell echo > ~/.inputrc set echo-control-characters off}
+	READLINE_FLAG  = -L$(shell brew --prefix readline)/lib -lreadline
+else
+	READLINE_FLAG  = -lreadline
+endif
 
 SRCS := ${SRCS_DIR}/main.c \
 	${SRCS_DIR}/prompt.c \
@@ -59,7 +67,7 @@ OBJS := ${SRCS:%.c=%.o}
 all : ${NAME}
 
 ${NAME} : ${LIBFT} ${OBJS}
-	${CC} ${CFLAG} ${READLINE_FLAG} ${GNL_FLAG} ${OBJS} ${LIBFT} -o ${NAME}
+	${CC} ${CFLAG} ${GNL_FLAG} ${OBJS} ${LIBFT} ${READLINE_FLAG} -o ${NAME}
 
 ${LIBFT} : ${LIBFT_DIR}/*.c
 	make -C ${LIBFT_DIR}

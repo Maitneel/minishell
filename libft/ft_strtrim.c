@@ -43,7 +43,7 @@ static size_t	tail_count(const char *p, const char *set)
 
 	i = ft_strlen(p) - 1;
 	cnt = 0;
-	while (0 <= i && is_set(set, p[i]))
+	while (is_set(set, p[i]))
 	{
 		cnt++;
 		i--;
