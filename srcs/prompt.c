@@ -26,6 +26,8 @@
 #include "ft_signal.h"
 #include "signal_handler.h"
 
+extern int	g_recived_signal_id;
+
 char	ft_is_space(char c)
 {
 	if (c == ' ')

@@ -18,6 +18,8 @@
 #include <stdio.h>
 #include <sys/signal.h>
 
+extern int	g_recived_signal_id;
+
 int	set_heredoc_error(t_command *command, t_env_manager *env_manager)
 {
 	env_manager->exit_status = 1;
