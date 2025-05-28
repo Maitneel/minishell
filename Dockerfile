@@ -1,6 +1,6 @@
 FROM ubuntu:24.04
 
-RUN apt update && apt install -y gcc make libreadline-dev tini
+RUN apt update && apt install -y gcc make libreadline-dev
 
 COPY ./srcs/            /home/workspace/minishell/srcs/
 COPY ./include/         /home/workspace/minishell/include/
