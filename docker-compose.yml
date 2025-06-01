@@ -1,0 +1,15 @@
+services:
+  minishell:
+    build: .
+    volumes:
+      - type: volume
+        source: minishell-volume
+        target: /home/workspace
+    stdin_open: true
+    tty: true
+
+
+volumes:
+  minishell-volume:
+    name: minishell-volume
+    driver: local
