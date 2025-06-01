@@ -13,6 +13,7 @@
 #include "command_exec.h"
 #include "signal_handler.h"
 #include <stdio.h>
+#include <sys/wait.h>
 
 char	*here_doc(t_redirect_info *info, t_env_manager *env_manager)
 {

@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/wait.h>
+#include <unistd.h>
+
 #include "builtin.h"
 
 int	command_echo(char **tokens, int fd)

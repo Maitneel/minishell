@@ -24,6 +24,5 @@ typedef struct s_pid_list
 void					resive_signal(int sig_id);
 t_pid_list				*pid_push_back(t_pid_list **list, pid_t pid);
 void					*free_pid_list(t_pid_list **pid_list);
-int						g_recived_signal_id;
 
 #endif

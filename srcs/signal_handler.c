@@ -16,6 +16,8 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 
+int	g_recived_signal_id;
+
 void	cmd_exec_signal_handler(int sig_id)
 {
 	g_recived_signal_id = sig_id;

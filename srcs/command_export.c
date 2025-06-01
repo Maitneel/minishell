@@ -29,7 +29,7 @@ bool	is_valid_key(const char *str)
 }
 
 bool	valid_token(const char *str)
-{	
+{
 	return (ft_strchr(str, '='));
 }
 

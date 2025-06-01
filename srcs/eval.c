@@ -20,20 +20,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-typedef struct s_eval_token_helper_args
-{
-	t_token					*token;
-	t_env_manager			*env;
-	char					quote_flag;
-	size_t					i;
-	t_string				*evaluated_string;
-	t_token_kind			kind;
-}							t_eval_token_helper_args;
-
 int	evaluated_token_helper(t_eval_token_helper_args *args)
 {
-	t_string	*push_back_ret;
-
 	if (is_change_quote_flag(args->quote_flag, args->token->word[args->i]))
 	{
 		args->quote_flag ^= args->token->word[args->i];
@@ -41,10 +29,10 @@ int	evaluated_token_helper(t_eval_token_helper_args *args)
 		return (0);
 	}
 	if (is_add_doller(&args->token->word[args->i]))
-		push_back_ret = push_back_string(args->evaluated_string, "$");
+		push_back_string(args->evaluated_string, "$");
 	else
-		push_back_ret = push_back_string_char(args->evaluated_string,
-				args->token->word[args->i]);
+		push_back_string_char(args->evaluated_string,
+			args->token->word[args->i]);
 	(args->i)++;
 	return (0);
 }

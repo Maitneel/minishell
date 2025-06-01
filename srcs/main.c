@@ -29,6 +29,8 @@
 #define LOOP_CONTINUE 0
 #define LOOP_BREAK 1
 
+extern int	g_recived_signal_id;
+
 int	shell_loop(t_env_manager *env_manager)
 {
 	t_token_manager	*token_manager;

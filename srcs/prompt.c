@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/signal.h>
 
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -24,6 +25,8 @@
 #include "expand_env.h"
 #include "ft_signal.h"
 #include "signal_handler.h"
+
+extern int	g_recived_signal_id;
 
 char	ft_is_space(char c)
 {
